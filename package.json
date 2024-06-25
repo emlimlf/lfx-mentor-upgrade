@@ -153,5 +153,8 @@
     "typescript": "3.1.1",
     "url-loader": "^0.6.2",
     "webpack-cli": "^3.2.1"
-  }
+  },
+  "peerDependencies": {
+    "@angular/core": "^6.0.0 || ^7.0.0"
+   }
 }
