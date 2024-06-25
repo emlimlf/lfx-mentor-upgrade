@@ -32,6 +32,13 @@ import { SupporterWallComponent } from './pages/discover/supporter-wall/supporte
 import { PaginationService } from './services/pagination.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+declare module '@angular/core' {
+  interface ModuleWithProviders<T = any> {
+    ngModule: Type<T>;
+    providers?: Provider[];
+  }
+}
+
 @NgModule({
   declarations: [
     AppComponent,
