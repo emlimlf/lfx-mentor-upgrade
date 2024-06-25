@@ -62,7 +62,7 @@ export class ProjectMenteesComponent implements OnInit, OnDestroy {
     };
   } = {};
 
-  @ViewChild('modal') modal?: ElementRef;
+  @ViewChild('modal', { static: true }) modal?: ElementRef;
   privateProfiles: Profile[] = [];
   projectId = '';
   message = '';
@@ -497,8 +497,6 @@ export class ProjectMenteesComponent implements OnInit, OnDestroy {
       r[a.programTermId].push(a);
       return r;
     }, Object.create(null));
-
-   
 
     this.expiredFilters = [];
     let count = 0 as number;

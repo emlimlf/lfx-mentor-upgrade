@@ -29,8 +29,8 @@ export class StickyTabBarComponent implements AfterViewInit, OnDestroy {
   @HostBinding('class') class = 'row mx-0';
 
   @ContentChildren(StickyTabComponent) tabs!: QueryList<StickyTabComponent>;
-  @ViewChild('navList') navList!: ElementRef;
-  @ViewChild('navListMobile') navListMobile!: ElementRef;
+  @ViewChild('navList', { static: true }) navList!: ElementRef;
+  @ViewChild('navListMobile', { static: true }) navListMobile!: ElementRef;
 
   @Input() color = '000000';
   @Input() largeTabs = false;

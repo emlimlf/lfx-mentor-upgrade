@@ -46,8 +46,8 @@ export class MenteesTabTasksRowComponent implements OnInit {
   disableAction = false;
   isEditAllowed = false;
 
-  @ViewChild(NgbDropdown) dropdown!: NgbDropdown;
-  @ViewChild('arrow') arrow!: ElementRef<HTMLButtonElement>;
+  @ViewChild(NgbDropdown, { static: true }) dropdown!: NgbDropdown;
+  @ViewChild('arrow', { static: true }) arrow!: ElementRef<HTMLButtonElement>;
 
   constructor(
     private taskService: TaskService,

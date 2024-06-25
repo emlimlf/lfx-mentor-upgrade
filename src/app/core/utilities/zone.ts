@@ -1,13 +1,13 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { NgZone } from '@angular/core';
-import { SchedulerLike, Subscription } from 'rxjs';
+import { SchedulerAction, SchedulerLike, Subscription } from 'rxjs';
 
 class LeaveZoneScheduler implements SchedulerLike {
   constructor(private zone: NgZone, private scheduler: SchedulerLike) {}
 
   schedule(...args: any[]): Subscription {
-    return this.zone.runOutsideAngular(() => this.scheduler.schedule.apply(this.scheduler, args));
+    return this.zone.runOutsideAngular(() => this.scheduler.schedule.apply(this.scheduler, args as [() => void]));
   }
 
   now(): number {
@@ -19,7 +19,9 @@ class EnterZoneScheduler implements SchedulerLike {
   constructor(private zone: NgZone, private scheduler: SchedulerLike) {}
 
   schedule(...args: any[]): Subscription {
-    return this.zone.run(() => this.scheduler.schedule.apply(this.scheduler, args));
+    return this.zone.run(() =>
+      this.scheduler.schedule.apply(this.scheduler, args as [(this: SchedulerAction<unknown>, state?: unknown) => void])
+    );
   }
 
   now(): number {

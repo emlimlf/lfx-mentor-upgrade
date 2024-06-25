@@ -14,16 +14,18 @@ import { LoaderComponent } from '../loader/loader.component';
 import { CentsToDollarsPipe } from '@app/shared/cents-to-dollars.pipe';
 
 @Component({
-  template: `<app-transaction-list [title]="project"> </app-transaction-list>`
+  template: `
+    <app-transaction-list [title]="project"> </app-transaction-list>
+  `,
 })
 class TestHostComponent {
   project: Project;
-  @ViewChild(TransactionListComponent) item!: TransactionListComponent;
+  @ViewChild(TransactionListComponent, { static: true }) item!: TransactionListComponent;
 
   constructor() {
     this.project = {
       name: 'The Name',
-      id: '12345'
+      id: '12345',
     } as Project;
   }
 }
@@ -35,7 +37,7 @@ describe('TransactionListComponent', () => {
   beforeEach(async(() => {
     const store = {
       select: jasmine.createSpy('select').and.returnValue(of()),
-      dispatch: jasmine.createSpy('dispatch')
+      dispatch: jasmine.createSpy('dispatch'),
     };
     TestBed.configureTestingModule({
       declarations: [
@@ -43,11 +45,11 @@ describe('TransactionListComponent', () => {
         TestHostComponent,
         TransactionListItemComponent,
         LoaderComponent,
-        CentsToDollarsPipe
+        CentsToDollarsPipe,
       ],
       imports: [InlineSVGModule.forRoot(), RouterTestingModule],
       providers: [{ provide: Store, useValue: store }],
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [NO_ERRORS_SCHEMA],
     }).compileComponents();
   }));
 

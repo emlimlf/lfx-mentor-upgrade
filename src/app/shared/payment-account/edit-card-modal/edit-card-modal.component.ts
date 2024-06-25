@@ -10,7 +10,7 @@ import { delay, flatMap, tap } from 'rxjs/operators';
 
 export enum EditCardResult {
   CARD_ADDED,
-  DISMISSED
+  DISMISSED,
 }
 
 const SUBMIT_CLOSE_DELAY_MS = 1200;
@@ -18,10 +18,10 @@ const SUBMIT_CLOSE_DELAY_MS = 1200;
 @Component({
   selector: 'app-edit-card-modal',
   templateUrl: './edit-card-modal.component.html',
-  styleUrls: ['./edit-card-modal.component.scss']
+  styleUrls: ['./edit-card-modal.component.scss'],
 })
 export class EditCardModalComponent implements OnInit, OnDestroy {
-  @ViewChild(CreditCardFieldComponent) creditCard!: CreditCardFieldComponent;
+  @ViewChild(CreditCardFieldComponent, { static: true }) creditCard!: CreditCardFieldComponent;
 
   submitState$: Observable<SubmitState>;
   private baseState$ = new BehaviorSubject<SubmitState.READY | SubmitState.SUBMITTING | SubmitState.SUCCESS>(

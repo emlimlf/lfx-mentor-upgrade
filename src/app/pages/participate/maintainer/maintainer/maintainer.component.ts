@@ -128,7 +128,7 @@ export class MaintainerComponent implements OnInit, OnDestroy {
   currentPage: number;
   topicTypeahead: any;
 
-  @ViewChild('topicTypeahead')
+  @ViewChild('topicTypeahead', { static: true })
   set topicTypeAhead(v: NgbTypeahead) {
     this.topicTypeahead = v;
   }

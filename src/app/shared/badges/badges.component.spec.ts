@@ -6,15 +6,17 @@ import { Component, ViewChild } from '@angular/core';
 import { Project, BadgeType } from '@app/core';
 
 @Component({
-  template: `<app-badges [project]="project"> </app-badges>`
+  template: `
+    <app-badges [project]="project"> </app-badges>
+  `,
 })
 class TestHostComponent {
   project: Project;
-  @ViewChild(BadgesComponent) item!: BadgesComponent;
+  @ViewChild(BadgesComponent, { static: true }) item!: BadgesComponent;
 
   constructor() {
     this.project = {
-      badges: [{}]
+      badges: [{}],
     } as Project;
   }
 }
@@ -25,7 +27,7 @@ describe('BadgesComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [BadgesComponent, TestHostComponent]
+      declarations: [BadgesComponent, TestHostComponent],
     }).compileComponents();
   }));
 

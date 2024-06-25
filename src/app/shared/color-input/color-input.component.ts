@@ -15,12 +15,12 @@ import { filterColor } from '@app/core/utilities/filter-color';
       // required to by pass tslint here
       // tslint:disable-next-line: no-forward-ref
       useExisting: forwardRef(() => ColorInputComponent),
-      multi: true
-    }
-  ]
+      multi: true,
+    },
+  ],
 })
 export class ColorInputComponent implements ControlValueAccessor, OnInit {
-  @ViewChild('inputElement') inputElement: ElementRef | null = null;
+  @ViewChild('inputElement', { static: true }) inputElement: ElementRef | null = null;
   @Input() formControlName = '';
   @Input() label = 'label';
   inputValue = '';

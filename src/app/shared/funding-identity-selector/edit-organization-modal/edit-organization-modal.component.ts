@@ -14,25 +14,25 @@ import {
   defer,
   Observable,
   of,
-  Subscription
+  Subscription,
 } from 'rxjs';
 import { map, publishBehavior, publishLast, refCount, shareReplay, startWith } from 'rxjs/operators';
 import { SubmitState } from '../../submit-button/submit-button.component';
 
 export enum EditOrganizationResult {
   ORGANIZATION_SAVED,
-  DISMISSED
+  DISMISSED,
 }
 
 @Component({
   selector: 'app-edit-organization-modal',
   templateUrl: './edit-organization-modal.component.html',
-  styleUrls: ['./edit-organization-modal.component.scss']
+  styleUrls: ['./edit-organization-modal.component.scss'],
 })
 export class EditOrganizationModalComponent implements OnInit, OnDestroy {
   @Input() organization?: Organization;
 
-  @ViewChild(LogoFieldComponent) logoField!: LogoFieldComponent;
+  @ViewChild(LogoFieldComponent, { static: true }) logoField!: LogoFieldComponent;
 
   submitState$: Observable<SubmitState>;
   avatarUrl?: string;
@@ -53,7 +53,7 @@ export class EditOrganizationModalComponent implements OnInit, OnDestroy {
   ) {
     this.form = formBuilder.group({
       name: ['', [Validators.required]],
-      logo: ['', [Validators.required]]
+      logo: ['', [Validators.required]],
     });
 
     const initialValidity = defer(() => of(this.form.valid));

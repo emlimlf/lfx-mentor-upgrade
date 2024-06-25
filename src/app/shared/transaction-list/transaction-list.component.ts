@@ -13,7 +13,7 @@ import {
   RemoteDataLoaded,
   Transaction,
   TransactionPageModel,
-  TransactionsModel
+  TransactionsModel,
 } from '@app/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, NEVER, Observable, of, Subscription } from 'rxjs';
@@ -27,12 +27,12 @@ interface PageStats {
 @Component({
   selector: 'app-transaction-list',
   templateUrl: './transaction-list.component.html',
-  styleUrls: ['./transaction-list.component.scss']
+  styleUrls: ['./transaction-list.component.scss'],
 })
 export class TransactionListComponent implements OnInit, OnDestroy {
   @Input() title = '';
   @Input() pageRoute = '';
-  @ViewChild('headerTitle') headerTitle!: ElementRef;
+  @ViewChild('headerTitle', { static: true }) headerTitle!: ElementRef;
 
   transactions$: Observable<Transaction[]>;
   loading$: Observable<boolean>;
@@ -79,7 +79,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
         const firstIndex = loadedPage.entry.firstIndex !== undefined ? loadedPage.entry.firstIndex : 0;
         return {
           startIndex: firstIndex,
-          endIndex: firstIndex + loadedPage.entry.currentTransactionIds.length - 1
+          endIndex: firstIndex + loadedPage.entry.currentTransactionIds.length - 1,
         };
       })
     );

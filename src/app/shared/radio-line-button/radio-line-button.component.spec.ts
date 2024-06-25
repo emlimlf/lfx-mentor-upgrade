@@ -8,15 +8,16 @@ import { RadioButtonComponent } from '../radio-button/radio-button.component';
 
 @Component({
   template: `
-  <app-radio-line-button [parentForm]='form' value="some-item" controlName="control" inputId="some-item">
-  </app-radio-line-button>`
+    <app-radio-line-button [parentForm]="form" value="some-item" controlName="control" inputId="some-item">
+    </app-radio-line-button>
+  `,
 })
 class TestHostComponent {
-  @ViewChild(RadioLineButtonComponent) item!: RadioLineButtonComponent;
+  @ViewChild(RadioLineButtonComponent, { static: true }) item!: RadioLineButtonComponent;
 
   control = new FormControl('');
   form = new FormGroup({
-    control: this.control
+    control: this.control,
   });
 
   constructor() {}
@@ -29,7 +30,7 @@ describe('RadioLineButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [RadioLineButtonComponent, TestHostComponent, RadioButtonComponent]
+      declarations: [RadioLineButtonComponent, TestHostComponent, RadioButtonComponent],
     }).compileComponents();
   }));
 

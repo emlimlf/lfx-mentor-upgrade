@@ -31,8 +31,8 @@ export class TaskFilterComponent implements OnInit {
   @Output() toggleFilter = new EventEmitter<TaskFilter>();
   @Output() toggledFilter = new EventEmitter<TaskFilterToggleEvent>();
 
-  @ViewChild('arrow') arrow!: ElementRef<HTMLButtonElement>;
-  @ViewChild(NgbDropdown) dropdown!: NgbDropdown;
+  @ViewChild('arrow', { static: true }) arrow!: ElementRef<HTMLButtonElement>;
+  @ViewChild(NgbDropdown, { static: true }) dropdown!: NgbDropdown;
 
   toggled = false;
   selected!: { [option: string]: boolean };

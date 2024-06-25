@@ -6,14 +6,17 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RadioButtonComponent } from './radio-button.component';
 
 @Component({
-  template: `<app-radio-button [parentForm]='form' value="some-item" controlName="control" inputId="some-item"> </app-radio-button>`
+  template: `
+    <app-radio-button [parentForm]="form" value="some-item" controlName="control" inputId="some-item">
+    </app-radio-button>
+  `,
 })
 class TestHostComponent {
-  @ViewChild(RadioButtonComponent) item!: RadioButtonComponent;
+  @ViewChild(RadioButtonComponent, { static: true }) item!: RadioButtonComponent;
 
   control = new FormControl('');
   form = new FormGroup({
-    control: this.control
+    control: this.control,
   });
 
   constructor() {}
@@ -26,7 +29,7 @@ describe('RadioButtonComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ReactiveFormsModule],
-      declarations: [RadioButtonComponent, TestHostComponent]
+      declarations: [RadioButtonComponent, TestHostComponent],
     }).compileComponents();
   }));
 

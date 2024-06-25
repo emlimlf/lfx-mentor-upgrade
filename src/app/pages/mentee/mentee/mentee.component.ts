@@ -14,7 +14,7 @@ import { DownloadService } from '@app/services/download.service';
   styleUrls: ['./mentee.component.scss'],
 })
 export class MenteeComponent implements OnInit, OnDestroy {
-  @ViewChild('stickyMarker') stickyMarker!: ElementRef;
+  @ViewChild('stickyMarker', { static: true }) stickyMarker!: ElementRef;
 
   // Profile information
   profileId = '';

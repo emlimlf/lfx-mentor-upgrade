@@ -25,7 +25,7 @@
   cursor: pointer;
 }
 
-/deep/.ngx-ellipsis-more {
+::ng-deep.ngx-ellipsis-more {
   color: #000;
 }
 

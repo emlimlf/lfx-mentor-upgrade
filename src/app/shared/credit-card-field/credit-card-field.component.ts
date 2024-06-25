@@ -7,19 +7,17 @@ import { delay } from 'rxjs/operators';
 @Component({
   selector: 'app-credit-card-field',
   templateUrl: './credit-card-field.component.html',
-  styleUrls: ['./credit-card-field.component.scss']
+  styleUrls: ['./credit-card-field.component.scss'],
 })
 export class CreditCardFieldComponent implements OnInit, AfterViewInit {
-  @ViewChild('cardInfo') cardInfo!: ElementRef;
+  @ViewChild('cardInfo', { static: true }) cardInfo!: ElementRef;
 
   errorText?: string;
   stripe?: stripe.Stripe;
   card?: stripe.elements.Element;
   @Output() completed = new EventEmitter<boolean>();
 
-  constructor(
-     private stripeService: StripeService
-  ) {}
+  constructor(private stripeService: StripeService) {}
 
   ngOnInit() {}
 
@@ -44,7 +42,7 @@ export class CreditCardFieldComponent implements OnInit, AfterViewInit {
 
   private loadStripe(stripe: stripe.Stripe) {
     const elements = stripe.elements({
-      fonts: [{ cssSrc: 'https://fonts.googleapis.com/css?family=Poppins:300,400,600' }]
+      fonts: [{ cssSrc: 'https://fonts.googleapis.com/css?family=Poppins:300,400,600' }],
     });
 
     // Setting the font size of an input to less that 16px will cause mobile browsers to zoom in when entering text into
@@ -52,8 +50,8 @@ export class CreditCardFieldComponent implements OnInit, AfterViewInit {
     const style = {
       base: {
         fontFamily: 'Poppins',
-        fontSize: '16px' // Stripe's default font size is 14px,
-      }
+        fontSize: '16px', // Stripe's default font size is 14px,
+      },
     };
     const card = elements.create('card', { style });
     card.mount(this.cardInfo.nativeElement);

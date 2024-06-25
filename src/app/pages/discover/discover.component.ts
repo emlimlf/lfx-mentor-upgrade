@@ -1068,6 +1068,9 @@ export class DiscoverComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.pagination.getPage(endpoint, extraParams, from, size, sortBy, orderBy).subscribe(
       (data: any) => {
+        if (!data) {
+          return;
+        }
         const { hits, total } = data;
 
         hits.forEach((item: any) => {

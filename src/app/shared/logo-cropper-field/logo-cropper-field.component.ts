@@ -35,7 +35,7 @@ export class LogoCropperFieldComponent implements AfterViewInit, OnChanges, OnDe
   @Input() control = '';
   @Output() controlChange = new EventEmitter<FormControl>();
 
-  @ViewChild('fileInput') file!: ElementRef;
+  @ViewChild('fileInput', { static: true }) file!: ElementRef;
   readonly width = 1;
   readonly height = 1;
   readonly svgFileExtension = '.svg';

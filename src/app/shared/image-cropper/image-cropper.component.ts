@@ -4,7 +4,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 @Component({
   selector: 'app-image-cropper',
   templateUrl: './image-cropper.component.html',
-  styleUrls: ['./image-cropper.component.scss']
+  styleUrls: ['./image-cropper.component.scss'],
 })
 export class ImageCropperComponent implements AfterViewInit, OnDestroy {
   @Input() imageChangedEvent = '';
@@ -24,15 +24,20 @@ export class ImageCropperComponent implements AfterViewInit, OnDestroy {
   @Output() cropperClosed = new EventEmitter<void>();
   @Output() saveCroppedImage = new EventEmitter<void>();
 
-  @ViewChild('content') imageCropper!: ElementRef;
+  @ViewChild('content', { static: true }) imageCropper!: ElementRef;
   modalReference!: NgbModalRef;
 
-  constructor(private modalService: NgbModal) { }
+  constructor(private modalService: NgbModal) {}
 
   ngAfterViewInit() {
-    setTimeout(() =>  this.modalReference = this.modalService.open(
-      this.imageCropper, { centered: true, backdrop: 'static', keyboard: false})
-      );
+    setTimeout(
+      () =>
+        (this.modalReference = this.modalService.open(this.imageCropper, {
+          centered: true,
+          backdrop: 'static',
+          keyboard: false,
+        }))
+    );
   }
 
   imageCroppedEvent(image: string) {

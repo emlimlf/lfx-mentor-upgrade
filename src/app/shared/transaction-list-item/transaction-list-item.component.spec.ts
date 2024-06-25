@@ -13,11 +13,13 @@ import { InlineSVGModule } from 'ng-inline-svg';
 import { CentsToDollarsPipe } from '@app/shared/cents-to-dollars.pipe';
 
 @Component({
-  template: `<app-transaction-list-item [transaction]="transaction"> </app-transaction-list-item>`
+  template: `
+    <app-transaction-list-item [transaction]="transaction"> </app-transaction-list-item>
+  `,
 })
 class TestHostComponent {
   transaction: Transaction;
-  @ViewChild(TransactionListItemComponent) item!: TransactionListItemComponent;
+  @ViewChild(TransactionListItemComponent, { static: true }) item!: TransactionListItemComponent;
 
   constructor() {
     this.transaction = {
@@ -30,8 +32,8 @@ class TestHostComponent {
       organization: {
         name: '',
         id: '',
-        avatarUrl: ''
-      }
+        avatarUrl: '',
+      },
     };
   }
 }
@@ -40,7 +42,9 @@ describe('TransactionsListItemComponent', () => {
   let component: TransactionListItemComponent;
   let fixture: ComponentFixture<TestHostComponent>;
   const store = {
-    select: jasmine.createSpy('select').and.returnValue(of({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' }))
+    select: jasmine
+      .createSpy('select')
+      .and.returnValue(of({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' })),
   };
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -49,10 +53,10 @@ describe('TransactionsListItemComponent', () => {
         TestHostComponent,
         ExpenseCategoryIconComponent,
         AvatarComponent,
-        CentsToDollarsPipe
+        CentsToDollarsPipe,
       ],
       imports: [InlineSVGModule.forRoot(), NgbModule.forRoot()],
-      providers: [{ provide: Store, useValue: store }]
+      providers: [{ provide: Store, useValue: store }],
     }).compileComponents();
   }));
 
@@ -80,8 +84,8 @@ describe('TransactionsListItemComponent', () => {
         organization: {
           name: '',
           id: '',
-          avatarUrl: ''
-        }
+          avatarUrl: '',
+        },
       };
       const expected = 'abc';
       const output = component.formatMerchantNameAndComments();
@@ -101,8 +105,8 @@ describe('TransactionsListItemComponent', () => {
         organization: {
           name: '',
           id: '',
-          avatarUrl: ''
-        }
+          avatarUrl: '',
+        },
       };
       const expected = 'Google - abc';
       const output = component.formatMerchantNameAndComments();
@@ -122,8 +126,8 @@ describe('TransactionsListItemComponent', () => {
         organization: {
           name: '',
           id: '',
-          avatarUrl: ''
-        }
+          avatarUrl: '',
+        },
       };
       const expected = 'Google';
       const output = component.formatMerchantNameAndComments();

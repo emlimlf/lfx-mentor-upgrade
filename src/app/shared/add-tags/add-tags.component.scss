@@ -11,7 +11,7 @@
   }
 }
 
-/deep/.dropdown-menu {
+::ng-deep.dropdown-menu {
   max-height: 300px;
   overflow: scroll;
   z-index: 30;

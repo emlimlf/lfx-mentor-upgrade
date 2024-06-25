@@ -43,7 +43,7 @@ export class MenteesTabRowComponent implements OnInit, OnChanges, OnDestroy, Aft
   @Input() reloadTasksForAssignee = { assigneeId: '' };
   @Input() programTerms: ProgramTerm[] = [];
   @Output() updated = new EventEmitter();
-  @ViewChild('statusPlaceholder') statusElem?: ElementRef;
+  @ViewChild('statusPlaceholder', { static: true }) statusElem?: ElementRef;
   confirmTpl!: NgbModalRef;
   errorTpl!: NgbModalRef;
 

@@ -72,12 +72,12 @@ export class ProjectDetailComponent implements OnInit, AfterViewInit {
   isAdmin = false;
   isMentee = true;
   rolesLoaded = false;
-  @ViewChild('stickyMarker') stickyMarker!: ElementRef;
+  @ViewChild('stickyMarker', { static: true }) stickyMarker!: ElementRef;
   readonly codeOfConductDefaultURL = CODE_OF_CONDUCT;
   isListOverflowed = false;
-  @ViewChild('industryList') industryList!: ElementRef;
+  @ViewChild('industryList', { static: true }) industryList!: ElementRef;
   sponsorsLimit = 3;
-  @ViewChild('stickyTabBar') stickyTabBar!: any;
+  @ViewChild('stickyTabBar', { static: true }) stickyTabBar!: any;
   activePopover: any;
 
   constructor(

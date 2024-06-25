@@ -11,11 +11,12 @@ import { FundingIdentitySelectorComponent } from './funding-identity-selector.co
 import { SharedModule } from '../shared.module';
 
 @Component({
-  template: `<app-funding-identity-selector [parentForm]="group" [controlName]="'identity'">
-    </app-funding-identity-selector>`
+  template: `
+    <app-funding-identity-selector [parentForm]="group" [controlName]="'identity'"> </app-funding-identity-selector>
+  `,
 })
 class TestHostComponent {
-  @ViewChild(FundingIdentitySelectorComponent) item!: FundingIdentitySelectorComponent;
+  @ViewChild(FundingIdentitySelectorComponent, { static: true }) item!: FundingIdentitySelectorComponent;
   readonly group: FormGroup;
 
   constructor() {
@@ -32,7 +33,7 @@ describe('FundingIdentitySelectorComponent', () => {
     const identity = new BehaviorSubject<Identity>({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' });
 
     const store = {
-      select: jasmine.createSpy('select').and.returnValues(organizationsModal, identity)
+      select: jasmine.createSpy('select').and.returnValues(organizationsModal, identity),
     };
 
     const modalService = jasmine.createSpyObj('NgbModal', ['open']);
@@ -40,7 +41,10 @@ describe('FundingIdentitySelectorComponent', () => {
     TestBed.configureTestingModule({
       declarations: [TestHostComponent],
       imports: [SharedModule, ReactiveFormsModule],
-      providers: [{ provide: NgbModal, useValue: modalService }, { provide: Store, useValue: store }]
+      providers: [
+        { provide: NgbModal, useValue: modalService },
+        { provide: Store, useValue: store },
+      ],
     }).compileComponents();
   }));
 

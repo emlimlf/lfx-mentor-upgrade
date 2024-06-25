@@ -29,7 +29,7 @@ const log = factoryLog('MenteesTabComponent');
 export class MenteesTabComponent implements OnInit, OnDestroy {
   @Input() projectID = '';
   @Input() programTerms: ProgramTerm[] = [];
-  @ViewChild('info') downloadInfo?: ElementRef;
+  @ViewChild('info', { static: true }) downloadInfo?: ElementRef;
 
   applications: ProjectApplication[] = [];
 
@@ -45,7 +45,7 @@ export class MenteesTabComponent implements OnInit, OnDestroy {
   profiles: Profile[] = [];
   DEFAULT_FILTER_TITLE = 'Filter by Application Status';
   DEFAULT_DOWNLOAD_FILTER_TITLE = 'Download Mentees by Status';
-  @ViewChild('next') nextButton: ElementRef | null = null;
+  @ViewChild('next', { static: true }) nextButton: ElementRef | null = null;
   filterTitle: string = this.DEFAULT_FILTER_TITLE;
   downloadFilterTitle: string = this.DEFAULT_DOWNLOAD_FILTER_TITLE;
   modalMessage: string = '';

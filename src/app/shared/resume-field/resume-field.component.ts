@@ -37,7 +37,7 @@ export class ResumeFieldComponent implements AfterViewInit, OnChanges, OnDestroy
   private parentValidatorFn?: ValidatorFn;
   private subscription?: Subscription;
   activeModal?: NgbActiveModal;
-  @ViewChild('filemode') filemode!: ElementRef;
+  @ViewChild('filemode', { static: true }) filemode!: ElementRef;
 
   constructor(
     private changeDetectorRef: ChangeDetectorRef,

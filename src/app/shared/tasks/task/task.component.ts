@@ -33,9 +33,9 @@ export class TaskComponent implements OnInit, OnDestroy {
   @Output() updateStatus = new EventEmitter<{ status: string; taskId?: string }>();
   @Output() fileUpdate = new EventEmitter<boolean>();
 
-  @ViewChild('arrow') arrow!: ElementRef<HTMLButtonElement>;
-  @ViewChild(NgbDropdown) dropdown!: NgbDropdown;
-  @ViewChild('modal') modal?: ElementRef;
+  @ViewChild('arrow', { static: true }) arrow!: ElementRef<HTMLButtonElement>;
+  @ViewChild(NgbDropdown, { static: true }) dropdown!: NgbDropdown;
+  @ViewChild('modal', { static: true }) modal?: ElementRef;
   taskFileExtensions = TASK_FILE_EXTENSIONS;
 
   taskFileData?: File;

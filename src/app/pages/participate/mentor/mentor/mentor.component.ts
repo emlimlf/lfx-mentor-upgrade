@@ -71,7 +71,7 @@ export class MentorComponent implements OnInit {
 
   projectTypeahead: any;
 
-  @ViewChild('projectTypeahead')
+  @ViewChild('projectTypeahead', { static: true })
   set projectTypeAhead(v: NgbTypeahead) {
     this.projectTypeahead = v;
   }

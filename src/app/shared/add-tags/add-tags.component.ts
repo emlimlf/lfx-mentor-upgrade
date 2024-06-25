@@ -39,7 +39,7 @@ export class AddTagsComponent implements OnInit, OnChanges, OnDestroy {
   @Output() itemListChange: EventEmitter<any[]> = new EventEmitter();
   @Output() validationChanged: EventEmitter<boolean> = new EventEmitter();
 
-  @ViewChild('focusControl') focusElem?: ElementRef;
+  @ViewChild('focusControl', { static: true }) focusElem?: ElementRef;
 
   showEmptyNameError = false;
   showEmptyEmailError = false;
@@ -53,7 +53,7 @@ export class AddTagsComponent implements OnInit, OnChanges, OnDestroy {
   email = '';
 
   tagTypeahead: any;
-  @ViewChild('tagTypeahead')
+  @ViewChild('tagTypeahead', { static: true })
   set tagTypeAhead(v: NgbTypeahead) {
     this.tagTypeahead = v;
   }

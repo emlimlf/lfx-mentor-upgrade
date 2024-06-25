@@ -14,9 +14,9 @@ import {
 })
 export class SupporterWallComponent implements OnInit {
   organizations: any[] = [];
-  @ViewChild('mentorsSection') mentorsSection!: ElementRef;
-  @ViewChild('programsSection') programsSection!: ElementRef;
-  @ViewChild('organizationsSection') organizationsSection!: ElementRef;
+  @ViewChild('mentorsSection', { static: true }) mentorsSection!: ElementRef;
+  @ViewChild('programsSection', { static: true }) programsSection!: ElementRef;
+  @ViewChild('organizationsSection', { static: true }) organizationsSection!: ElementRef;
   repeater!: NodeJS.Timer;
   toggleWallState = false;
   totalApplicants: number = 0;

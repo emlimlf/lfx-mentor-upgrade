@@ -19,7 +19,7 @@ export class TableComponent implements OnInit {
   @Output() filterChanged = new EventEmitter<any>();
   @Output() sendMail = new EventEmitter<any>();
   @Output() exportMentees = new EventEmitter<any>();
-  @ViewChild('dropdownInner') dropdown: any;
+  @ViewChild('dropdownInner', { static: true }) dropdown: any;
 
   constructor() {}
 

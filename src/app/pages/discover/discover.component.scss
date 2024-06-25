@@ -52,7 +52,7 @@
   color: #878686;
 }
 
-:host /deep/ .search-section {
+:host ::ng-deep .search-section {
   display: flex;
   align-items: center;
   justify-content: flex-end;

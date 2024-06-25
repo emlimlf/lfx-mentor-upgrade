@@ -119,7 +119,7 @@ export class ProjectEditComponent implements OnInit, OnDestroy {
   });
 
   topicTypeahead: any;
-  @ViewChild('topicTypeahead')
+  @ViewChild('topicTypeahead', { static: true })
   set topicTypeAhead(v: NgbTypeahead) {
     this.topicTypeahead = v;
   }
