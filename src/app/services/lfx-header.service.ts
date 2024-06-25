@@ -44,8 +44,8 @@ function setFooterScript() {
   }
 }
 
-// setHeaderScript();
-// setFooterScript();
+setHeaderScript();
+setFooterScript();
 
 @Injectable({
   providedIn: 'root',
