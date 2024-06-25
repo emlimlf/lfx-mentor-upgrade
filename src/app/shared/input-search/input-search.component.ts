@@ -31,7 +31,7 @@ export class InputSearchComponent implements OnDestroy, OnChanges {
   projectListFilter = '';
   projectListFilterListerner$ = new Subject();
   filteredProjectList$: Observable<Project[] | null> = new Observable();
-  search$: Observable<Project[]> = new Observable();
+  search$: Observable<Project[] | null> = new Observable();
   clear$: Subject<null> = new Subject();
   destroy$ = new Subject();
   isLoading = false;

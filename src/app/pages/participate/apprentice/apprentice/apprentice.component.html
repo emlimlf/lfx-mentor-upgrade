@@ -238,8 +238,9 @@
       <div class="mt-3"></div>
       <app-form-card class="text-paragraph" heading="Mailing Address" i18n-heading>
         <p class="header-5 regular text-light mt-2" i18n>
-          Your address is required to ensure that you are not a person or entity restricted by U.S. export controls or 
-          sanction programs; and are not a resident of Cuba, Iran, North Korea, Syria, Sudan, Russian Federation or Crimea region of Ukraine.
+          Your address is required to ensure that you are not a person or entity restricted by U.S. export controls or
+          sanction programs; and are not a resident of Cuba, Iran, North Korea, Syria, Sudan, Russian Federation or
+          Crimea region of Ukraine.
         </p>
         <div class="mt-4">
           <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Full Address</label>
@@ -727,21 +728,21 @@
     <div *ngIf="currentStep === 2" formGroupName="formPage3">
       <app-form-card class="text-paragraph" heading="Demographics (optional)" i18n-heading>
         <div class="header-5 regular text-light mt-4" i18n>
-          <p i18n>
+          <p>
             We want to encourage greater diversity within the open source community, and demographic information helps
             us achieve that goal. Demographic information is collected for the purpose of compiling, analyzing and
             disclosing aggregate statistics regarding diversity of participation in open source projects and communities
             (including in Mentorship programs and Mentorship opportunities), to help track progress towards meeting our
             commitment to diversity initiatives.
           </p>
-          <p i18n>
+          <p>
             Consent to provide demographic information for the purpose listed above is optional and purely voluntary,
             and is provided by selecting an option from the drop-down for the corresponding category. Demographic
             information is considered confidential and private, and will not be shared with mentors as part of your
             registration details when you are considered for mentorships, nor will it be used to subject you to adverse
             treatment.
           </p>
-          <p i18n>
+          <p>
             Should you choose to provide any demographic information, you may request removal of that information from
             Mentorship at any time by writing to
             <a href="mailto:privacy@linuxfoundation.org">privacy@linuxfoundation.org</a>.
@@ -910,7 +911,7 @@
 
       <app-form-card class="text-paragraph" heading="Terms and Conditions" i18n-heading>
         <div class="header-5 regular text-light mt-2" i18n>
-          <p i18n>
+          <p>
             By applying to a mentorship program, you agree that if you are accepted the program may display and share
             portions of your profile information to publicize your participation.
           </p>
@@ -926,18 +927,18 @@
           />
           <i class="fas fa-asterisk required"></i>
           I agree to the LFX
-          <a href="{{ communityBridgeUrl + 'platform-use-agreement' }}" target="_window" class="semibold" i18n
+          <a href="{{ communityBridgeUrl + 'platform-use-agreement' }}" target="_window" class="semibold"
             >Platform Use Agreement</a
           >
           and all terms incorporated therein, including the
-          <a href="{{ communityBridgeUrl + 'service-terms' }}" target="_window" class="semibold" i18n
+          <a href="{{ communityBridgeUrl + 'service-terms' }}" target="_window" class="semibold"
             >Service-Specific Use Terms</a
           >, the
-          <a href="{{ communityBridgeUrl + 'acceptable-use' }}" target="_window" class="semibold" i18n
+          <a href="{{ communityBridgeUrl + 'acceptable-use' }}" target="_window" class="semibold"
             >Acceptable Use Policy</a
           >
           and the
-          <a href="https://www.linuxfoundation.org/privacy/" target="_window" class="semibold" i18n>Privacy Policy</a>.
+          <a href="https://www.linuxfoundation.org/privacy/" target="_window" class="semibold">Privacy Policy</a>.
         </div>
         <div *ngIf="termsConditions.invalid && pageSubmitted" class="alert alert-danger">
           <div *ngIf="termsConditions.errors?.required">
