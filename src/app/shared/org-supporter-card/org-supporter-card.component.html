@@ -1,0 +1,12 @@
+<div class="card rounded-0">
+  <div class="card-body">
+    <div class="d-flex justify-content-between h-100">
+      <div class="">
+        <img class="org-logo" [src]="organization.photoURL || '../../../assets/no_logo_uploaded.svg'" />
+      </div>
+      <div class="d-flex flex-column justify-content-center">
+        <span class="funded-value"> {{ '$' + (organization.totalAmount / 100 | shortNumber) }} </span>
+      </div>
+    </div>
+  </div>
+</div>

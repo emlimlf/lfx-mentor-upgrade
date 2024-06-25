@@ -1,0 +1,60 @@
+<div [formGroup]="parent">
+  <p>
+    <label *ngIf="hasResume === true" i18n class="mt-4 header-6"> Your Resume</label>
+  </p>
+  <i class="fas fa-2x fa-file-download" *ngIf="hasResume === true" (click)="downloadFile()"></i>
+
+  <label *ngIf="hasResume === true" i18n for="{{ control }}" class="mt-4 header-6">
+    <a href="#" #filemode (click)="toogleResumeState($event)">Change</a></label
+  >
+
+  <p>
+    <label
+      *ngIf="hasResume === false || resumeUploadState === 'Reset' || hasFile === true"
+      i18n
+      for="{{ control }}"
+      class="mt-4 header-6"
+      >Upload Resume
+    </label>
+  </p>
+  <div *ngIf="hasResume === false || resumeUploadState === 'Reset' || hasFile === true" class="custom-file d-block">
+    <input
+      #fileInput
+      type="file"
+      (change)="handleFileChange($event)"
+      name="resume"
+      accept=".pdf, .doc, .docx"
+      class="custom-file-input"
+      [appControlInvalidStyle]="resumeControl"
+      (blur)="handleBlur($event)"
+      (focus)="handleFocus($event)"
+      (click)="handleClick($event)"
+    />
+    <label for="{{ control }}" class="custom-file-label">
+      <div class="text-light" *ngIf="!selectedFile" i18n>Choose file</div>
+      <div class="file-text" *ngIf="selectedFile !== undefined">{{ selectedFile?.name }}</div>
+    </label>
+  </div>
+  <div
+    *ngIf="resumeControl && resumeControl.invalid && (resumeControl.dirty || touched || showError)"
+    class="alert alert-danger"
+  >
+    <div *ngIf="resumeControl.errors?.required">
+      Resume is required.
+    </div>
+    <div *ngIf="resumeControl.errors?.fileSize">
+      File is too large.
+    </div>
+    <div *ngIf="resumeControl.errors?.fileExtension">
+      File is not the right file type.
+    </div>
+  </div>
+  <p
+    *ngIf="hasResume === false || resumeUploadState === 'Reset' || hasFile === true"
+    class="header-6 regular text-light mt-2"
+    i18n
+  >
+    File type: PDF, .DOC, .DOCX<br />
+    Max Size: 10mb
+  </p>
+</div>

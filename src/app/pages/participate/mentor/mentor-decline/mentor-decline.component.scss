@@ -1,0 +1,19 @@
+@import '~constants.scss';
+@import "../../../../app.component.scss";
+
+:host {
+  @include page-base($background-grey-color);
+}
+
+.upload-logo-container {
+  // Ensure the spacing between fields is uniform
+  padding-top: 1.5rem;
+}
+
+.btn-success {
+  padding: 0 90px;
+}
+
+.tc-link {
+  text-decoration: underline;
+}

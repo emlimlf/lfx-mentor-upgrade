@@ -1,0 +1,226 @@
+<form [formGroup]="form" class="container mx-auto px-0 mt-5">
+  <app-form-card class="text-paragraph" heading="User Profile" i18n-heading>
+    <div class="mt-4">
+      <div class="row">
+        <div class="col">
+          <label i18n class="header-6"><i class="fas fa-asterisk required"></i> First Name</label>
+          <input
+            formControlName="firstName"
+            i18n-placeholder
+            autofocus
+            type="text"
+            class="form-control"
+            placeholder="First Name"
+            required
+          />
+          <div *ngIf="firstNameControl.invalid && pageSubmitted" class="alert alert-danger">
+            <div *ngIf="firstNameControl.errors?.required">
+              First Name is required
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Last Name</label>
+          <input
+            formControlName="lastName"
+            i18n-placeholder
+            type="text"
+            class="form-control"
+            placeholder="Last Name"
+            required
+          />
+          <div *ngIf="lastNameControl.invalid && pageSubmitted" class="alert alert-danger">
+            <div *ngIf="lastNameControl.errors?.required">
+              Last Name is required
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <label i18n class="mt-4 header-6">Email</label>
+          <input
+            formControlName="email"
+            i18n-placeholder
+            type="text"
+            class="form-control"
+            placeholder="Email"
+            [readonly]="true"
+          />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col upload-logo-container">
+          <app-logo-cropper-field
+            [parent]="form"
+            [defaultLogoUrl]="defaultLogoUrl"
+            control="logoUrl"
+            label="Update Avatar"
+            [showError]="pageSubmitted"
+          >
+          </app-logo-cropper-field>
+        </div>
+        <div class="header-5 regular text-light mt-2" i18n>
+          At this moment we are not accepting applications from a person or entity restricted by U.S. export controls or
+          sanction programs or a resident of Cuba, Iran, North Korea, Syria, Sudan, Russian Federation or Crimea region
+          of Ukraine.
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+
+  <div class="mt-3"></div>
+  <app-form-card class="text-paragraph" heading="Introduction" i18n-heading>
+    <div class="mt-4">
+      <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Tell us a little bit about yourself.</label>
+      <textarea
+        formControlName="introduction"
+        class="form-control"
+        id="exampleFormControlTextarea1"
+        rows="10"
+        [placeholder]="mentorIntroductionPlaceholder"
+      ></textarea>
+      <div *ngIf="introductionControl.invalid && pageSubmitted" class="alert alert-danger">
+        <div *ngIf="introductionControl.errors?.required">
+          Introduction is required
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+  <div class="mt-3"></div>
+  <app-form-card class="text-paragraph" heading="Skills" i18n-heading>
+    <div class="mt-4">
+      <div>
+        What are the skills that you are respected and known for? This helps match you with the right candidates.
+      </div>
+      <div class="mt-5"></div>
+      <app-add-tags
+        [tagTypes]="skills"
+        [(itemList)]="jobSkills"
+        [tagSectionLabel]="'Which of your skills should we feature?'"
+        [skills]="true"
+        feature="skill"
+        [required]="true"
+      >
+      </app-add-tags>
+      <div *ngIf="pageSubmitted && jobSkills.length === 0" class="alert alert-danger">
+        At least one skill is required.
+      </div>
+    </div>
+  </app-form-card>
+  <div class="mt-3"></div>
+  <app-form-card formGroupName="profileLinks" class="text-paragraph" heading="External Profile Links" i18n-heading>
+    <label i18n class="mt-4 header-6">Linkedin Profile</label>
+    <input
+      i18n-placeholder
+      type="text"
+      class="form-control"
+      formControlName="linkedInUrl"
+      placeholder="https://www.linkedin.com/in/username"
+    />
+    <div *ngIf="linkedInUrlControl.invalid && pageSubmitted" class="alert alert-danger">
+      <div *ngIf="linkedInUrlControl.errors?.url">
+        Please enter a valid URL.
+      </div>
+    </div>
+    <label i18n class="mt-4 header-6">GitHub Profile</label>
+    <input
+      i18n-placeholder
+      type="text"
+      class="form-control"
+      formControlName="githubUrl"
+      placeholder="https://github.com/username"
+    />
+    <div *ngIf="githubUrlControl.invalid && pageSubmitted" class="alert alert-danger">
+      <div *ngIf="githubUrlControl.errors?.url">
+        Please enter a valid URL.
+      </div>
+    </div>
+    <app-resume-field [parent]="form" [control]="'profileLinks.resumeUrl'" [showError]="pageSubmitted">
+    </app-resume-field>
+  </app-form-card>
+  <div class="mt-3"></div>
+
+  <app-form-card class="text-paragraph" heading="Mentorship Program Details" i18n-heading>
+    <div class="mt-4">
+      <div>
+        Select LFX mentorship you would like to join as a mentor, and the program administrator will be notified of your
+        request.
+      </div>
+    </div>
+
+    <app-add-tags
+      [tagTypes]="projects"
+      (itemListChange)="constructSelectedProjects($event)"
+      [itemList]="selectedProjects"
+      feature="program"
+      [tagSectionLabel]="'Select LFX Mentorship'"
+      [typeaheadItems]="projectsList"
+      [hideTagsContainer]="true"
+    >
+    </app-add-tags>
+
+    <div class="mt-4">
+      <div class="row" *ngIf="selectedProjects.length">
+        <div class="col-5 font-weight-bold">Mentorship Projects</div>
+        <div class="col-3 font-weight-bold">Status</div>
+      </div>
+      <div *ngFor="let project of selectedProjects" class="row mt-4 mb-4">
+        <div class="project-link-container col-5" [routerLink]="['/project', project.value]">
+          <a class="project-link">
+            {{ project.name }}
+          </a>
+        </div>
+        <div class="col-3 text-capitalize">{{ project.status }}</div>
+
+        <div class="project-action col-4" (click)="removeProject(project)">{{ loadAction(project.status) }}</div>
+      </div>
+    </div>
+  </app-form-card>
+  <div class="mt-3"></div>
+  <app-form-card class="text-paragraph" heading="Terms and Conditions" i18n-heading>
+    <div class="header-5 regular text-light mt-2" i18n>
+      Before you submit your mentorship program to LFX Platform, please review and accept the terms and conditions
+      below.
+    </div>
+    <div i18n class="mt-4">
+      <input
+        type="checkbox"
+        formControlName="termsConditions"
+        class="form-check-input"
+        type="checkbox"
+        id="jobspringTC"
+        required
+      />
+      <i class="fas fa-asterisk required"></i> I agree to the LFX
+      <a href="{{ communityBridgeUrl + 'platform-use-agreement' }}" target="_window" class="semibold" i18n
+        >Platform Use Agreement</a
+      >
+      and all terms incorporated therein, including the
+      <a href="{{ communityBridgeUrl + 'service-terms' }}" target="_window" class="semibold" i18n
+        >Service-Specific Use Terms</a
+      >, the
+      <a href="{{ communityBridgeUrl + 'acceptable-use' }}" target="_window" class="semibold" i18n
+        >Acceptable Use Policy</a
+      >
+      and the
+      <a href="https://www.linuxfoundation.org/privacy/" target="_window" class="semibold" i18n>Privacy Policy</a>.
+    </div>
+    <div *ngIf="termsConditionsControl.invalid && pageSubmitted" class="alert alert-danger">
+      <div *ngIf="termsConditionsControl.errors?.required">
+        Please accept terms and conditions in order to proceed.
+      </div>
+    </div>
+  </app-form-card>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto justify-content-between">
+    <div *ngIf="pageSubmitted && !validate()" class="alert alert-danger">
+      Something on the form is not complete or invalid. Please correct the highlighted fields before continuing.
+    </div>
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto justify-content-between">
+    <button type="button" class="btn btn-link btn-md" (click)="back()" i18n>Cancel</button>
+    <button type="button" class="btn btn-success btn-md" (click)="submit()" [disabled]="formSubmitted" i18n>
+      {{ submitBtnLabel }}
+    </button>
+  </div>
+</form>

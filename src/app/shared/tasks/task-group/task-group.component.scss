@@ -1,0 +1,107 @@
+.overflow{
+  overflow: scroll;
+}
+.project-title-row {
+  color: white;
+  background-color: #555;
+  border-top: solid 10px black;
+  padding: 15px 10px 10px 10px;
+
+  img {
+    border: solid 2px white;
+    border-radius: 50%;
+  }
+
+  .apprentice-display {
+    padding-top: 4px;
+  }
+
+  .btn-add-task,
+  .btn-filter {
+    border-radius: 8px;
+    border: 2px solid white;
+    height: auto;
+    padding: 10px 30px;
+    min-width: 160px;
+    font-size: 12px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 12px;
+    letter-spacing: 0.1px;
+    color: white;
+
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:hover {
+      background: #fff;
+      color: black;
+    }
+
+    &:not(.simple)::before {
+      content: '+';
+      padding-right: 10px;
+    }
+  }
+}
+
+.table {
+  background-color: white;
+}
+
+h4.no-tasks-notice {
+  font-style: italic;
+  text-align: center;
+  box-shadow: silver 0 2px 4px;
+}
+
+th {
+  background-color: #e6e6e6;
+  max-height: 28px;
+  font-size: 0.8em;
+  // padding: 10px 30px 10px 30px;
+  padding: 10px 5px;
+  text-align: center;
+
+  &.with-icon {
+    // padding: 10px 30px 10px 95px;
+    padding: 10px 5px 10px 95px;
+  }
+}
+
+th:nth-child(1){
+  padding: 10px 30px;
+  text-align: left;
+  &.with-icon {
+    padding: 10px 5px 10px 95px;
+  }
+}
+th:nth-child(2){
+  text-align: left;
+  padding-left: 30px;
+}
+
+.right-btn{
+  right: 0;
+}
+
+.left-btn{
+    left: 0;
+}
+
+.left-btn i, .right-btn i{
+  top: 2px;
+    font-size: 12px;
+    left: 5px;
+    position: absolute;
+}
+.navigation-btn{
+  width: 18px;
+  height: 18px;
+  // border: solid 1px grey;
+  border-radius: 15px;
+  position: absolute;
+  top: 50%;
+}

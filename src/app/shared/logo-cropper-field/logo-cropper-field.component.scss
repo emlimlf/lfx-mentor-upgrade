@@ -1,0 +1,47 @@
+@import '~constants.scss';
+@import '../../app.component.scss';
+
+.custom-file {
+  min-width: 250px;
+  max-width: 350px;
+}
+
+.file-text {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  padding-right: 77px;
+}
+
+.custom-file-label::after {
+  border-left: 0;
+  border-color: $primary-blue-color;
+  top: -1px;
+  right: -1px;
+  width: 77px;
+  line-height: 38px;
+  padding-left: 1rem;
+  font-weight: $primary-font-semibold-weight;
+  font-size: $header-6-font-size;
+}
+
+.preview {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  border: 1px solid #c1c0c0;
+}
+
+.preview.unselected {
+  border: dashed 1px $border-grey-color;
+}
+
+.delete-btn {
+  color: red;
+  cursor: pointer;
+}
+
+.algin-content {
+  display: flex;
+  justify-content: space-between;
+}

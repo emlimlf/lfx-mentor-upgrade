@@ -1,0 +1,149 @@
+<div class="text-muted close-container mb-2"><i class="fas fa-times" (click)="close()"></i></div>
+<form [formGroup]="projectTermsForm" class="form-card-layout">
+  <div class="terms-data">
+    <div class="term-field">
+      <div class="row mx-0">
+        <label i18n class="header-6"> <i class="fas fa-asterisk required"></i> Name</label>
+        <label i18n class="header-6 ml-auto regular text-light">{{ nameLength$ | async }} / {{ termNameLimit }} </label>
+      </div>
+
+      <input
+        formControlName="name"
+        placeholder="Term name"
+        class="form-control"
+        [maxlength]="termNameLimit"
+        trim="blur"
+      />
+      <div *ngIf="name.errors?.required && (name.touched || name.dirty || saveClicked)" class="error">
+        Name is required
+      </div>
+    </div>
+    <div class="field-container">
+      <div class="term-field col-12 col-md-6 p-0">
+        <label i18n class="header-6"> <i class="fas fa-asterisk required"></i> Start Month</label>
+        <select formControlName="startMonth" placeholder="Start Month" class="form-control">
+          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+        <div
+          *ngIf="startMonth.errors?.required && (startMonth.touched || startMonth.dirty || saveClicked)"
+          class="error"
+        >
+          Start Month is required
+        </div>
+        <div
+          *ngIf="
+            projectTermsForm.errors?.invalidStartMonth &&
+            !endMonth.errors?.required &&
+            !startMonth.errors?.required &&
+            saveClicked
+          "
+          class="error"
+        >
+          Start month should be greater than or equal to current month.
+        </div>
+      </div>
+      <div class="term-field col-12 col-md-5 p-0">
+        <label i18n class="header-6"> <i class="fas fa-asterisk required"></i> Start Year</label>
+        <input formControlName="startYear" placeholder="Year" class="form-control" type="number" />
+        <div *ngIf="startYear.errors?.required && (startYear.touched || startYear.dirty || saveClicked)" class="error">
+          Year is required
+        </div>
+        <div
+          *ngIf="
+            startYear.errors?.invalidYearLength &&
+            !startYear.errors?.required &&
+            (startYear.touched || startYear.dirty || saveClicked)
+          "
+          class="error"
+        >
+          Please enter a valid year length.
+        </div>
+        <div
+          *ngIf="
+            startYear.errors?.invalidYear &&
+            !startYear.errors?.invalidYearLength &&
+            !startYear.errors?.required &&
+            (startYear.touched || startYear.dirty || saveClicked)
+          "
+          class="error"
+        >
+          Start year should be greater than or equal to current year.
+        </div>
+      </div>
+    </div>
+
+    <div class="field-container">
+      <div class="term-field col-12 col-md-6 p-0">
+        <label i18n class="header-6"> <i class="fas fa-asterisk required"></i>End Month</label>
+        <select formControlName="endMonth" placeholder="Start Month" class="form-control">
+          <option *ngFor="let month of months" [value]="month">{{ month }}</option>
+        </select>
+        <div *ngIf="endMonth.errors?.required && (endMonth.touched || endMonth.dirty || saveClicked)" class="error">
+          End Month is required
+        </div>
+        <div
+          *ngIf="
+            projectTermsForm.errors?.invalidEndMonth &&
+            !endMonth.errors?.required &&
+            !startMonth.errors?.required &&
+            saveClicked
+          "
+          class="error"
+        >
+          End month should be greater than start month.
+        </div>
+      </div>
+
+      <div class="term-field col-12 col-md-5 p-0">
+        <label i18n class="header-6"> <i class="fas fa-asterisk required"></i>End Year</label>
+        <input formControlName="endYear" placeholder="Year" class="form-control" type="number" />
+        <div *ngIf="endYear.errors?.required && (endYear.touched || endYear.dirty || saveClicked)" class="error">
+          Year is required
+        </div>
+
+        <div
+          *ngIf="
+            endYear.errors?.invalidYearLength &&
+            !endYear.errors?.required &&
+            (endYear.touched || endYear.dirty || saveClicked)
+          "
+          class="error"
+        >
+          Please enter a valid year length.
+        </div>
+
+        <div
+          *ngIf="
+            endYear.errors?.invalidYear &&
+            !endYear.errors?.invalidYearLength &&
+            !endYear.errors?.required &&
+            (endYear.touched || endYear.dirty || saveClicked)
+          "
+          class="error"
+        >
+          End year should be greater than or equal to current year.
+        </div>
+
+        <div
+          *ngIf="
+            projectTermsForm.errors?.invalidEndYear &&
+            !endYear.errors?.invalidYearLength &&
+            !endYear.errors?.invalidYear &&
+            !endYear.errors?.required &&
+            !startYear.errors?.required &&
+            !startYear.errors?.invalidYearLength &&
+            !startYear.errors?.invalidYear &&
+            saveClicked
+          "
+          class="error"
+        >
+          End year should be greater than or equal to start year.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <button (click)="addTerm()" class="btn btn-info btn-md custom-term mt-3 mb-2 float-right">
+    {{ itemEdit.name ? 'Save Changes' : 'Add Term' }}
+  </button>
+</form>

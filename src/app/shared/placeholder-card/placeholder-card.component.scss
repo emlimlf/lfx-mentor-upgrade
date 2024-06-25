@@ -1,0 +1,15 @@
+@import '~constants.scss';
+
+:host {
+  width: $card-width;
+}
+
+.card {
+  background-color: transparent;
+  border-radius: 0px;
+  border-width: 1px;
+  border-color: $outline-color;
+  transition: box-shadow 0.15s ease-in-out;
+  margin-left: 0px;
+  margin-right: 0px;
+}

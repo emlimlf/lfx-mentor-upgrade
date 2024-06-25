@@ -1,0 +1,19 @@
+<div role="region" aria-labelledby="edit-card-title">
+  <div class="modal-header px-0 pb-0">
+    <h1 class="modal-title header-3" id="edit-card-title">
+      <span i18n>Withdraw Project</span>
+    </h1>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true" i18n>&times;</span>
+    </button>
+  </div>
+
+  <div  class="modal-body px-0 py-4">
+    Do you want to withdraw this project ' {{projectCard?.title}} '
+  </div>
+ 
+  <div class="modal-footer px-0">
+    <button type="button" class="btn btn-sm header-6 btn-link" (click)="close()" i18n>Cancel</button>
+    <button type="button" class="btn btn-sm header-6 btn-link" (click)="delete()"i18n>Confirm</button>
+  </div>
+</div>

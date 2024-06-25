@@ -1,0 +1,36 @@
+.image-container {
+  width: 140px;
+  height: 30px;
+  display: flex;
+}
+.sponsor-url {
+  max-width: 140px;
+  max-height: 30px;
+  object-fit: contain;
+}
+
+.default-sponsor {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  text-align: center;
+  padding: 0.5em 0;
+  background-image: url('/assets/no_logo_uploaded.svg');
+  background-size: contain;
+  background-color: white;
+}
+
+.clickable-sponsor {
+  width: 40px;
+  height: 40px;
+  border-radius: 100px;
+  border: 1px solid #d9e0e7;
+  text-align: center;
+  padding: 0.8em 0;
+  background-size: contain;
+  background-color: #fafafa;
+  margin: 10px 0 0 0px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #0099cc;
+}

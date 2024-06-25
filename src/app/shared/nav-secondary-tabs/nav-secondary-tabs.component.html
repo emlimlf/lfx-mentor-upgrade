@@ -1,0 +1,15 @@
+<div class="discoveryTabs secondary">
+  <div class="container">
+    <ngb-tabset (tabChange)="onTabChange($event)" [justify]="'start'" [activeId]="activeId">
+      <!-- <ngb-tab id="featured-secondary-tab" title="Featured"> </ngb-tab> -->
+      <ngb-tab id="projects-secondary-tab" title="Mentorships"> </ngb-tab>
+      <ngb-tab id="mentees-secondary-tab" title="Mentees"> </ngb-tab>
+      <ngb-tab id="mentors-secondary-tab" title="Mentors"> </ngb-tab>
+      <ngb-tab id="my-mentorships-secondary-tab" title="My Mentorships" *ngIf="auth.isAuthenticated$ | async">
+      </ngb-tab>
+      <ngb-tab id="my-tasks-secondary-tab" title="My Tasks" *ngIf="auth.isAuthenticated$ | async"> </ngb-tab>
+      <ngb-tab id="my-account-secondary-tab" title="My Account" *ngIf="auth.isAuthenticated$ | async"> </ngb-tab>
+      <ngb-tab id="hidden-secondary-tab"> </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>

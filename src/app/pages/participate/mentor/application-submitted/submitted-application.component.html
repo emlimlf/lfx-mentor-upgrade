@@ -1,0 +1,72 @@
+<div>
+  <div class="col-sm-12 header-banner"></div>
+</div>
+<div class="container mx-auto px-15 mt-6 py-6" *ngIf="newMentor == 'true' && inviteJoin == 'false'">
+  <div class="text-center col-lg-8 col-md-9 col-sm-11 col-12 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+    <h3 i18n>
+      Profile Created!
+    </h3>
+    <p>
+      Your profile has now been created - you will receive notifications about mentees and project updates as each term
+      progresses.
+    </p>
+  </div>
+  <div class="text-center" *ngIf="notAllowed == 'true'">
+    You need to be invited to join this project. Please contact the project maintainer.
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-12 px-0 mt-6 mx-auto text-center">
+    <button class="btn btn-link btn-md mx-auto" (click)="back()" i18n>Discover More</button>
+    <button class="btn btn-info btn-md mx-auto" (click)="submit()" i18n>My Account</button>
+  </div>
+</div>
+<div class="container mx-auto px-15 mt-6 py-6" *ngIf="newMentor == 'false' && inviteJoin == 'true'">
+  <div class="text-center col-lg-8 col-md-9 col-sm-11 col-12 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+    <h3 i18n>You have joined {{ this.project.name }} project as a mentor!</h3>
+    <p>You will now receive notifications about mentees and project updates as each term progresses.</p>
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-12 px-0 mt-6 mx-auto text-center">
+    <button class="btn btn-link btn-md mx-auto" (click)="back()" i18n>Discover More</button>
+    <button class="btn btn-info btn-md mx-auto" (click)="submit()" i18n>My Account</button>
+  </div>
+</div>
+<div class="container mx-auto px-15 mt-6 py-6" *ngIf="newMentor == 'true' && inviteJoin == 'true'">
+  <div class="text-center col-lg-8 col-md-9 col-sm-11 col-12 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+    <h3 i18n>You are now a mentor and have joined {{ this.project.name }} project!</h3>
+    <p>
+      Your mentor profile has now been created - you will receive notifications about mentees and project updates as
+      each term progresses.
+    </p>
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-12 px-0 mt-6 mx-auto text-center">
+    <button class="btn btn-link btn-md mx-auto" (click)="back()" i18n>Discover More</button>
+    <button class="btn btn-info btn-md mx-auto" (click)="submit()" i18n>My Account</button>
+  </div>
+</div>
+<div
+  class="container mx-auto px-15 mt-6 py-6"
+  *ngIf="newMentor == 'false' && inviteJoin == 'false' && notAllowed == 'true'"
+>
+  <div class="text-center col-lg-8 col-md-9 col-sm-11 col-12 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+    <h3 i18n>
+      No invitation found!
+    </h3>
+    <p>You need to be invited to this project to join as a mentor!</p>
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-12 px-0 mt-6 mx-auto text-center">
+    <button class="btn btn-link btn-md mx-auto" (click)="back()" i18n>Discover More</button>
+    <button class="btn btn-info btn-md mx-auto" (click)="submit()" i18n>My Account</button>
+  </div>
+</div>
+<div
+  class="container mx-auto px-15 mt-6 py-6"
+  *ngIf="newMentor == 'false' && inviteJoin == 'false' && inviteDeclined == 'true'"
+>
+  <div class="text-center col-lg-8 col-md-9 col-sm-11 col-12 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+    <h3 i18n>You have declined to join {{ this.project.name }} as a Mentor</h3>
+    <p>We appreciate your consideration. We'll notify the project maintainer of your decision.</p>
+  </div>
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-12 px-0 mt-6 mx-auto text-center">
+    <button class="btn btn-link btn-md mx-auto" (click)="back()" i18n>Discover More</button>
+    <button class="btn btn-info btn-md mx-auto" (click)="submit()" i18n>My Account</button>
+  </div>
+</div>

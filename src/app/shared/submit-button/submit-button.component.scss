@@ -1,0 +1,53 @@
+@import '~constants.scss';
+
+.hidden {
+  opacity: 0;
+}
+
+.loading-icon {
+  width: 1.25em;
+  height: 1.25em;
+  animation: rotate 1s linear infinite;
+  margin-top: -2px;
+  transition: opacity;
+  transition-duration: 0.15s;
+}
+.success-icon {
+  width: 1em;
+  height: 1em;
+  margin-top: -2px;
+  transition: opacity, transform;
+  transition-duration: 0.3s;
+  transition-delay: 0.3;
+  &.hidden {
+    transform: scale(0.2);
+  }
+}
+.failed-icon {
+  width: 1em;
+  height: 1em;
+  margin-top: -2px;
+}
+
+.centered {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+button {
+  transition: opacity, width, background-color, border-color;
+  transition-duration: 0.3s;
+}
+
+.btn {
+  opacity: 1 !important;
+  position: relative;
+}
+
+@keyframes rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}

@@ -1,0 +1,123 @@
+::ng-deep {
+  .spacer {
+    margin-left: 30px;
+  }
+  .spacer-3 {
+    margin-left: 4px;
+  }
+  .normal {
+    cursor: pointer;
+  }
+  table {
+    width: 100%;
+    border: 1px solid #d1d1d1;
+
+    tr {
+      &.table-filter-header {
+        background-color: #d1d1d1;
+        text-align: right;
+
+        td {
+          background-color: #d1d1d1;
+          padding: 1em 4em;
+          font-size: 0.9em;
+          display: grid;
+          grid-template-columns: 1fr auto;
+
+          .table-filter-container {
+            display: inline-block;
+            margin-left: 2em;
+
+            button.btn {
+              font-weight: normal;
+              font-size: 0.875em;
+              border-radius: 0;
+              border: none;
+              background-color: transparent;
+              color: black;
+              padding: 0.5em 1em;
+              height: auto;
+              width: 18em;
+              text-align: left;
+              margin-left: 0.75em;
+              position: relative;
+
+              &::before {
+                border: 0.5px solid black;
+                position: absolute;
+                bottom: 0.5em;
+                left: 1em;
+                right: 1em;
+                content: '';
+              }
+
+              &::after {
+                float: right;
+                margin-top: 0.5em;
+              }
+            }
+
+            .filter-dropdown {
+              font-size: 0.875em;
+              box-shadow: silver 2px 2px 2px;
+              overflow: hidden;
+              padding: 0;
+
+              .filter-dropdown-option {
+                //border-top: 1px solid #f0f0f0;
+                padding: 0.5em 1em;
+                cursor: pointer;
+
+                &.filter-dropdown-option-clear {
+                  color: #888;
+                }
+
+                &:first-child {
+                  border-top: 0;
+                }
+
+                &:hover {
+                  background-color: #f0f0f0;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      &.table-header {
+        background-color: #f0f0f0;
+
+        th {
+          background-color: #f0f0f0;
+          padding: 0.5em 1em;
+          font-weight: normal;
+        }
+      }
+
+      &.table-row {
+        border-top: 1px solid #d1d1d1;
+
+        &:first-child {
+          border-top: 0;
+        }
+
+        td {
+          padding: 1em;
+          background-color: white;
+
+          &:first-child {
+            padding-left: 2em;
+          }
+
+          &:last-child {
+            padding-right: 2em;
+          }
+        }
+      }
+    }
+  }
+  .table-title {
+    text-align: left;
+  }
+}

@@ -1,0 +1,211 @@
+<div *ngIf="tagTypes.length === 2">
+  <div *ngIf="tagSectionLabel">
+    <div i18n class="header-6"><i class="fas fa-asterisk required" *ngIf="required"></i> {{ tagSectionLabel }}</div>
+  </div>
+
+  <div class="incline-blocks">
+    <div class="mt-3 form-left-group">
+      <label i18n for="feature-d-name" class="header-6">{{ tagTypes[0].labelText }}</label>
+      <input
+        i18n-placeholder
+        type="text"
+        class="form-control prevent-enter"
+        [value]="name"
+        (input)="changeItemNameInput($event, true)"
+        id="feature-d-name"
+        placeholder="{{ tagTypes[0].labelText }}"
+        [class.extra-error]="showEmptyNameError"
+        (blur)="checkItemsValidation(tagTypes.length, true)"
+        (keydown.enter)="onCreateItem($event, null, true)"
+        #focusControl
+        trim="blur"
+      />
+      <div i18n class="text-error" *ngIf="showEmptyNameError">{{ tagTypes[0].labelText }} is required</div>
+    </div>
+
+    <div class="mt-3 form-right-group">
+      <label i18n for="feature-d-email" class="header-6">{{ tagTypes[1].labelText }}</label>
+      <input
+        i18n-placeholder
+        type="text"
+        class="form-control prevent-enter"
+        id="feature-d-email"
+        [value]="email"
+        (input)="changeItemEmailInput($event)"
+        placeholder="{{ tagTypes[1].labelText }}"
+        [class.extra-error]="showEmptyEmailError || showDuplicateEmailError || showInvalidEmailError"
+        (keydown.enter)="onCreateItem($event, null, true)"
+        trim="blur"
+      />
+      <div i18n class="text-error" *ngIf="showInvalidEmailError || showEmptyEmailError">
+        A valid email address is required.
+      </div>
+      <div i18n class="text-error" *ngIf="showDuplicateEmailError">That email address already exists.</div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="tagTypes.length === 1 && !skills && !typeaheadItems?.length">
+  <div *ngIf="tagSectionLabel">
+    <div i18n class="mt-3 header-6">
+      <i class="fas fa-asterisk required" *ngIf="required"></i> {{ tagSectionLabel }}
+    </div>
+  </div>
+  <div *ngFor="let singleTag of tagTypes">
+    <div class="mt-3 input-group">
+      <input
+        type="text"
+        [autofocus]="autofocus"
+        placeholder="{{ singleTag.tagType }}"
+        [value]="name"
+        class="form-control prevent-enter"
+        (input)="changeItemNameInput($event)"
+        (blur)="checkItemsValidation(tagTypes.length)"
+        (keydown.enter)="onCreateItem($event, null)"
+        #focusControl
+        trim="blur"
+      />
+      <div class="input-group-append">
+        <button
+          i18n
+          type="button"
+          [disabled]="!isNameValid"
+          [ngStyle]="{ cursor: isNameValid ? 'pointer' : 'default' }"
+          class="btn btn-info btn-md"
+          (click)="onCreateItem($event, null)"
+        >
+          + Add {{ getLowerCaseOfFeature(feature) }}
+        </button>
+      </div>
+      <div i18n class="text-error" *ngIf="showEmptyNameError">{{ singleTag.tagType }} is required</div>
+    </div>
+    <div i18n class="text-error" *ngIf="showDuplicateNameError">That {{ singleTag.tagType }} already exists.</div>
+  </div>
+</div>
+
+<div *ngIf="tagTypes.length === 1 && !skills && typeaheadItems?.length">
+  <ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <div *ngIf="tagSectionLabel">
+    <div i18n class="mt-3 header-6">
+      <i class="fas fa-asterisk required" *ngIf="required"></i> {{ tagSectionLabel }}
+    </div>
+  </div>
+  <div *ngFor="let singleTag of tagTypes">
+    <div class="mt-3 input-group">
+      <input
+        type="text"
+        [autofocus]="autofocus"
+        placeholder="{{ singleTag.tagType }}"
+        class="form-control prevent-enter"
+        #tagInput
+        (selectItem)="tagSelected($event, tagInput, singleTag)"
+        [ngbTypeahead]="searchTag"
+        (focus)="tagFocus$.next($event.target.value)"
+        (click)="tagClick$.next($event.target.value)"
+        #tagTypeahead="ngbTypeahead"
+        (blur)="checkItemsValidation(tagTypes.length)"
+        appEditTypeHead
+        [typeHead]="tagTypeahead"
+        (keydown.enter)="tagEnter($event, tagInput)"
+        [resultTemplate]="rt"
+        trim="blur"
+      />
+
+      <div class="input-group-append">
+        <button
+          i18n
+          type="button"
+          [disabled]="!tagInput.value.length"
+          [ngStyle]="{ cursor: tagInput.value.length ? 'pointer' : 'default' }"
+          class="btn btn-info btn-md"
+          (click)="tagEnter($event, tagInput)"
+        >
+          + Add {{ getLowerCaseOfFeature(feature) }}
+        </button>
+      </div>
+    </div>
+    <div i18n class="text-error" *ngIf="showEmptyNameError">{{ singleTag.tagType }} is required</div>
+    <div i18n class="text-error" *ngIf="showDuplicateNameError">That {{ singleTag.tagType }} already exists.</div>
+    <div i18n class="text-error" *ngIf="showTypeNameNotExist">That {{ singleTag.tagType }} doesn't exist.</div>
+  </div>
+</div>
+
+<div *ngIf="tagTypes.length === 1 && skills">
+  <ng-template #rt let-r="result" let-t="term">
+    <ngb-highlight [result]="r.name" [term]="t"></ngb-highlight>
+  </ng-template>
+
+  <div *ngIf="tagSectionLabel">
+    <div i18n class="mt-3 header-6">
+      <i class="fas fa-asterisk required" *ngIf="required"></i> {{ tagSectionLabel }}
+    </div>
+  </div>
+  <div *ngFor="let singleTag of tagTypes">
+    <div class="mt-3 input-group">
+      <input
+        type="text"
+        [autofocus]="autofocus"
+        placeholder="{{ singleTag.tagType }}"
+        class="form-control prevent-enter"
+        #tagInput
+        (selectItem)="tagSelected($event, tagInput, singleTag)"
+        [ngbTypeahead]="searchTag"
+        (focus)="tagFocus$.next($event.target.value)"
+        (click)="tagClick$.next($event.target.value)"
+        #tagTypeahead="ngbTypeahead"
+        (blur)="checkItemsValidation(tagTypes.length)"
+        appEditTypeHead
+        [typeHead]="tagTypeahead"
+        (keydown.enter)="tagEnter($event, tagInput)"
+        trim="blur"
+      />
+      <div class="input-group-append">
+        <button
+          i18n
+          type="button"
+          [disabled]="!tagInput.value.length"
+          [ngStyle]="{ cursor: tagInput.value.length ? 'pointer' : 'default' }"
+          class="btn btn-info btn-md"
+          (click)="tagEnter($event, tagInput)"
+        >
+          + Add {{ getLowerCaseOfFeature(feature) }}
+        </button>
+      </div>
+    </div>
+    <div i18n class="text-error" *ngIf="showEmptyNameError">{{ singleTag.tagType }} is required</div>
+    <div i18n class="text-error" *ngIf="showDuplicateNameError">That {{ singleTag.tagType }} already exists.</div>
+    <div i18n class="text-error" *ngIf="showTypeNameNotExist">That {{ singleTag.tagType }} doesn't exist.</div>
+  </div>
+</div>
+
+<div class="mt-3"></div>
+
+<div *ngIf="tagTypes.length === 2">
+  <button
+    i18n
+    type="button"
+    [disabled]="!isNameValid || !isEmailValid"
+    [ngStyle]="{ cursor: isNameValid && isEmailValid ? 'pointer' : 'default' }"
+    class="btn btn-info btn-md"
+    (click)="onCreateItem($event, null, true)"
+  >
+    + Add {{ getLowerCaseOfFeature(feature) }}
+  </button>
+</div>
+
+<div class="mt-3"></div>
+<div class="tags-border" [hidden]="hideTagsContainer">
+  <div class="tags-container">
+    <p style="color: gray;" i18n *ngIf="itemList.length == 0">
+      List of {{ featureAlias ? getLowerCaseOfFeature(featureAlias) : getLowerCaseOfFeature(feature) + 's' }} you have
+      added...
+    </p>
+    <div class="tag" *ngFor="let item of itemList; trackBy: trackItem">
+      <span i18n>{{ formattedItemDetails(item) }}</span>
+      <span i18n aria-hidden="true" class="ng-value-icon left tag-close" (click)="onRemoveItem(item)">×</span>
+    </div>
+  </div>
+</div>

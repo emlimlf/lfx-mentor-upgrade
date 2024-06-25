@@ -1,0 +1,36 @@
+<div class="container mx-auto px-0 mt-4plus pb-5 profile">
+  <div class="section-header">
+    <h1 class="section-name">Mentorship Profiles</h1>
+  </div>
+  <div id="profiles">
+    <div class="col-md-12 offset-md-0 col-lg-10 offset-lg-1">
+      <div class="cards-center">
+        <div class="card-align" @fadeInTop *ngIf="isApprentice && !isLoadingProfiles">
+          <app-apprentice-card
+            [apprenticeCard]="apprenticeProfile"
+            [menteeId]="'local'"
+            [editProfile]="true"
+            (edit)="editApprentice()"
+          >
+          </app-apprentice-card>
+        </div>
+        <div class="card-align" *ngIf="isMentor && !isLoadingProfiles">
+          <app-mentor-card [mentorCard]="mentorProfile" [editProfile]="true" (edit)="editMentor()"> </app-mentor-card>
+        </div>
+        <!-- <ng-template [ngIf]="!isLoadingProfiles">
+          <div class="mt-5 ml-2 mr-2" *ngFor="let employerId of employerIds">
+            <app-employer-card [employerCard]="employerProfiles[employerId]" (edit)="editEmployer(employerId)">
+            </app-employer-card>
+          </div>
+        </ng-template> -->
+        <div *ngIf="!userHasProfiles() && !isLoadingProfiles" ngClass="empty mt-4">No profiles</div>
+      </div>
+    </div>
+  </div>
+  <app-loader *ngIf="isLoadingProfiles"></app-loader>
+</div>
+<router-outlet></router-outlet>
+
+<div class="jump-top" (click)="jumpTop()" *ngIf="showJumpToTopIcon">
+  <i class="fas fa-chevron-up"></i>
+</div>

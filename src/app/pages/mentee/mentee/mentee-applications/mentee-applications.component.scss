@@ -1,0 +1,105 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '../mentee.component.scss';
+
+app-table {
+  width: 100%;
+  margin-top: 4em;
+  margin-bottom: 7em;
+
+  tr {
+    &.table-header {
+      th {
+        width: 20%;
+
+        i.fas {
+          margin-left: 0.5em;
+        }
+
+        &.label-name {
+          width: 40%;
+          padding-left: calc(2em + 45px + 1em);
+        }
+
+        &.label-status {
+        }
+
+        &.label-created {
+        }
+
+        &.label-updated {
+        }
+      }
+    }
+
+    &.table-row {
+      td {
+        vertical-align: middle;
+
+        &.value-name {
+          display: flex;
+          align-items: center;
+          padding-right: 2em;
+
+          .avatar-container {
+            img {
+              width: 45px;
+              box-shadow: silver 0 2px 4px;
+              border-radius: 50%;
+              display: block;
+              padding: 0;
+              margin: 0;
+              border: 0;
+            }
+          }
+
+          .text-container {
+            padding-left: 1em;
+
+            .name {
+              font-weight: bold;
+            }
+
+            .description {
+              font-size: 0.8em;
+              overflow: hidden;
+              position: relative;
+              line-height: 1.2em;
+              max-height: 2.4em;
+              text-align: justify;
+              margin-right: -1em;
+              padding-right: 1em;
+
+              &:before {
+                content: '...';
+                position: absolute;
+                right: 0;
+                bottom: 0;
+              }
+
+              &:after {
+                content: '';
+                position: absolute;
+                right: 0;
+                width: 1em;
+                height: 1em;
+                margin-top: 0.2em;
+                background: white;
+              }
+            }
+          }
+        }
+
+        &.value-status {
+        }
+
+        &.value-created-on,
+        &.value-updated-on {
+          .time {
+            font-size: 0.75em;
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,69 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+.avatar-url {
+  width: 40px;
+  height: 40px;
+  border-radius: 28.8px;
+  border-width: 1px;
+  border-color: $loading-grey-color;
+  border-style: solid;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.avatar-rounded {
+  border-radius: 50% !important;
+}
+
+.avatar-x-large {
+  width: 144px !important;
+  height: 144px !important;
+}
+
+.avatar-large {
+  width: 48px !important;
+  height: 48px !important;
+}
+
+.avatar-medium {
+  width: 96px !important;
+  height: 96px !important;
+}
+
+.avatar-small {
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.avatar-x-small {
+  width: 24px !important;
+  height: 24px !important;
+}
+
+.default-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  background-color: $loading-grey-color;
+}
+
+.yellow-border {
+  border: 2px solid #fdd627 !important;
+}
+
+/* All in one selector */
+div.no-icon-url {
+  &:before {
+    content: '';
+    background-image: url(/assets/default-icon.svg);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(0.6);
+  }
+}

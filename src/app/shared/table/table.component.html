@@ -1,0 +1,58 @@
+<table class="">
+  <tr class="table-filter-header" *ngIf="!filters || !filters.length">
+    <td colspan="1">
+      <div class="table-title">
+        <b>{{ title }}</b>
+      </div>
+    </td>
+  </tr>
+
+  <tr class="table-filter-header" *ngIf="filters && filters.length">
+    <td colspan="1">
+      <div class="table-title">{{ title }}</div>
+      <div class="table-filter-header-filters">
+        <a
+          [ngStyle]="{ cursor: hasMentees === true ? 'pointer' : 'not-allowed' }"
+          *ngIf="isAdmin"
+          (click)="mailClicked()"
+          ><i class="fas fa-envelope"></i><i class="spacer-3"></i>Bulk Email Mentees</a
+        >
+        <i class="spacer"></i>
+        <a
+          [ngStyle]="{ cursor: hasMentees === true ? 'pointer' : 'not-allowed' }"
+          *ngIf="isAdmin"
+          (click)="exportClicked()"
+          ><i class="fas fa-file-download"></i><i class="spacer-3"></i>Download List of Mentees</a
+        >
+
+        <div class="table-filter-container" *ngFor="let filter of filters">
+          <i class="fas fa-filter"></i>
+          <div ngbDropdown #dropdownBasic1="ngbDropdown" class="d-inline-block">
+            <button class="btn btn-outline-primary" #dropdownInner ngbDropdownToggle>
+              {{ filter.label }}{{ (filter.value ? ': ' + filter.value : '') | titlecase }}
+            </button>
+            <div ngbDropdownMenu class="filter-dropdown" aria-labelledby="dropdownBasic1">
+              <div
+                ngbDropdownItem
+                class="filter-dropdown-option filter-dropdown-option-clear"
+                (click)="applyFilter(filter, ''); dropdownBasic1.close()"
+              >
+                <i class="fas fa-times-circle"></i>
+                Clear
+              </div>
+              <div
+                ngbDropdownItem
+                *ngFor="let option of filter.options"
+                class="filter-dropdown-option"
+                (click)="applyFilter(filter, option); dropdownBasic1.close()"
+              >
+                {{ option | titlecase }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+  </tr>
+  <ng-content></ng-content>
+</table>

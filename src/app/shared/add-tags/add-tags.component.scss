@@ -1,0 +1,88 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '../../app.component.scss';
+
+.extra-error {
+  border-color: #da3a16;
+  margin-bottom: 4px;
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba(218, 58, 22, 0.25);
+  }
+}
+
+/deep/.dropdown-menu {
+  max-height: 300px;
+  overflow: scroll;
+  z-index: 30;
+}
+
+.tags-border {
+  border-radius: 4px;
+  border: solid 1px $border-grey-color;
+  height: 169px;
+  max-height: 169px;
+  overflow: scroll;
+  padding-top: 10px;
+  padding-left: 9px;
+  padding-bottom: 10px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: $card-background-color;
+}
+
+.tag {
+  border-radius: 4px;
+  border: solid 1px $border-grey-color;
+  padding: 4px 8px 4px 8px;
+  width: max-content;
+  height: fit-content;
+  font-size: 0.75rem;
+  margin-right: 5px;
+  margin-bottom: 5px;
+
+  &:hover {
+    background-color: $loading-grey-color;
+    cursor: pointer;
+  }
+}
+
+.tag-close {
+  font-size: small;
+  margin-left: 7px;
+  color: $default-tag-close-color;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  .incline-blocks {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+
+    .form-left-group {
+      width: 48%;
+    }
+
+    .form-right-group {
+      width: 48%;
+    }
+  }
+}
+
+@include media-breakpoint-down(md) {
+  .tag {
+    word-break: break-all;
+    width: 100%;
+  }
+  .tag-close {
+    float: right;
+  }
+}

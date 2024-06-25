@@ -1,0 +1,38 @@
+<div class="container mb-5 detail-projects p-0" id="projects">
+  <div class="">
+    <div class="section-header">
+      <h1 class="section-name">Projects</h1>
+    </div>
+    <div class="cards-center">
+      <ng-container *ngFor="let projectCard of projectCards; index as i">
+        <div
+          class="card-align"
+          *ngIf="projectCard.menteeStatus == 'accepted' || projectCard.menteeStatus == 'graduated'"
+        >
+          <app-project-card [projectCard]="projectCard" [allowApplyButton]="true"></app-project-card>
+        </div>
+      </ng-container>
+
+      <div class="mt-4 ml-4" *ngIf="showEmptyProjects && projectCardsLoaded">
+        No projects
+      </div>
+    </div>
+    <app-loader *ngIf="!projectCardsLoaded"></app-loader>
+  </div>
+</div>
+<div class="container mb-5 detail-mentors p-0" id="Mentors">
+  <div class="">
+    <div class="section-header">
+      <h1 class="section-name">Mentors</h1>
+    </div>
+    <div class="cards-center">
+      <div class="card-align" *ngFor="let mentorCard of mentorCards; index as i">
+        <app-mentor-card [mentorCard]="mentorCard"></app-mentor-card>
+      </div>
+      <div class="mt-4 ml-4" *ngIf="mentorCards.length === 0 && mentorCardsLoaded">
+        No mentors
+      </div>
+    </div>
+    <app-loader *ngIf="!mentorCardsLoaded"></app-loader>
+  </div>
+</div>

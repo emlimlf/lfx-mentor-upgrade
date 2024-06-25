@@ -1,0 +1,31 @@
+<div role="region" aria-labelledby="edit-card-title">
+  <div class="modal-header px-0 pb-0">
+    <h1 class="modal-title header-3" id="edit-card-title">
+      <span i18n *ngIf="organization !== undefined">Edit Organization</span>
+      <span i18n *ngIf="organization === undefined">Add Organization</span>
+    </h1>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true" i18n>&times;</span>
+    </button>
+  </div>
+  <form [formGroup]="form" class="modal-body px-0 py-4">
+    <div class="col-auto px-0 mx-0 pb-3">
+      <label for="organization-name" class="header-6" i18n>Company Name</label>
+      <input class="form-control" formControlName="name" id="organization-name" />
+    </div>
+    <app-logo-field [previewUrl]="avatarUrl" [parent]="form" control="logo"></app-logo-field>
+  </form>
+  <div class="modal-footer px-0">
+    <button type="button" class="btn btn-sm header-6 btn-link" (click)="close()" i18n>Cancel</button>
+    <app-submit-button
+      i18n-readyText
+      readyText="Submit"
+      id="submit-card"
+      buttonClasses="btn-md btn-info"
+      [state]="submitState$ | async"
+      i18n
+      (submitted)="saveOrganization()"
+    >
+    </app-submit-button>
+  </div>
+</div>

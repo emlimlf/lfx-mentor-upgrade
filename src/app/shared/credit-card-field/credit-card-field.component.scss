@@ -1,0 +1,15 @@
+@import '~constants.scss';
+@import '~theme.scss';
+
+.StripeElement {
+  height: 48px;
+}
+
+.StripeElement--invalid {
+  border-color: map-get($map: $theme-colors, $key: 'danger');
+}
+
+.form-control {
+  padding-top: 14.5px;
+  padding-bottom: 14.5px;
+}

@@ -1,0 +1,131 @@
+<td class="task-col-description" [class.with-icon]="!!icon" [class.admin]="isAdmin">
+  <div>
+    <div class="d-flex">
+      <div class="icon-container-width">
+        <div class="m-0 center">
+          <img
+            *ngIf="task.apprenticeName"
+            height="45"
+            width="45"
+            onerror="this.src='../assets/person.svg'"
+            [src]="icon"
+          />
+          <img
+            *ngIf="task.projectName"
+            height="45"
+            width="45"
+            onerror="this.src='../assets/default-icon.svg'"
+            [src]="icon"
+          />
+        </div>
+        <div class="center text-truncate" *ngIf="task.projectName">{{ task.projectName }}</div>
+        <div class="center" *ngIf="task.apprenticeName">{{ task.apprenticeName }}</div>
+      </div>
+      <div class="description-container">
+        <h3>{{ task.taskName }}</h3>
+        <p *ngIf="!(task.custom == 'false' && task.taskName == 'Coding Challenge')" class="task-description m-0">
+          {{ task.taskDescription }}
+        </p>
+        <a
+          class="description-link"
+          *ngIf="task.custom == 'false' && task.taskName == 'Coding Challenge'"
+          target="_blank"
+          [href]="formatURL(task?.taskDescription)"
+        >
+          {{ task.taskDescription }}
+        </a>
+      </div>
+      <a (click)="downloadFile(task.file, task.taskName)" *ngIf="task.file" class="fdownload">
+        <span class="docView"><i class="fas fa-file-download task-file-icon"></i></span>
+      </a>
+      <a (click)="viewFile(task.file)" *ngIf="task.file" class="fpreview">
+        <span class="docView"><i class="fas fa-eye"></i></span>
+      </a>
+      <input
+        class="form-control custom-file-input"
+        type="file"
+        name="taskFile"
+        id="taskFile"
+        #taskFile
+        accept=".doc,.docx,.pdf,application/pdf,application/msword"
+        (change)="onSelectFile($event, task)"
+        hidden
+      />
+      <ng-container *ngIf="!task.menteeGraduated">
+        <button
+          class="btn file-upload mr-1"
+          *ngIf="displayUploadButton()"
+          (click)="simulateClick(taskFile)"
+          [disabled]="uploading || disableAction"
+          [ngClass]="{ 'btn-padding': uploading }"
+        >
+          {{ uploadText(task) }}
+        </button>
+      </ng-container>
+    </div>
+  </div>
+</td>
+<td class="task-col-status" [class.shrink]="!!icon" [class.admin]="isAdmin">
+  <div *ngIf="task.menteeGraduated">
+    {{ task.taskStatus === 'inProgress' ? 'In Progress' : (task.taskStatus | titlecase) }}
+  </div>
+  <div *ngIf="!task.menteeGraduated" class="btn-group" role="group" #drop="ngbDropdown" ngbDropdown>
+    <button
+      id="toggle"
+      class="btn badge mr-1"
+      [ngClass]="getBadgeType(task.taskStatus)"
+      (click)="onToggleUpdateStatus()"
+      ngbDropdownAnchor
+      [disabled]="disableAction"
+    >
+      {{ editing ? 'Editing...' : task.taskStatus === 'inProgress' ? 'In Progress' : (task.taskStatus | titlecase) }}
+    </button>
+    <button
+      ngbDropdownToggle
+      #arrow
+      class="btn dropdown-toggle dropdown-toggle-split px-3"
+      [class.open]="drop.isOpen()"
+      [disabled]="disableAction"
+      (click)="$event.stopPropagation(); drop.isOpen() ? toggleUpdateStatus.emit(task) : null"
+    ></button>
+    <div aria-labelledby="toggle" class="dropdown-menu" ngbDropdownMenu>
+      <!-- <button class="dropdown-item" (click)="onUpdateStatus('complete')" ngbDropdownItem>Complete</button>
+      <button class="dropdown-item" (click)="onUpdateStatus('incomplete')" ngbDropdownItem>Incomplete</button>
+      <button class="dropdown-item" (click)="onUpdateStatus('on-hold')" ngbDropdownItem>On Hold</button> -->
+      <button class="dropdown-item" *ngIf="isAdmin" (click)="onUpdateStatus('pending')" ngbDropdownItem>Pending</button>
+      <button class="dropdown-item" (click)="onUpdateStatus('inProgress')" ngbDropdownItem>In Progress</button>
+      <button class="dropdown-item" (click)="onUpdateStatus('submitted')" ngbDropdownItem>Submitted</button>
+      <button class="dropdown-item" *ngIf="isAdmin" (click)="onUpdateStatus('completed')" ngbDropdownItem>
+        Completed
+      </button>
+    </div>
+  </div>
+</td>
+<td class="task-col-due-date" [class.shrink]="!!icon" [class.admin]="isAdmin">
+  <ng-container *ngIf="task.taskCategory === 'prerequisite' && task.custom === 'false'; else defaultValue">
+    <h4>Prerequisite</h4>
+  </ng-container>
+  <ng-template #defaultValue>
+    <h4>{{ task.taskDueDate | formatDate }}</h4>
+  </ng-template>
+</td>
+<td class="task-col-created-on" [class.shrink]="!!icon" [class.admin]="isAdmin">
+  <h4>{{ task.taskCreatedOn | formatDate }}</h4>
+</td>
+<td class="task-col-updated-on" [class.shrink]="!!icon" [class.admin]="isAdmin">
+  <h4>{{ task.taskUpdatedOn | formatDate }}</h4>
+</td>
+<td class="task-col-edit" [class.shrink]="!!icon" *ngIf="isAdmin">
+  <ng-container *ngIf="!task.menteeGraduated && task.taskCategory != 'prerequisite'">
+    <p><a class="btn-link" (click)="onEdit()">Edit</a></p>
+  </ng-container>
+</td>
+
+<ng-template #modal>
+  <div class="modal-body">
+    <p>{{ message }}</p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-info" (click)="activeModal.close()">Close</button>
+  </div>
+</ng-template>

@@ -1,0 +1,97 @@
+<ng-container *ngIf="isLoaded">
+  <app-table [filters]="filters" (filterChanged)="filterChanged($event)">
+    <table>
+      <tr class="table-header">
+        <th class="label-name" (click)="sort('name')">
+          Name
+          <i
+            class="fas"
+            [class.fa-sort]="sortColumn !== 'name'"
+            [class.fa-sort-up]="sortColumn === 'name' && sortDirection === 'desc'"
+            [class.fa-sort-down]="sortColumn === 'name' && sortDirection === 'asc'"
+          ></i>
+        </th>
+        <th class="label-status">Application Status</th>
+        <th class="label-created" (click)="sort('createdOn')">
+          Application Date
+          <i
+            class="fas"
+            [class.fa-sort]="sortColumn !== 'createdOn'"
+            [class.fa-sort-up]="sortColumn === 'createdOn' && sortDirection === 'desc'"
+            [class.fa-sort-down]="sortColumn === 'createdOn' && sortDirection === 'asc'"
+          ></i>
+        </th>
+        <th class="label-updated">Last Updated</th>
+      </tr>
+
+      <tr class="table-row" *ngFor="let app of applications">
+        <td class="value-name">
+          <div class="avatar-container">
+            <img [src]="app.logoUrl ? app.logoUrl : '/assets/default-icon.svg'" />
+          </div>
+          <div class="text-container">
+            <div class="name">{{ app.name }}</div>
+            <div class="description">{{ app.description }}</div>
+          </div>
+        </td>
+        <td class="value=status">
+          <app-pill-dropdown-status
+            [value]="app.status"
+            [readonly]="!app.related"
+            (changed)="onStatusChange(app, $event)"
+          ></app-pill-dropdown-status>
+        </td>
+        <td class="value-created-on">
+          {{ app.createdOnDate }}
+          <div class="time">{{ app.createdOnTime }}</div>
+        </td>
+        <td class="value-updated-on">
+          {{ app.updatedOnDate }}
+          <div class="time">{{ app.updatedOnTime }}</div>
+        </td>
+      </tr>
+    </table>
+  </app-table>
+
+  <ng-container *ngIf="endApplications && endApplications.length">
+    <app-table title="Ended Applications">
+      <table>
+        <tr class="table-header">
+          <th class="label-name" (click)="sort('name')">
+            Name
+          </th>
+          <th class="label-status">Application Status</th>
+          <th class="label-created" (click)="sort('createdOn')">
+            Application Date
+          </th>
+          <th class="label-updated">Last Updated</th>
+        </tr>
+
+        <tr class="table-row" *ngFor="let app of endApplications">
+          <td class="value-name">
+            <div class="avatar-container">
+              <img [src]="app.logoUrl ? app.logoUrl : '/assets/default-icon.svg'" />
+            </div>
+            <div class="text-container">
+              <div class="name">{{ app.name }}</div>
+              <div class="description">{{ app.description }}</div>
+            </div>
+          </td>
+          <td class="value=status">
+            {{ app.status }}
+          </td>
+          <td class="value-created-on">
+            {{ app.createdOnDate }}
+            <div class="time">{{ app.createdOnTime }}</div>
+          </td>
+          <td class="value-updated-on">
+            {{ app.updatedOnDate }}
+            <div class="time">{{ app.updatedOnTime }}</div>
+          </td>
+        </tr>
+      </table>
+    </app-table>
+  </ng-container>
+</ng-container>
+
+<app-loader *ngIf="!isLoaded"></app-loader>

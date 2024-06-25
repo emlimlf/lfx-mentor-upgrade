@@ -1,0 +1,23 @@
+<div class="btn-group" role="group" #drop="ngbDropdown" ngbDropdown>
+  <button id="toggle" class="btn py-0 pl-0 pr-2" [disabled]="disabled" (click)="onToggleFilter()" ngbDropdownAnchor>
+    {{ filter.label }}
+  </button>
+  <button
+    ngbDropdownToggle
+    #arrow
+    class="btn dropdown-toggle dropdown-toggle-split px-3"
+    [class.open]="drop.isOpen()"
+    [disabled]="disabled"
+    (click)="$event.stopPropagation(); drop.isOpen() ? toggleFilter.emit(filter) : null"
+  ></button>
+  <div aria-labelledby="toggle" class="dropdown-menu" ngbDropdownMenu>
+    <button
+      ngbDropdownItem
+      class="dropdown-item"
+      (click)="onToggledFilter(option); drop.close()"
+      *ngFor="let option of filter.options"
+    >
+      <i class="fa" [class.fa-check]="selected[option]"></i>{{ option }}
+    </button>
+  </div>
+</div>

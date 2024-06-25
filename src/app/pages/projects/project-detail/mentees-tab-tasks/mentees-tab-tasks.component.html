@@ -1,0 +1,38 @@
+<div class="container tasks-wrapper mb-1">
+  <div class="row py-3 tasks-header">
+    <div class="col-4">
+      <b>Tasks Assigned to {{ menteeName }} </b>
+    </div>
+    <div class="col-1">
+      <!-- File download and view buttons -->
+    </div>
+    <div class="col-2"><b>Tasks Status</b></div>
+    <div class="col-3"><b>Tasks Dates</b></div>
+    <div class="col">
+      <label *ngIf="tasks && tasks.length > 0" [for]="uniqueId" class="checkbox-container"
+        >Hide Prerequisite Tasks
+        <input
+          [id]="uniqueId"
+          type="checkbox"
+          (change)="checkForHidePerquisiteTasks($event.target.checked)"
+          [checked]="hidePerquisiteTasks"
+        />
+        <span class="checkmark"></span>
+      </label>
+    </div>
+  </div>
+  <ng-container *ngIf="filteredTasks && filteredTasks.length > 0">
+    <div *ngFor="let item of filteredTasks; let last = last">
+      <app-mentees-tab-tasks-row
+        (submittionStatusUpdated)="onSubmittionStatusUpdated($event)"
+        [task]="item"
+      ></app-mentees-tab-tasks-row>
+      <hr *ngIf="!last" />
+    </div>
+  </ng-container>
+  <ng-container *ngIf="!filteredTasks || (filteredTasks && filteredTasks.length === 0)">
+    <div class="col text-center font-family">
+      <span>No tasks currently assigned.</span>
+    </div>
+  </ng-container>
+</div>

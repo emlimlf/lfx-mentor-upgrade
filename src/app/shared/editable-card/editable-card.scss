@@ -1,0 +1,50 @@
+:host {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.animate {
+  -webkit-transition: all 0.5s ease;
+  -moz-transition: all 0.5s ease;  
+  -o-transition: all 0.5s ease;  
+  -ms-transition: all 0.5s ease;  
+  transition: all 0.5s ease;
+}
+
+.card.for-profile {
+    height: 397px;
+    margin-top: 0 !important;
+}
+
+.card-pending {
+    position: absolute;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+    padding: 0px 0;
+    opacity: 0;
+  
+    &.show {
+      opacity: 1;
+    }
+
+    h2 {
+      font-size: 20px;
+      color: #fff;
+      font-weight: bold;
+      padding-top: 10px;
+    }
+    .btn {
+      width: 80%;
+      margin-top: 50px;
+    }
+  }
+
+  .btn-clear {
+    border: 2px solid #fff;
+    background: transparent;
+    color: #fff;
+  }

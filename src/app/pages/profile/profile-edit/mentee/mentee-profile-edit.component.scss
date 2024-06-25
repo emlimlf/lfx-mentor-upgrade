@@ -1,0 +1,90 @@
+@import '~constants.scss';
+@import '../../../../app.component.scss';
+:host {
+  @include page-base($background-grey-color);
+}
+
+.section-break {
+  margin-top: 3.5em !important;
+}
+
+/*
+  Featured Section
+*/
+
+.featured-section {
+  .section-header {
+    margin-top: 30px;
+    border-bottom: 1px solid #c8caca;
+
+    @media (min-width: 576px) {
+      margin-left: -15px;
+      margin-right: -15px;
+    }
+
+
+    .section-name {
+      font-size: 1.25rem;
+      display: inline-block;
+    }
+    .view-all {
+      float: right;
+      border: 0;
+      background: none;
+      font-size: .75rem;
+      cursor: pointer;
+      color: #2a99cc;
+      font-weight: bold;
+    }
+  }
+}
+
+.form-group {
+  .form-check {
+    padding-bottom: 0.5rem;
+  }
+}
+
+.btn i {
+  padding-right: 10px;
+}
+
+.btn-success {
+  padding: 0 90px;
+}
+
+.form-consent {
+  label {
+    font-size: 13px;
+    line-height: 21px;
+  }
+}
+
+.card-deck {
+  @media (min-width: 1200px) {
+    .project-card:nth-child(3n+2) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  @media (min-width: 768px) and (max-width: 1199px) {
+    justify-content: space-between;
+    // Adding extra padding to keep cards from being too far apart
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  @media (max-width: 767px) {
+    justify-content: center;
+  }
+
+  // Empty card deck
+  & > .empty {
+    margin: 50px auto;
+    color: #878686;
+  }
+}
+
+.fa-asterisk.required {
+  color: red !important;
+  font-size: 11px;
+}

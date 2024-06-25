@@ -1,0 +1,57 @@
+@import '~constants.scss';
+
+.alert-base {
+  // position: absolute;
+  position: relative;
+  width: 100%;
+  min-height: 60px;
+  overflow: hidden;
+  transition: min-height 0.3s ease-in-out, opacity 0.3s ease-in-out;
+  top: 105px;
+  z-index: 35;
+
+  &.base-hidden {
+    min-height: 0px;
+    opacity: 0;
+  }
+}
+
+.bar {
+  position: fixed;
+  min-height: 60px;
+  width: 100%;
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-align: center;
+  &.base-hidden {
+    min-height: 0px;
+    max-height: 0px;
+    opacity: 0;
+  }
+}
+
+.bar-hidden {
+  transform: translateY(-100px);
+  opacity: 0;
+}
+
+.bar-info {
+  background-color: $primary-blue-color !important;
+}
+
+.bar-error {
+  background-color: $primary-red-color !important;
+}
+
+.bar-success {
+  background-color: $primary-green-color !important;
+}
+
+.alert-link {
+  cursor: pointer;
+  text-decoration: underline !important;
+  color: white !important;
+}

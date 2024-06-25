@@ -1,0 +1,212 @@
+<app-mentees-tab [projectID]="projectId" [programTerms]="programTerms"></app-mentees-tab>
+
+<!-- @todo: Remove Previous implementation on finish the new refactor -->
+<!-- <ng-container *ngIf="isPageLoaded">
+
+  <app-table
+    [data]="applications"
+    [hasMentees]="hasMentees"
+    [isAdmin]="isAdmin"
+    (sendMail)="bulkMail($event)"
+    (exportMentees)="export($event)"
+    [filters]="filters"
+    [state]="filterState.active"
+    (filterChanged)="filterChanged($event)">
+    <tr class="table-header">
+      <th class="label-name" (click)="sort('name')">
+        Name
+        <i
+          class="fas"
+          [class.fa-sort]="sortColumn !== 'name'"
+          [class.fa-sort-up]="sortColumn === 'name' && sortDirection === 'desc'"
+          [class.fa-sort-down]="sortColumn === 'name' && sortDirection === 'asc'"></i>
+      </th>
+      <th class="label-status">Application Status</th>
+      <th class="label-created" (click)="sort('createdOn')">
+        Application Date
+        <i
+          class="fas"
+          [class.fa-sort]="sortColumn !== 'createdOn'"
+          [class.fa-sort-up]="sortColumn === 'createdOn' && sortDirection === 'desc'"
+          [class.fa-sort-down]="sortColumn === 'createdOn' && sortDirection === 'asc'"></i>
+      </th>
+      <th class="label-updated" (click)="sort('updatedOn')">
+        Last Updated
+        <i
+          class="fas"
+          [class.fa-sort]="sortColumn !== 'updatedOn'"
+          [class.fa-sort-up]="sortColumn === 'updatedOn' && sortDirection === 'desc'"
+          [class.fa-sort-down]="sortColumn === 'updatedOn' && sortDirection === 'asc'"></i>
+      </th>
+      <th></th>
+    </tr>
+
+    <tr class="table-row" *ngFor="let app of applications">
+      <td class="value-name">
+        <div class="avatar-container">
+          <img [src]="app.logoUrl" />
+        </div>
+        <div class="text-container">
+          <div class="name">{{ app.name }}</div>
+          <div class="description">{{ app.introduction }}</div>
+        </div>
+      </td>
+
+      <td class="value-status">
+        <app-pill-dropdown-status
+          [value]="app.status"
+          [readonly]="isStatusReadOnly"
+          (changed)="onStatusChange(app, $event, confirm)">
+        </app-pill-dropdown-status>
+      </td>
+
+
+      <td class="value-created-on">
+        {{ app.createdOnDate }}
+        <div class="time">{{ app.createdOnTime }}</div>
+      </td>
+      <td class="value-updated-on">
+        {{ app.updatedOnDate }}
+        <div class="time">{{ app.updatedOnTime }}</div>
+      </td>
+      <td>
+        <div class="btn-group btn-group-sm" role="group">
+          <button type="button" class="btn btn-earth" routerLink="/mentee/{{ app.userId + ',' + projectId }}">
+            <i class="fa fa-globe" aria-hidden="true"></i> Profile
+          </button>
+          <button type="button" class="btn btn-earth" routerLink="/mentee/{{ app.userId }}/tasks">
+            <i class="fa fa-bars" aria-hidden="true"></i> Tasks
+          </button>
+        </div>
+      </td>
+    </tr>
+
+    <p *ngIf="applications.length === 0">
+      You don't have any mentorship applications.
+    </p>
+  </app-table>
+
+  <button
+    *ngIf="shouldShowNextButton$ | async"
+    class="next-button btn btn-outline-light btn-block"
+    (click)="onClickNextBtn()">
+    View More
+  </button>
+
+  <div *ngIf="expiredApplications">Past terms</div>
+
+  <ng-container *ngFor="let expiredApp of expiredApplications | keyvalue; let i = index">
+    <app-table
+      [data]="expiredApp.value"
+      [title]="allExpiredApplications[expiredApp.key][0].programTermName"
+      [filters]="expiredFilters[i].filters"
+      [state]="filterState.past"
+      (filterChanged)="filterChanged($event, expiredApp.key)">
+      <tr class="table-header">
+        <th class="label-name" (click)="sort('name', expiredApp.key)">
+          Name
+          <i
+            class="fas"
+            [class.fa-sort]="expiredAppsFilters[expiredApp.key]?.sortColumn !== 'name'"
+            [class.fa-sort-up]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'name' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'desc'
+            "
+            [class.fa-sort-down]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'name' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'asc'
+            "></i>
+        </th>
+        <th class="label-status">Application Status</th>
+        <th class="label-created" (click)="sort('createdOn', expiredApp.key)">
+          Application Date
+          <i
+            class="fas"
+            [class.fa-sort]="expiredAppsFilters[expiredApp.key]?.sortColumn !== 'createdOn'"
+            [class.fa-sort-up]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'createdOn' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'desc'
+            "
+            [class.fa-sort-down]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'createdOn' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'asc'
+            "></i>
+        </th>
+        <th class="label-updated" (click)="sort('updatedOn', expiredApp.key)">
+          Last Updated
+          <i
+            class="fas"
+            [class.fa-sort]="expiredAppsFilters[expiredApp.key]?.sortColumn !== 'updatedOn'"
+            [class.fa-sort-up]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'updatedOn' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'desc'
+            "
+            [class.fa-sort-down]="
+              expiredAppsFilters[expiredApp.key]?.sortColumn === 'updatedOn' &&
+              expiredAppsFilters[expiredApp.key]?.sortDirection === 'asc'
+            "></i>
+        </th>
+        <th></th>
+      </tr>
+
+      <tr class="table-row" *ngFor="let app of expiredApp.value">
+        <td class="value-name">
+          <div class="avatar-container">
+            <img [src]="app.menteeAvatar ? app.menteeAvatar : '/assets/apprentice.svg'" />
+          </div>
+          <div class="text-container">
+            <div class="name">{{ app.name }}</div>
+          </div>
+        </td>
+        <td class="value-status">
+          {{ app.status }}
+        </td>
+        <td class="value-created-on">
+          {{ app.createdOnDate }}
+          <div class="time">{{ app.createdOnTime }}</div>
+        </td>
+        <td class="value-updated-on">
+          {{ app.updatedOnDate }}
+          <div class="time">{{ app.updatedOnTime }}</div>
+        </td>
+        <td>
+          <div class="btn-group btn-group-sm" role="group">
+            <button type="button" class="btn btn-earth" routerLink="/mentee/{{ app.userId + ',' + projectId }}">
+              <i class="fa fa-globe" aria-hidden="true"></i> Profile
+            </button>
+            <button type="button" class="btn btn-earth" routerLink="/mentee/{{ app.userId }}/tasks">
+              <i class="fa fa-bars" aria-hidden="true"></i> Tasks
+            </button>
+          </div>
+        </td>
+      </tr>
+
+      <p *ngIf="expiredApp.value.length === 0">
+        There is no applications for this term.
+      </p>
+    </app-table>
+  </ng-container>
+</ng-container> -->
+
+<ng-template #modal>
+  <div class="modal-body">
+    <p>{{ message }}</p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-info" (click)="activeModal.close()">Close</button>
+  </div>
+</ng-template>
+
+<ng-template #confirm let-c="close">
+  <div class="modal-body">
+    <p>
+      Please confirm you’re accepting this applicant to your mentorship program. Once you accept, the applicant will be
+      notified and mentee HR paperwork will be sent for signature.
+    </p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-success btn-sm" (click)="c('CONFIRM')">Confirm</button>
+    <button type="button" class="btn btn-link btn-sm" (click)="c()">Cancel</button>
+  </div>
+</ng-template>
+<!-- <app-loader *ngIf="!isPageLoaded"></app-loader> -->

@@ -1,0 +1,3 @@
+<div *ngFor="let badge of badges; trackBy: trackBadge">
+  <img class="mr-2" [class.small]="isSmall" [src]="getBadgeIcon(badge.type)" alt="Security Badge" i18n-alt />
+</div>

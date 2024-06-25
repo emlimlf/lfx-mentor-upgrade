@@ -1,0 +1,76 @@
+<div class="row tasks-content py-3">
+  <div class="col-4 tasks-details">
+    <div class="pb-2 row-text">
+      <b>{{ task.name }}</b>
+    </div>
+    <div class="description">
+      {{ task.description }}
+    </div>
+  </div>
+  <div class="col-1">
+    <div class="row justify-content-around">
+      <a (click)="viewFile(task.file)" *ngIf="task.file">
+        <img class="doc-view-download" src="../../../../../assets/ic_remove_red_eye_48px.svg" alt="View document" />
+      </a>
+      <a (click)="downloadFile(task.file, task.taskName)" *ngIf="task.file">
+        <img class="doc-view-download" src="../../../../../assets/ic_file_download_48px.svg" alt="Download document" />
+      </a>
+    </div>
+  </div>
+  <div class="col-2 task-status">
+    <div *ngIf="menteeGraduated" class="btn-group" role="group" #drop="ngbDropdown" ngbDropdown>
+      <button
+        id="toggle"
+        class="btn badge mr-1 btn-sm-2"
+        ngbDropdownAnchor
+        [ngClass]="getBadgeType(task.status)"
+        disabled
+      >
+        {{ task.status === 'inProgress' ? 'In Progress' : (task.status | titlecase) }}
+      </button>
+    </div>
+
+    <div *ngIf="!menteeGraduated" class="btn-group" role="group" #drop="ngbDropdown" ngbDropdown>
+      <button
+        id="toggle"
+        class="btn badge mr-1 btn-sm-2"
+        ngbDropdownAnchor
+        [ngClass]="getBadgeType(task.status)"
+        (click)="toggleButton()"
+        [disabled]="disableAction"
+      >
+        {{ disableAction ? 'Editing...' : task.status === 'inProgress' ? 'In Progress' : (task.status | titlecase) }}
+      </button>
+      <div aria-labelledby="toggle" class="dropdown-menu" ngbDropdownMenu>
+        <button class="dropdown-item" *ngIf="isAdmin" (click)="onUpdateStatus('pending')" ngbDropdownItem>
+          Pending
+        </button>
+        <button class="dropdown-item" (click)="onUpdateStatus('inProgress')" ngbDropdownItem>In Progress</button>
+        <button class="dropdown-item" (click)="onUpdateStatus('submitted')" ngbDropdownItem>Submitted</button>
+        <button class="dropdown-item" *ngIf="isAdmin" (click)="onUpdateStatus('completed')" ngbDropdownItem>
+          Completed
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="col-3 task-dates row-text">
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4"><b>Created: </b></div>
+      <div class="col font-weight-normal">{{ task.createdOn | date: 'mediumDate' }}</div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4"><b>Due: </b></div>
+      <div class="col font-weight-normal" *ngIf="!task?.dueDate">{{ task.category | titlecase }} Task</div>
+      <div class="col font-weight-normal" *ngIf="task?.dueDate">
+        {{ task.dueDate | date: 'mediumDate' }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-12 col-sm-12 col-md-4"><b>Updated: </b></div>
+      <div class="col font-weight-normal">{{ task.updatedOn | date: 'mediumDate' }}</div>
+    </div>
+  </div>
+  <div class="col col-md-2 task-actions">
+    <button *ngIf="isEditAllowed && !menteeGraduated" (click)="editTask()" class="btn btn-sm-3">Edit Task</button>
+  </div>
+</div>

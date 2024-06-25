@@ -1,0 +1,449 @@
+<div class="mentorship-card">
+  <div class="ribbon ribbon-top-left"><span>Mentorship</span></div>
+  <div class="card-head">
+    <div class="card-top">
+      <!-- Logo -->
+      <div (click)="onDetailsClick()" [routerLink]="['/project', projectCard?.projectId]">
+        <img class="mx-auto mt-2 project-logo" alt="" [src]="projectCard.logoUrl || '/assets/default-icon.svg'" />
+      </div>
+      <!-- Withdraw CTA -->
+      <div [hidden]="!displayWithDrawButton()" class="head-right-container">
+        <i class="fas fa-level-down-alt mr-1"></i>
+        <a (click)="onClickWithdraw(projectCard)">Withdraw</a>
+      </div>
+      <div
+        [hidden]="!maintainer || projectCard.status?.toLowerCase() !== ProjectStatus.PUBLISHED.toLowerCase()"
+        (click)="toggleProjectHiddenStatus(confirmTpl)"
+        class="head-right-container hide-action"
+      >
+        <i class="far fa-trash-alt"></i>
+        <a i18n>Hide</a>
+      </div>
+      <div
+        [hidden]="!maintainer || projectCard.status?.toLowerCase() !== ProjectStatus.HIDDEN.toLowerCase()"
+        (click)="toggleProjectHiddenStatus(confirmTpl)"
+        class="head-right-container blue-head-right"
+      >
+        <i class="fas fa-eye"></i>
+        <a i18n>Unhide</a>
+      </div>
+      <!-- Edit CTA -->
+      <div [hidden]="!(maintainer && !mentee)" class="head-right-container">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 3 24 24">
+          <path
+            fill="#189ACA"
+            d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"
+          />
+        </svg>
+        <a (click)="onClickEditProject(projectCard)">Edit</a>
+      </div>
+    </div>
+    <div class="title-description-container {{ mentor ? 'shrink-mentor' : '' }} {{ mentee ? 'shrink-mentee' : '' }}">
+      <!-- Title -->
+      <label class="sr-only" for="">{{ projectCard.title }}</label>
+      <a (click)="onDetailsClick()" class="card-title" [routerLink]="['/project', projectCard?.projectId]" id="">
+        <div ellipsis class="project-title" ellipsis-word-boundaries=" \n">
+          {{ projectCard.title }}
+        </div>
+      </a>
+      <!-- Description -->
+      <div class="card-description-container" [hidden]="!(!mentee && !mentor)">
+        <div ellipsis class="card-description" ellipsis-word-boundaries=" \n">
+          {{ projectCard.description }}
+        </div>
+      </div>
+    </div>
+    <!-- CII Badge -->
+    <app-cii
+      *ngIf="projectCard?.projectCIIProjectId && !projectCard.ciiMarkup"
+      [showTitle]="false"
+      [appCii]="projectCard.projectCIIProjectId"
+    >
+    </app-cii>
+
+    <div *ngIf="projectCard.ciiMarkup && projectCard?.projectCIIProjectId" class="card-cii-badge">
+      <a
+        href="https://bestpractices.coreinfrastructure.org/projects/{{ projectCard?.projectCIIProjectId }}"
+        target="_blank"
+      >
+        <div [innerHTML]="ciiSVG"></div>
+      </a>
+    </div>
+  </div>
+  <div class="card-body {{ mentor ? 'expand-mentor' : '' }} {{ mentee ? 'expand-mentee' : '' }}">
+    <div class="info-section-container">
+      <!-- Load card view here -->
+      <div [ngSwitch]="cardView">
+        <!-- Public view template-->
+        <ng-template *ngSwitchCase="'public'" [ngTemplateOutlet]="public"></ng-template>
+        <!-- Mentor private view template -->
+        <ng-template *ngSwitchCase="'mentor-private'" [ngTemplateOutlet]="mentorPrivate"></ng-template>
+        <!-- Mentee private view template -->
+        <ng-template *ngSwitchCase="'mentee-private'" [ngTemplateOutlet]="menteePrivate"></ng-template>
+        <!-- Maintainer private view template -->
+        <ng-template *ngSwitchCase="'maintainer-private'" [ngTemplateOutlet]="maintainerPrivate"></ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer mx-auto">
+    <button
+      id="{{ uniqueId }}"
+      *ngIf="selectedPill === 'left' && !mentor && allowApplyButton"
+      class="application-btn center-btn-text mt-3"
+      [ngClass]="!disableApplyBtn ? 'apply' : 'disableApplyBtn'"
+      (click)="onClickApply(projectCard, $event)"
+      [class.disabled]="disableApplyBtn"
+      [disabled]="disableApplyBtn"
+    >
+      <span [hidden]="!showAlreadyMemberError" class="text-error" i18n>
+        {{ buttonApplyErrorMessage }}
+      </span>
+      <span [hidden]="showAlreadyMemberError">
+        {{ applyBtnLabel }}
+      </span>
+    </button>
+
+    <button
+      *ngIf="selectedPill === 'right'"
+      class="application-btn center-btn-text mt-3"
+      (click)="onClickDonate($event, projectCard)"
+    >
+      Donate
+    </button>
+
+    <div [hidden]="!(maintainer && !mentee)" class="admin-btn-container">
+      <div
+        *ngIf="allowApplicationsButton"
+        class="admin-btn center-btn-text mt-3"
+        (click)="confirmUpdateAcceptApplication(projectCard)"
+      >
+        {{ projectCard.acceptApplications ? 'Close' : 'Open' }} Applications
+      </div>
+    </div>
+
+    <div [hidden]="!mentee">
+      <div [hidden]="!displayViewTasksButton()" class="admin-btn-container">
+        <div class="admin-btn center-btn-text mt-3" (click)="viewTasks()">
+          View Tasks
+        </div>
+      </div>
+    </div>
+
+    <div [hidden]="!mentor || !allowViewApplicationAndTasksButton">
+      <div class="application-btn view-applications-tasks center-btn-text mt-3" (click)="viewApplicationsAndTasks()">
+        View Applications and Tasks
+      </div>
+    </div>
+  </div>
+  <div class="card-pending" *ngIf="!mentee && (projectCard.status === 'pending' || projectCard.status === 'Rejected')">
+    <h2>{{ projectCard.status === 'pending' ? 'Pending Review' : 'Declined' }}</h2>
+    <div class="row col-12 mt-6 mx-auto text-center">
+      <button
+        [hidden]="projectCard.status === 'Rejected'"
+        class="btn btn-clear btn-md mx-auto"
+        (click)="onClickViewProject(projectCard)"
+        i18n
+      >
+        View
+      </button>
+      <button
+        [hidden]="projectCard.status === 'Rejected'"
+        class="btn btn-clear btn-md mx-auto"
+        (click)="onClickEditProject(projectCard)"
+        i18n
+      >
+        Edit
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Required skills section template -->
+<ng-template #requiredSkillsSection>
+  <div class="bold-title">Required Skills</div>
+  <div class="d-flex justify-content-start mt-2">
+    <div *ngFor="let tag of projectCard?.apprenticeNeeds?.skills | slice: 0:4; trackBy: trackByIndex; index as i">
+      <div class="rounded py-1 px-2 skill mr-2" [title]="tag">
+        {{ tag }}
+      </div>
+    </div>
+    <small
+      class="rounded py-1 px-2 skill"
+      *ngIf="projectCard?.apprenticeNeeds?.skills?.length > 4"
+      (mouseleave)="closePopover()"
+    >
+      <span
+        [ngbPopover]="listViewerTemplate"
+        #tagsList="ngbPopover"
+        (mouseenter)="openPopover(tagsList)"
+        [placement]="['bottom', 'top']"
+        triggers="manual"
+        popoverClass="custom-popover"
+      >
+        +{{ projectCard?.apprenticeNeeds?.skills?.length - 4 }}
+      </span>
+    </small>
+  </div>
+</ng-template>
+
+<!-- Required skills short section template -->
+<ng-template #requiredSkillsShortSection>
+  <div class="bold-title">
+    Required Skills
+  </div>
+  <div class="card-industry">
+    <small
+      class="rounded py-1 px-2 mr-2 small first-tag"
+      [hidden]="projectCard?.apprenticeNeeds?.skills?.length === 0"
+      title="{{ (projectCard?.apprenticeNeeds?.skills)[0] }}"
+    >
+      {{ (projectCard?.apprenticeNeeds?.skills)[0] }}
+    </small>
+    <small class="rounded py-1 px-2 small" [hidden]="projectCard?.apprenticeNeeds?.skills?.length <= 1">
+      +{{ projectCard?.apprenticeNeeds?.skills?.length - 1 }}
+    </small>
+  </div>
+</ng-template>
+
+<!-- Terms section template -->
+<ng-template #termsSection>
+  <div class="bold-title">Terms</div>
+  <div class="d-flex justify-content-between mt-2">
+    <div class="term-container" *ngFor="let term of projectTerms | slice: 0:2; trackBy: trackByIndex">
+      <div class="term">
+        <div class="term-name text-ellipses">
+          {{ term.name }}
+        </div>
+        <div class="text-ellipses">
+          <span>{{ term.uiStartDateTime }} </span> - <span> {{ term.uiEndDateTime }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Mentors section template -->
+<ng-template #mentorsSection>
+  <div class="bold-title">
+    Mentors
+  </div>
+  <div class="icons-container">
+    <div [routerLink]="['/project', projectCard?.projectId]" [fragment]="'Mentors'">
+      <img
+        *ngFor="let mentor of projectCard.mentors | slice: 0:3; trackBy: trackByIndex"
+        class="icon"
+        [src]="mentor.logoUrl"
+        onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+        [title]="mentor.name"
+      />
+      <div [hidden]="projectCard.mentors?.length <= 3" class="icon-defult">+{{ projectCard.mentors?.length - 3 }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Current mentees section template -->
+<ng-template #currentMenteesSection>
+  <div class="bold-title">
+    Current Mentees
+  </div>
+  <div class="icons-container">
+    <div [routerLink]="['/project', projectCard?.projectId]" [fragment]="'Mentees'">
+      <img
+        *ngFor="let mentee of projectMentees | slice: 0:3; trackBy: trackByIndex"
+        class="icon"
+        [src]="mentee.logoUrl"
+        onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+        [title]="mentee.firstName + ' ' + mentee.lastName"
+      />
+      <div [hidden]="projectMentees?.length <= 3" class="icon-defult">+{{ projectMentees?.length - 3 }}</div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Graduated mentees section template -->
+<ng-template #graduatedMenteesSection>
+  <div class="bold-title">
+    Graduated Mentees
+  </div>
+  <div class="icons-container">
+    <div [routerLink]="['/project', projectCard?.projectId]" [fragment]="'Mentees'">
+      <img
+        *ngFor="let mentee of projectGraduatedMentees | slice: 0:3; trackBy: trackByIndex"
+        class="icon"
+        [src]="mentee.logoUrl"
+        onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+        [title]="mentee.firstName + ' ' + mentee.lastName"
+      />
+      <div [hidden]="projectGraduatedMentees?.length <= 3" class="icon-defult">
+        +{{ projectGraduatedMentees?.length - 3 }}
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Funding to date section template -->
+<ng-template #fundingToDateSection>
+  <div class="bold-title text-ellipses">
+    Funding To Date
+  </div>
+  <div class="value">
+    {{ funding?.amountRaised | currency: 'USD':'symbol':'1.0-0' }}
+  </div>
+</ng-template>
+
+<!-- Application status section template -->
+<ng-template #applicationStatusSection>
+  <div class="row">
+    <div class="col-md-12 {{ projectTerms.length > 0 ? '' : 'mt-56' }}">
+      <div class="bold-title">Status</div>
+      <div class="status">
+        <div [ngSwitch]="projectCard?.acceptanceStatus || projectCard?.menteeStatus">
+          <div *ngSwitchCase="ProjectMemberStatus.Pending" class="pending text-ellipses">
+            Application Pending
+          </div>
+          <div *ngSwitchCase="ProjectMemberStatus.Accepted" class="accepted text-ellipses">Accepted</div>
+          <div *ngSwitchCase="ProjectMemberStatus.Graduated" class="graduated text-ellipses">Graduated</div>
+          <div *ngSwitchCase="ProjectMemberStatus.Declined" class="text-ellipses">Declined</div>
+          <div *ngSwitchCase="ProjectMemberStatus.Withdrawn" class="text-ellipses">Withdrawn</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Public view template-->
+<ng-template #public>
+  <app-toggle-pills
+    class="mt-2"
+    leftButtonText="Project Overview"
+    rightButtonText="Project Statistics"
+    (selectedPill)="onPillSelection($event)"
+  >
+    <div class="lfx-toggle-pills-left text-left">
+      <div class="row">
+        <div class="col-md-12 mt-2">
+          <!-- Required skills section template -->
+          <ng-template [ngTemplateOutlet]="requiredSkillsSection"></ng-template>
+        </div>
+        <div class="col-md-12 mt-2">
+          <!-- Terms section template -->
+          <ng-template [ngTemplateOutlet]="termsSection"></ng-template>
+        </div>
+      </div>
+    </div>
+    <div class="lfx-toggle-pills-right text-left">
+      <div>
+        <div class="row">
+          <div class="col-12 info-section-container d-flex justify-content-between">
+            <div class="col-6">
+              <!-- Mentors section template -->
+              <ng-template [ngTemplateOutlet]="mentorsSection"></ng-template>
+            </div>
+            <div class="col-6">
+              <!-- Current mentees section template -->
+              <ng-template [ngTemplateOutlet]="currentMenteesSection"></ng-template>
+            </div>
+          </div>
+          <div class="col-12 info-section-container d-flex justify-content-between">
+            <div class="col-6">
+              <!-- Funding to date section template -->
+              <ng-template [ngTemplateOutlet]="fundingToDateSection"></ng-template>
+            </div>
+            <div class="col-6">
+              <!-- Graduated mentees section template -->
+              <ng-template [ngTemplateOutlet]="graduatedMenteesSection"></ng-template>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-toggle-pills>
+</ng-template>
+
+<!-- Mentor private view template -->
+<ng-template #mentorPrivate>
+  <div class="row">
+    <div class="col-12 info-section-container d-flex justify-content-between">
+      <div class="col-6">
+        <!-- Mentors section template -->
+        <ng-template [ngTemplateOutlet]="mentorsSection"></ng-template>
+      </div>
+      <div class="col-6">
+        <!-- Current mentees section template -->
+        <ng-template [ngTemplateOutlet]="currentMenteesSection"></ng-template>
+      </div>
+    </div>
+    <div class="col-12 info-section-container d-flex justify-content-between">
+      <div class="col-6">
+        <!-- Required skills short section template -->
+        <ng-template [ngTemplateOutlet]="requiredSkillsShortSection"></ng-template>
+      </div>
+      <div class="col-6">
+        <!-- Funding to date section template -->
+        <ng-template [ngTemplateOutlet]="fundingToDateSection"></ng-template>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <!-- Terms section template -->
+      <ng-template [ngTemplateOutlet]="termsSection"></ng-template>
+    </div>
+  </div>
+</ng-template>
+
+<!-- Mentee private view template -->
+<ng-template #menteePrivate>
+  <!-- Mentor private view template -->
+  <ng-template [ngTemplateOutlet]="mentorPrivate"></ng-template>
+  <!-- Application status section template -->
+  <ng-template [ngTemplateOutlet]="applicationStatusSection"></ng-template>
+</ng-template>
+
+<!-- Maintainer private view template -->
+<ng-template #maintainerPrivate>
+  <div class="row">
+    <div class="col-12 info-section-container d-flex justify-content-between mt-3">
+      <div class="col-6">
+        <!-- Mentors section template -->
+        <ng-template [ngTemplateOutlet]="mentorsSection"></ng-template>
+      </div>
+      <div class="col-6">
+        <!-- Current mentees section template -->
+        <ng-template [ngTemplateOutlet]="currentMenteesSection"></ng-template>
+      </div>
+    </div>
+    <div class="col-12 info-section-container d-flex justify-content-between mt-3">
+      <div class="col-6">
+        <!-- Funding to date section template -->
+        <ng-template [ngTemplateOutlet]="fundingToDateSection"></ng-template>
+      </div>
+      <div class="col-6">
+        <!-- Graduated mentees section template -->
+        <ng-template [ngTemplateOutlet]="graduatedMenteesSection"></ng-template>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #listViewerTemplate>
+  <div
+    class="selected-items-popover-item ellipsis"
+    *ngFor="let tag of projectCard?.apprenticeNeeds?.skills | slice: 4; trackBy: trackByIndex"
+  >
+    {{ tag }}
+  </div>
+</ng-template>
+
+<ng-template #confirmTpl let-c="close">
+  <div class="modal-body">
+    <p i18n>
+      Are you sure you want to
+      {{ projectCard.status?.toLowerCase() === ProjectStatus.PUBLISHED.toLowerCase() ? 'hide' : 'publish' }}
+      <span class="project-name">{{ projectCard.title }}</span
+      >?
+    </p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-success btn-sm" (click)="confirmationPopup.close('Yes')" i18n>Yes</button>
+    <button type="button" class="btn btn-link btn-sm" (click)="c()" i18n>No</button>
+  </div>
+</ng-template>

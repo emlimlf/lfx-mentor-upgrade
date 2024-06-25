@@ -1,0 +1,50 @@
+.pill-dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  span.pill {
+    background-color: #003366;
+    border-radius: 10px;
+    color: white;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 1.1em;
+    font-weight: bold;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    width: 50%;
+  }
+
+  .dropdown-chevron {
+    flex: 1;
+    display: inline-block;
+    font-size: 0.75em;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    z-index: 2;
+    border: 1px solid #888;
+    margin-top: 2px;
+    width: 12em;
+    font-size: 0.75em;
+    box-shadow: silver 2px 2px 2px;
+    border-radius: 8px;
+
+    .option {
+      padding: 0.25em 1.5em;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #f1f1f1;
+      }
+    }
+  }
+}

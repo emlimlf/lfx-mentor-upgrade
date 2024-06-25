@@ -1,0 +1,73 @@
+<div class="row justify-content-around">
+  <div class="col">
+    <div [formGroup]="parent">
+      <label i18n for="{{ control }}" class="header-5"
+        ><i *ngIf="logoControl?.errors?.required" class="fas fa-asterisk required"></i>{{ label || 'Logo' }}</label
+      >
+      <div class="custom-file d-block">
+        <input
+          #fileInput
+          type="file"
+          (change)="handleFileChange($event)"
+          name="logo"
+          accept=".jpg, .jpeg, .png, .svg"
+          class="custom-file-input"
+          [appControlInvalidStyle]="logoControl"
+          (blur)="handleBlur($event)"
+          (focus)="handleFocus($event)"
+          (click)="handleClick($event); fileInput.value = null"
+        />
+        <label for="{{ control }}" class="custom-file-label">
+          <div class="text-light" *ngIf="!selectedFile" i18n>Choose file</div>
+          <div class="file-text" *ngIf="selectedFile !== undefined">{{ selectedFile?.name }}</div>
+        </label>
+      </div>
+      <p class="header-6 regular text-light mt-2" i18n>
+        File type: JPG, PNG, SVG <br />
+        Max size: 2mb
+      </p>
+      <div
+        *ngIf="
+          logoControl &&
+          selectedFile !== undefined &&
+          logoControl.invalid &&
+          (logoControl.dirty || touched || showError)
+        "
+        class="alert alert-danger"
+      >
+        <div *ngIf="logoControl.errors?.maxFileSize">
+          Invalid File. Allowed file types are JPG, PNG, SVG with max size: 2MB
+        </div>
+        <div *ngIf="logoControl.errors?.fileExtension">
+          Invalid File. Allowed file types are JPG, PNG, SVG with max size: 2MB
+        </div>
+        <div *ngIf="logoControl?.errors?.dimension">
+          Invalid File. Allowed file types are JPG, PNG, SVG with max size: 2MB
+        </div>
+      </div>
+
+      <app-image-cropper
+        *ngIf="fileChanged"
+        [isOpen]="fileChanged"
+        [imageChangedEvent]="imageChangedEvent"
+        (imageCropped)="onImageCropped($event)"
+        (cropperClosed)="onCropperClosed()"
+        (saveCroppedImage)="onSaveCroppedImage()"
+      >
+      </app-image-cropper>
+    </div>
+  </div>
+  <div class="col-auto">
+    <div class="algin-content">
+      <label i18n class="header-6">Preview</label>
+      <label *ngIf="previewSrc && previewSrc !== defaultLogoUrl" (click)="deleteIcon()" i18n class="header-6 delete-btn"
+        >Delete</label
+      >
+    </div>
+    <div *ngIf="!previewSrc && !defaultLogoUrl" class="preview unselected d-flex">
+      <img src="/assets/file.svg" alt="Select A File Icon" class="m-auto" />
+    </div>
+    <img class="preview d-block" *ngIf="previewSrc" [src]="previewSrc | safeUrl" alt="Logo Preview" />
+    <img class="preview d-block" *ngIf="!previewSrc && defaultLogoUrl" [src]="defaultLogoUrl" alt="Logo Preview" />
+  </div>
+</div>

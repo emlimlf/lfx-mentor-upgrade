@@ -1,0 +1,31 @@
+@import '~constants.scss';
+
+:host {
+  @include page-base($background-grey-color);
+}
+
+p {
+  color: $primary-grey-color;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.3px;
+  text-align: center;
+  color: #878686;
+}
+
+.btn-info {
+  background-color: #1e8845;
+  border-color: #1e8845;
+}
+
+.btn-info:hover {
+  background-color: #31b55c;
+  border-color: #31b55c;
+}
+
+.btn-link {
+  text-decoration: underline;
+}

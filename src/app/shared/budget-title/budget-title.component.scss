@@ -1,0 +1,29 @@
+@import '~constants.scss';
+
+:host {
+  display: inline-flex;
+}
+
+.svg-root {
+  height: 12px;
+  width: 12px;
+  display: inline-block;
+  fill: currentColor;
+  transform: translateY(-6px);
+}
+
+.percentage {
+  flex: 1;
+  color: $primary-grey-color;
+  font-weight: 500;
+  text-align: right;
+}
+
+.title-row {
+  display: flex;
+  min-width: 180px;
+}
+
+.title-label {
+  display: flex;
+}

@@ -1,0 +1,9 @@
+<div class="overview-card" [style.background-color]="backgroundColor">
+
+  <h2 *ngIf="title !== ''" class="row mx-0 header-4 header-bar align-items-center px-3 px-xl-4plus my-0 d-none d-lg-flex">{{ title }}</h2>
+  <h2 *ngIf="title !== ''" class="row mx-0 header-5 header-bar align-items-center px-3 px-xl-4plus my-0 d-flex d-lg-none">{{ title }}</h2>
+
+  <div class="row mx-0 px-3 px-xl-4plus py-4">
+    <ng-content></ng-content>
+  </div>
+</div>

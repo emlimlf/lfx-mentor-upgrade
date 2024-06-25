@@ -1,0 +1,17 @@
+<div
+  class="alert-base"
+  [attr.aria-disabled]="(alertVisible$ | async) === false"
+  [class.base-hidden]="(alertVisible$ | async) === false"
+  role="region"
+>
+  <div class="bar {{ alertClass$ | async }}" i18n [class.base-hidden]="(alertVisible$ | async) === false">
+    <div class="pr-5 pl-3"></div>
+    <span role="alert"
+      >{{ (alert$ | async)?.alertText
+      }}<a class="alert-link" (click)="redirectToPath()">{{ (alertLink$ | async)?.text }}</a></span
+    >
+    <a role="button" (click)="removeCurrentAlert()" class="pr-5 pl-3 pt-3 pb-3" href>
+      <img alt="Close alert" i18n-alt src="/assets/cancel.svg" />
+    </a>
+  </div>
+</div>

@@ -1,0 +1,41 @@
+@import '~constants.scss';
+
+button.dropdown-toggle-split {
+  height: 30px !important;
+  border-radius: 0 !important;
+
+  &.open::after {
+    transform: rotateZ(180deg);
+  }
+}
+
+button.dropdown-item {
+  padding-left: 1rem;
+
+  i {
+    margin-right: 0.5rem;
+    width: 1rem;
+  }
+}
+
+button#toggle {
+  height: auto;
+  font-weight: normal;
+  box-shadow: none;
+  font-size: 1rem;
+  white-space: nowrap;
+
+  &::after {
+    display: none;
+  }
+}
+
+div.dropdown-menu {
+  left: auto !important;
+  bottom: auto !important;
+  right: 0 !important;
+}
+
+button:disabled {
+  cursor: not-allowed;
+}

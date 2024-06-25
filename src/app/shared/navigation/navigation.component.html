@@ -1,0 +1,163 @@
+<!-- Commented as per the changes for JOB-1822. -->
+<!-- <nav class="navbar fixed-top fixed-top-sm navbar-inverse">
+  <div class="container">
+    <ul class="nav navbar-upper ml-auto">
+      <li class="nav-item">
+        <a
+          id="returnToHome"
+          class="nav-link p-0"
+          i18n
+          target="blank"
+          (click)="goToPage(communityBridgeUrl, '', true)"
+          style="font-size: 0.7rem;"
+        >
+          <span class="d-none d-sm-block"> Return to LFX Website</span>
+          <span class="d-sm-none"> Return to LFX</span></a
+        >
+      </li>
+      <li class="nav-item">
+        <a target="blank" href="https://twitter.com/linuxfoundation" class="nav-link p-0"
+          ><i class="fab fa-twitter"></i
+        ></a>
+      </li>
+      <li class="nav-item">
+        <a target="blank" href="https://www.facebook.com/TheLinuxFoundation" class="nav-link p-0"
+          ><i class="fab fa-facebook-f"></i
+        ></a>
+      </li>
+      <li class="nav-item">
+        <a target="blank" href="https://www.linkedin.com/company/208777" class="nav-link p-0"
+          ><i class="fab fa-linkedin-in"></i
+        ></a>
+      </li>
+      <li class="nav-item">
+        <a target="blank" href="https://www.youtube.com/user/TheLinuxFoundation" class="nav-link p-0"
+          ><i class="fab fa-youtube"></i
+        ></a>
+      </li>
+    </ul>
+  </div>
+</nav> -->
+<!-- <nav class="navbar fixed-top navbar-expand-lg navbar-light header-min-height" [class.shrink]="isScrolled">
+  <div class="container">
+    <a class="navbar-brand" (click)="goToPage('')">
+      <img src="/assets/cb-p-horizontal-white.svg" class="d-inline-block align-top" alt="" />
+    </a>
+    <button
+      class="navbar-toggler toggler-bg"
+      type="button"
+      data-toggle="collapse"
+      data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item pr-sm-1">
+          <a class="nav-link py-sm-4 px-0" i18n (click)="goToPage('/participate/maintainer')">Enroll Your Project</a>
+        </li>
+        <li class="nav-item pr-sm-1">
+          <a class="nav-link py-sm-4 px-0" i18n (click)="goToPage('/participate/mentor')">Become a Mentor</a>
+        </li>
+        <li class="nav-item pr-sm-1">
+          <a class="nav-link py-sm-4 px-0" i18n (click)="goToPage('/participate/mentee')">Become a Mentee</a>
+        </li> -->
+<!-- <li class="nav-item pr-sm-1">
+          <a class="nav-link py-sm-4 px-0" i18n (click)="goToPage('/participate/employer')">Companies</a>
+        </li> -->
+<!-- <li class="nav-item pr-sm-1 py-sm-4 nav-divider-li">
+          <div class="nav-divider"></div>
+        </li>
+        <li class="nav-item pr-sm-1">
+          <a class="nav-link py-sm-4 px-0" i18n (click)="goToFundingURL()">Funding</a>
+        </li>
+        <li *ngIf="!(isLoggedIn | async)" class="nav-item">
+          <a id="log-in" i18n class="nav-link py-sm-4" (click)="onLogIn()">Log In</a>
+        </li>
+        <li
+          ngbDropdown
+          placement="bottom-right"
+          #accountsDropdown="ngbDropdown"
+          *ngIf="isLoggedIn | async"
+          (mouseleave)="accountsDropdown.close()"
+          class="nav-item pr-sm-1 account-nav-item"
+        > -->
+<!-- Empty click handler with !! prevents page reload on click -->
+<!-- <a
+            id="account"
+            ngbDropdownToggle
+            i18n
+            class="dropdown-item nav-link py-sm-4 px-0"
+            (click)="$event.stopPropagation()"
+            (mouseenter)="accountsDropdown.open()"
+          >
+            <img src="/assets/my-account.svg" class="d-inline-block align-top account-img" alt="" />
+          </a>
+
+          <div
+            ngbDropdownMenu
+            aria-labelledby="account"
+            (mouseleave)="accountsDropdown.close()"
+            class="rounded-0 account-dropdown"
+          >
+            <div class="dropdown-item nav-link user-info" title="{{ userName || userEmail }}">
+              <img [src]="userAvatar" class="user-avatar" />
+              {{ userName || userEmail }}
+            </div>
+            <a id="my-profile" class="dropdown-item nav-link" i18n (click)="goToPage('profile')">My Profile</a>
+            <a id="my-projects" class="dropdown-item nav-link" i18n (click)="goToPage('profile', 'projects')"
+              >My Projects</a
+            >
+            <a id="my-tasks" class="dropdown-item nav-link" i18n (click)="goToPage('profile', 'tasks')">My Tasks</a>
+            <a id="log-out" class="dropdown-item nav-link" i18n (click)="onLogOut()">Log Out</a>
+          </div>
+        </li>
+        <li
+          ngbDropdown
+          placement="bottom-right"
+          #helpDropdown="ngbDropdown"
+          class="nav-item"
+          (mouseleave)="helpDropdown.close()"
+        >
+          <a
+            id="help"
+            class="dropdown-item nav-link py-sm-4"
+            (click)="$event.stopPropagation()"
+            (mouseenter)="helpDropdown.open()"
+            ngbDropdownToggle
+            i18n
+          >
+            <div class="help-container py-sm-1 px-1">
+              <img src="/assets/ico_cb_help.svg" class="d-inline-block align-top help-icon" alt="" />
+              <span class="help-text" i18n> Get Help</span>
+            </div>
+          </a>
+          <div ngbDropdownMenu class="rounded-0 n-dropdown" (mouseleave)="helpDropdown.close()">
+            <a id="docs" class="dropdown-item nav-link" target="_blank" i18n href="https://docs.linuxfoundation.org"
+              >Docs</a
+            >
+            <a
+              id="support"
+              class="dropdown-item nav-link"
+              target="_blank"
+              i18n
+              href="https://jira.linuxfoundation.org/servicedesk/customer/portal/4"
+              >Support</a
+            >
+            <a
+              id="faq"
+              class="dropdown-item nav-link"
+              target="_blank"
+              i18n
+              href="https://docs.linuxfoundation.org/lfx/mentorship/mentorship-faqs"
+              >FAQ</a
+            >
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav> -->

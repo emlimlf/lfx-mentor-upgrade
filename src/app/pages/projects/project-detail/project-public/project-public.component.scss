@@ -1,0 +1,23 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '../project-detail.component.scss';
+
+.spacer {
+  margin-left: 30px;
+}
+.spacer-3 {
+  margin-left: 4px;
+}
+.normal {
+  cursor: pointer;
+}
+.detail-projects {
+  margin-top: 40px;
+}
+
+.next-button {
+  border-radius: 0;
+  max-width: 8rem;
+  margin: 2rem auto;
+  text-align: center;
+}

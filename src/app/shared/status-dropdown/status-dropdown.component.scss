@@ -1,0 +1,54 @@
+.pill-dropdown {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border-radius: 6px;
+  min-width: 133px;
+
+  span.pill {
+    padding: 0.5em 1em;
+    border-radius: 0.5em;
+    color: white;
+    font-size: 0.75em;
+    text-align: center;
+    width: 10em;
+    display: inline-block;
+  }
+
+  .dropdown-chevron {
+    flex: 1;
+    display: inline-block;
+    font-size: 0.75em;
+    padding: 0 0.75em;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  .dropdown {
+    overflow: hidden;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    z-index: 2;
+    border: 1px solid #888;
+    margin-top: 2px;
+    width: 12em;
+    font-size: 0.75em;
+    box-shadow: silver 2px 2px 2px;
+    border-radius: 8px;
+    padding: 0.5rem 0;
+    min-width: 192.917px !important;
+
+    .option {
+      padding: 0.1em 1em;
+      cursor: pointer;
+      font-size: 12px;
+      font-family: 'Source Sans Pro';
+
+      &:hover {
+        background-color: #c0c0c0;
+      }
+    }
+  }
+}

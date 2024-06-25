@@ -1,0 +1,17 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+@import '../mentee.component.scss';
+
+.detail-projects {
+  margin-top: 40px;
+}
+
+.cards-center {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+
+  .card-align {
+    margin: 20px 10px 0 10px;
+  }
+}

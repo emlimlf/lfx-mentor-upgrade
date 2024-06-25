@@ -1,0 +1,103 @@
+@import '~constants.scss';
+
+.progress-bar-container {
+  height: 0;
+
+  .project-progress-value {
+    position: relative;
+    //top: 32px;
+    font-size: 0.8em;
+    line-height: 32px;
+  }
+
+  .project-m-progress-value {
+    position: relative;
+    //top: 32px;
+    font-size: 0.8em;
+  }
+
+  .small-progress-value {
+    right: 0;
+    font-size: $header-5-font-size;
+    font-weight: 500;
+  }
+
+  .project-progress-total-value {
+    position: relative;
+    //top: 32px;
+    color: $primary-grey-color;
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    font-size: 0.8em;
+    line-height: 32px;
+  }
+
+  .project-m-progress-total-value {
+    position: relative;
+    //top: 32px;
+    flex: 1;
+    text-align: right;
+    white-space: nowrap;
+    color: $primary-grey-color;
+    font-size: 0.8em;
+  }
+
+  .small-progress-total-value {
+    font-size: $header-5-font-size;
+    font-weight: 500;
+  }
+
+  .project-progress {
+    height: 4px;
+    position: relative;
+    top: -39px;
+    //right: 15px;
+    min-width: 445px;
+    overflow: visible;
+  }
+
+  .project-m-progress {
+    height: 4px;
+    position: relative;
+    top: 39px;
+    overflow: visible;
+    max-width: 350px;
+  }
+
+  .small-progress {
+    min-width: 0;
+    right: 0;
+  }
+
+  .circle {
+    @include circle(12px, white);
+    position: absolute !important;
+    bottom: -3px !important;
+    border: 4px solid;
+  }
+
+  .progress-values {
+    display: flex;
+    //width: 430px;
+    position: relative;
+    top: -37px;
+  }
+
+  .progress-m-values {
+    display: flex;
+    max-width: 350px;
+  }
+
+  .small-progress-values {
+    width: 236px;
+  }
+
+  .progress-bar {
+    border-radius: 4px;
+  }
+
+  .progress-bar-striped {
+    background-image: none;
+  }
+}

@@ -1,0 +1,66 @@
+@import '../../../../../constants.scss';
+
+.row-text {
+  color: #000000;
+  font-family: $font-family;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: bold;
+  text-decoration: none;
+  text-align: left;
+}
+
+.description {
+  color: #424242;
+  font-family: $font-family;
+  font-size: 13px;
+  text-align: left;
+  padding: 5px;
+}
+
+.btn-sm-2 {
+  color: #616161;
+  font-family: $font-family;
+  font-size: 12px;
+  font-weight: bold;
+  font-style: normal;
+  text-decoration: none;
+  text-align: left;
+  background: #ffffff;
+  border: 1px solid #333333;
+  border-radius: 6px;
+  min-width: 133px;
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
+.dropdown-menu {
+  min-width: 192.917px !important;
+}
+
+.dropdown-item {
+  font-family: $font-family;
+  background: #ffffff;
+  font-size: 12px;
+  text-align: left;
+  padding: 0.1em 1em;
+  &:hover {
+    background-color: #c0c0c0;
+  }
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.255em;
+  float: right;
+  content: '\f078';
+  font-weight: 900;
+  font-family: 'Font Awesome 5 Free';
+  border-top: 0px;
+}
+
+.doc-view-download {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}

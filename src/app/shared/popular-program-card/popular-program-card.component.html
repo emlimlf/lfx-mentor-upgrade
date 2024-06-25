@@ -1,0 +1,13 @@
+<div class="card rounded-0">
+  <div class="card-body">
+    <div class="program-name text-truncate">
+      {{ program.name | titlecase }}
+    </div>
+    <div class="row m-0 pt-1">
+      <span class="col-4"> <i class="fas fa-file ml-1 mr-1"></i> {{ program.totalApplicants | shortNumber }}</span>
+      <span class="col-8">
+        <i class="fas fa-graduation-cap ml-1 mr-1"></i> {{ program.totalGraduates | shortNumber }}</span
+      >
+    </div>
+  </div>
+</div>

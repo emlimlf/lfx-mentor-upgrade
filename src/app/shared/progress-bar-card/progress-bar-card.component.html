@@ -1,0 +1,31 @@
+<div class="mt-2 progress-bar-container pg-{{type}} ">
+  <div class="progress md-progress project-progress small-progress"
+      [style.background-color]="!startValue && barColor">
+
+    <div *ngIf="startValue"
+        [style.background-color]="barColor"
+        class="progress-filled">
+    </div>
+
+    <div class="circle circle--start">
+      <span class="circle__label">{{startValue}}</span>
+    </div>
+
+    <div class="progress-bar progress-bar-striped"
+         [style.background-color]="color"
+         [style.width]="percentageString"
+         role="progressbar">
+    </div>
+
+    <div class="circle circle-progress"
+          [style.border-color]="color"
+          [style.left]="breakpointPosition">
+      <span class="circle__percentage">{{ percentageString }}</span>
+    </div>
+
+    <div class="circle circle--end">
+      <span class="circle__label">{{startValue + 1}}</span>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,11 @@
+<div class="pill-dropdown">
+  <span class="pill" (click)="toggle()">
+    Contact
+    <i class="dropdown-chevron fa" [class.fa-chevron-down]="!optionsVisible" [class.fa-chevron-up]="optionsVisible"></i>
+  </span>
+  <div class="dropdown" [style.display]="optionsVisible ? 'block' : 'none'">
+    <div class="option" *ngFor="let option of options" (click)="optionClickHandler(option.protocol + option.value)">
+      <i class="{{ option.class }}"></i> {{ option.title | titlecase }}
+    </div>
+  </div>
+</div>

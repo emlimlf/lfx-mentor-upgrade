@@ -1,0 +1,21 @@
+<div class="summary-base pt-3" [class.aligned-row]="alignedInRow">
+  <app-pie-chart class="mr-3" i18n-title title="A pie chart showing the budget breakdown of a project." [strokeWidth]="24"
+    [sections]="sections" [sideLength]="220" [centerText]="centerText"></app-pie-chart>
+
+  <div class="ml-6" *ngIf="alignedInRow"></div>
+  <div class="chart-key py-1">
+    <label class="sr-only" i18n>Key for chart</label>
+    <app-budget-title [xSmallText]="true" [value]="developmentProportion + '%'" *ngIf="developmentProportion > 0"
+      i18n-title title="Development" [color]="color.DEVELOPMENT"></app-budget-title>
+    <app-budget-title [xSmallText]="true" [value]="marketingProportion + '%'" *ngIf="marketingProportion > 0"
+      i18n-title title="Marketing" [color]="color.MARKETING"></app-budget-title>
+    <app-budget-title [xSmallText]="true" [value]="meetupsProportion + '%'" *ngIf="meetupsProportion > 0" i18n-title
+      title="Meetups" [color]="color.MEETUPS"></app-budget-title>
+    <app-budget-title [xSmallText]="true" [value]="travelProportion + '%'" *ngIf="travelProportion > 0" i18n-title
+      title="Travel" [color]="color.TRAVEL"></app-budget-title>
+    <app-budget-title [xSmallText]="true" [value]="apprenticeProportion + '%'" *ngIf="apprenticeProportion > 0"
+      i18n-title title="Apprentice" [color]="color.APPRENTICE"></app-budget-title>
+    <app-budget-title [xSmallText]="true" [value]="otherProportion + '%'" *ngIf="otherProportion > 0" i18n-title title="Other"
+      [color]="color.OTHER"></app-budget-title>
+  </div>
+</div>

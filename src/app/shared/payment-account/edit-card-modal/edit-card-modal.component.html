@@ -1,0 +1,24 @@
+<div role="region" aria-labelledby="edit-card-title">
+  <div class="modal-header px-0 py-0">
+    <h1 class="modal-title header-3" id="edit-card-title" i18n>Edit Card</h1>
+    <button type="button" class="close" aria-label="Close" (click)="close()">
+      <span aria-hidden="true" i18n>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body px-0 py-4">
+    <p i18n>Add a new debit or credit card. This will replace your current payment method.</p>
+    <app-credit-card-field (completed)="onCompleted($event)"></app-credit-card-field>
+  </div>
+  <div class="modal-footer px-0 py-0">
+    <button type="button" class="btn btn-sm btn-link header-6" (click)="close()" i18n>Cancel</button>
+    <app-submit-button
+      id="submit-card"
+      buttonClasses="btn-md btn-info"
+      (click)="addCard()"
+      [state]="submitState$ | async"
+      i18n
+    >
+      Add Card
+    </app-submit-button>
+  </div>
+</div>

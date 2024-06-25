@@ -1,0 +1,220 @@
+<div class="container">
+  <div class="row py-3">
+    <div class="col-3 column-1">
+      <div class="row">
+        <div class="col-3">
+          <span class="avatar">
+            <img [src]="application.MenteeAvatar" [alt]="application.MenteeName" />
+          </span>
+        </div>
+        <div class="col align-center">
+          <a routerLink="/mentee/{{ application.MenteeID }}" target="_blank">
+            <span class="row-text">{{ application.MenteeName }}</span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="col-2 column-2">
+      <ng-container *ngIf="isViewOnly; else isViewOnlyElseTpl">
+        {{ application.ApplicationStatus | titlecase }}
+      </ng-container>
+      <ng-template #isViewOnlyElseTpl>
+        <ng-container *ngIf="!isStatusLoading">
+          <span class="sub-status" *ngIf="application.TasksSubmitted && application.ApplicationStatus === 'pending'"
+            >Tasks Submitted</span
+          >
+          <app-status-dropdown
+            [value]="application.ApplicationStatus"
+            [Id]="application.MenteeID"
+            [readonly]="!isAdmin"
+            (changed)="onStatusChange(application, $event, confirmTpl, confirmStatusTpl, errorTpl)"
+          >
+          </app-status-dropdown>
+        </ng-container>
+        <div *ngIf="isStatusLoading">
+          <div class="row justify-content-center">
+            <div class="spinner-border text-info" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+            <span class="error mt-2 text-left" i18n>Please don’t refresh the page until mentee status is updated.</span>
+          </div>
+        </div>
+      </ng-template>
+    </div>
+    <div [ngClass]="isAdmin ? 'col-2 column-3' : 'col-5 column-3'">
+      <div class="row">
+        <div [ngClass]="isAdmin ? 'col-12 mb-2' : 'col-6 mb-2'">
+          <span class="created-date">Created: </span>
+          <span class="created-date font-weight-normal"
+            >{{ application.ApplicationDateCreate | date: 'mediumDate' }}
+          </span>
+        </div>
+        <div [ngClass]="isAdmin ? 'col-12 mb-2' : 'col-6 mb-2'">
+          <span class="created-date">Updated: </span>
+          <span class="created-date font-weight-normal"
+            >{{ application.ApplicationDateUpdated | date: 'mediumDate' }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-3 column-4" *ngIf="isAdmin">
+      <div *ngFor="let item of application.OtherMenteeApplications">
+        <div class="row row-text mb-2" *ngIf="item.ProjectID !== application.ProjectID">
+          <div class="col-8">
+            <a [routerLink]="[item.ProjectLink]" target="_blank">
+              <div
+                ngbTooltip="{{ item.ProjectName }}"
+                placement="top"
+                ellipsis
+                [ellipsis-content]="item.ProjectName"
+              ></div>
+            </a>
+          </div>
+          <div class="col-4 app-status">
+            <span class="{{ item.ApplicationStatus }}">{{ item.ApplicationStatus | titlecase }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col column-5">
+      <div class="row" *ngIf="!isViewOnly">
+        <button *ngIf="!showTasks" (click)="toggleTasksList()" class="btn btn-sm-3">View Tasks</button>
+        <button *ngIf="showTasks" (click)="toggleTasksList()" class="btn btn-sm-3-inverse">Minimize</button>
+      </div>
+    </div>
+  </div>
+  <div class="row" *ngIf="showTasks && !isTasksLoading">
+    <div class="col">
+      <app-mentees-tab-tasks
+        [menteeName]="application.MenteeName"
+        [tasks]="tasks"
+        (submittionStatusUpdated)="onSubmittionStatusUpdated($event)"
+        [hidePerquisiteTasks]="application.ApplicationStatus !== 'pending'"
+      ></app-mentees-tab-tasks>
+    </div>
+  </div>
+  <div *ngIf="isTasksLoading" class="row justify-content-center py-3">
+    <div class="spinner-border text-info" role="status">
+      <span class="sr-only">Loading...</span>
+    </div>
+  </div>
+</div>
+
+<ng-template #confirmTpl let-c="close">
+  <div class="modal-body">
+    <p>
+      Please confirm you’re accepting <span class="mentee-status">{{ application.MenteeName }}</span> to your mentorship
+      program. Once you accept, <span class="mentee-status">{{ application.MenteeName }}</span> will be notified and
+      mentee HR paperwork will be sent for signature.
+    </p>
+    <ng-template [ngTemplateOutlet]="mentorshipProgramInformation"></ng-template>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-success btn-sm" (click)="onMentorshipProgramInfoSubmit()">Confirm</button>
+    <button type="button" class="btn btn-link btn-sm" (click)="c()">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #confirmStatusTpl let-c="close">
+  <div class="modal-body">
+    <p style="white-space: pre-line;">
+      You are about to change mentee status from
+      <span class="mentee-status">{{ application.ApplicationStatus }} </span> to
+      <span class="mentee-status">{{ newMenteeStatus + ',' }} </span>{{ '\n' }}
+      are you sure you want to proceed?
+    </p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-success btn-sm" (click)="onConfirmStatusChnage()">Yes</button>
+    <button type="button" class="btn btn-link btn-sm" (click)="c()">Cancel</button>
+  </div>
+</ng-template>
+
+<!-- Mentorship program information view template-->
+<ng-template #mentorshipProgramInformation>
+  <h3 class="font-weight-normal">Mentorship Program Information:</h3>
+
+  <div class="mt-4">
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="fullTimeRadio">
+        <sup class="fas fa-asterisk required"></sup>Full-time
+      </label>
+      <input
+        class="form-check-input ml-2"
+        type="radio"
+        name="attendanceRadioOptions"
+        [formControl]="attendanceStatus"
+        id="fullTimeRadio"
+        value="Full Time"
+      />
+    </div>
+    <div class="form-check form-check-inline">
+      <label class="form-check-label" for="partTimeRadio">
+        <sup class="fas fa-asterisk required"></sup>Part-time
+      </label>
+      <input
+        class="form-check-input ml-2"
+        type="radio"
+        name="attendanceRadioOptions"
+        [formControl]="attendanceStatus"
+        id="partTimeRadio"
+        value="Part Time"
+      />
+    </div>
+  </div>
+
+  <div class="d-block mt-4" *ngFor="let filter of filters">
+    <div class="d-block"><sup class="fas fa-asterisk required"></sup>Term Name:</div>
+    <div class="d-block mt-2" ngbDropdown #dropdownTerms="ngbDropdown">
+      <button class="btn btn-sm-2 is-light-grey" id="dropdownTerms" (click)="toggle(dropdownTerms)" ngbDropdownAnchor>
+        <span class="pl-2">{{ filterTitle | titlecase }}</span>
+        <i class="fa float-right" [class.fa-chevron-down]="!optionsVisible" [class.fa-chevron-up]="optionsVisible"></i>
+      </button>
+      <div ngbDropdownMenu aria-labelledby="dropdownTerms">
+        <button
+          ngbDropdownItem
+          class="filter-dropdown-option"
+          *ngFor="let option of filter.options"
+          (click)="applyFilter(filter, option); dropdownTerms.close()"
+        >
+          {{ option.name | titlecase }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row mt-4">
+    <div class="form-group col-3">
+      <label for="inputStartMonth">Start Month:</label>
+      <input type="text" class="form-control" id="inputStartMonth" [value]="startMonth" disabled />
+    </div>
+    <div class="form-group col-3">
+      <label for="inputStartYear">Start Year:</label>
+      <input type="text" class="form-control" id="inputStartYear" [value]="startYear" disabled />
+    </div>
+    <div class="form-group col-3">
+      <label for="inputEndMonth">End Month:</label>
+      <input type="text" class="form-control" id="inputEndMonth" [value]="endMonth" disabled />
+    </div>
+    <div class="form-group col-3">
+      <label for="inputEndYear">End Year:</label>
+      <input type="text" class="form-control" id="inputEndYear" [value]="endYear" disabled />
+    </div>
+  </div>
+
+  <span class="mt-4 text-danger" *ngIf="mentorshipProgramInfoError">
+    Please complete all required fields before confirming mentee's acceptance.</span
+  >
+</ng-template>
+
+<!-- Error template -->
+<ng-template #errorTpl let-c="close">
+  <div class="modal-body">
+    <p style="white-space: pre-line;">
+      {{ errorMessage }}
+    </p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-sm-3" (click)="c()">Ok</button>
+  </div>
+</ng-template>

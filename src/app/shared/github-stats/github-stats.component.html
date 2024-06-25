@@ -1,0 +1,32 @@
+<div *ngIf="(stats$ | async) !== undefined" class="row mx-0">
+  <span class="sr-only" i18n> Github Statistics </span>
+  <div class="mr-4plus">
+    <div class="svg-root github-icon" [style.color]="(iconColor$ | async)" inlineSVG="/assets/github/fork.svg"
+      aria-disabled="true" [removeSVGAttributes]="['fill', 'id']" role="presentation"></div>
+    <span class="header-4 regular text-light ml-2" i18n>
+      <span class="sr-only">{{ (stats$ | async)!.forks }}</span>
+      <span class="semibold text-dark" aria-hidden="true">{{ (stats$ | async)!.forks | shortNumber }}</span>
+      forks
+    </span>
+  </div>
+  <div class="w-100 d-block d-md-none"></div>
+  <div class="mr-4plus">
+    <div class="svg-root" [style.color]="(iconColor$ | async)" inlineSVG="/assets/github/star.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" role="presentation"></div>
+    <span class="header-4 regular text-light ml-2" i18n>
+      <span class="sr-only">{{ (stats$ | async)!.stars }}</span>
+      <span class="semibold text-dark" aria-hidden="true">{{ (stats$ | async)!.stars | shortNumber }}</span>
+      stars
+    </span>
+  </div>
+  <div class="w-100 d-block d-md-none"></div>
+  <div>
+    <div class="svg-root github-icon" [style.color]="(iconColor$ | async)" aria-disabled="true" inlineSVG="/assets/github/issue-opened.svg"
+      [removeSVGAttributes]="['fill', 'id']" role="presentation"></div>
+    <span class="header-4 regular text-light ml-2" i18n>
+      <span class="sr-only">{{ (stats$ | async)!.openIssues }}</span>
+      <span class="semibold text-dark" aria-hidden="true">{{ (stats$ | async)!.openIssues | shortNumber }}</span>
+      issues
+    </span>
+  </div>
+</div>

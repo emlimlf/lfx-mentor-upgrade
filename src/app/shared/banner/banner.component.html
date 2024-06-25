@@ -1,0 +1,10 @@
+<div class="pl-3 pr-3">
+  <div *ngIf="isPending">
+    This program is pending approval!
+  </div>
+
+  <div *ngIf="isRejected">
+    This project is declined!
+  </div>
+  <ng-content></ng-content>
+</div>

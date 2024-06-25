@@ -1,0 +1,156 @@
+<div class="modal-create" #create>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Create Task</h4>
+    <button type="button" class="close" aria-label="Close" data-dismiss="modal" (click)="onCancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form" [formGroup]="newTaskForm">
+      <div class="row">
+        <div class="col form-group">
+          <div *ngIf="errorOnSubmit" class="alert alert-danger">
+            <div>
+              {{ errorOnSubmit }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="taskName"><i class="fas fa-asterisk required"></i> Task Name</label>
+            <input type="text" id="taskName" class="form-control" formControlName="taskName" required trim="blur" />
+            <div *ngIf="taskName.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskName.errors?.required">
+                A task name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="taskDueDate">Due Date</label>
+            <div class="input-group">
+              <input
+                id="taskDueDate"
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                formControlName="taskDueDate"
+                ngbDatepicker
+                #taskDueDatePicker="ngbDatepicker"
+                [minDate]="{
+                  year: currentDate.getFullYear(),
+                  month: currentDate.getMonth() + 1,
+                  day: currentDate.getDate()
+                }"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-primary calendar"
+                  (click)="taskDueDatePicker.toggle()"
+                  type="button"
+                ></button>
+              </div>
+            </div>
+            <div *ngIf="taskDueDate.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskDueDate.errors?.invalidDueDateTemplate">
+                A valid due date is required (yyyy-mm-dd).
+              </div>
+              <div *ngIf="taskDueDate.errors?.invalidDueDate">
+                Due date should be greater than today's date.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="taskDescription"><i class="fas fa-asterisk required"></i> Task Description</label>
+            <textarea
+              class="form-control"
+              formControlName="taskDescription"
+              id="taskDescription"
+              rows="4"
+              required
+              trim="blur"
+            ></textarea>
+            <div *ngIf="taskDescription.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskDescription.errors?.required">
+                A task description is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <div class="submit-file-wrap">
+              <input type="checkbox" id="submitFile" name="submitFile" formControlName="submitFile" />
+              <label for="submitFile">Check if completition of this task requires that mentee submits a file</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="groupBy$ | async">
+        <div class="col">
+          <div class="form-group" *ngIf="(groupBy$ | async) === 'Project'">
+            <label for="taskProject"
+              ><i class="fas fa-asterisk required"></i> Assign the task to all accepted mentees or select an individual
+              mentee</label
+            >
+            <select formControlName="taskMentee" id="taskMentee" class="form-control">
+              <option *ngIf="hasAccepted" [value]="'allTaskMentee'">All Accepted Mentees</option>
+              <option [value]="apprentice.apprenticeId" *ngFor="let apprentice of getActiveAssignees()">
+                {{ apprentice.apprenticeStatus | titlecase }} : {{ apprentice.apprenticeName }}
+              </option>
+            </select>
+            <div *ngIf="taskMentee.invalid && taskSubmitted" class="alert alert-danger">
+              <div>
+                A valid mentee is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group" *ngIf="(groupBy$ | async) === 'Mentee'">
+            <label for="taskProject"><i class="fas fa-asterisk required"></i> Project</label>
+            <select formControlName="taskProject" id="taskProject" class="form-control">
+              <option [value]="'none'">Select a project</option>
+              <option [value]="project.projectId" *ngFor="let project of getRelevantProjects()">
+                {{ project.projectName }}
+              </option>
+            </select>
+            <div *ngIf="taskProject.invalid && taskSubmitted" class="alert alert-danger">
+              <div>
+                A valid project is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer" *ngIf="submitState$ | async">
+    <a class="btn-link" (click)="onCancel()">Cancel</a>&nbsp;&nbsp;
+    <button
+      type="button"
+      class="btn"
+      (click)="beginSubmission($event)"
+      [disabled]="(submitState$ | async) === submitState.SUBMITTING"
+      [class.btn-primary]="(submitState$ | async) !== submitState.SUCCESS"
+      [class.btn-success]="(submitState$ | async) === submitState.SUCCESS"
+      [ngStyle]="{ cursor: (submitState$ | async) === submitState.SUBMITTING ? 'not-allowed' : 'pointer' }"
+    >
+      <span *ngIf="(submitState$ | async) === submitState.SUBMITTING"
+        ><i class="fa fa-spinner fa-spin"></i> &nbsp;Submitting...</span
+      >
+      <span *ngIf="(submitState$ | async) === submitState.SUCCESS"
+        ><i class="fa fa-check-circle"></i> &nbsp;Task Submitted</span
+      >
+
+      <span *ngIf="(submitState$ | async) === submitState.READY">Add Task</span>
+    </button>
+  </div>
+</div>

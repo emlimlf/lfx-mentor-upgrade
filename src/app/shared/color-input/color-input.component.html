@@ -1,0 +1,24 @@
+<div>
+  <label i18n for="{{ formControlName }}" class="header-5">
+    <i class="fas fa-asterisk required"></i>{{ label }}</label>
+  <p class="header-5 regular text-light mt-2" i18n>
+    <ng-content></ng-content>
+  </p>
+  <div class="input-group">
+    <div class="input-group-prepend" (click)="toggleColorPicker=!toggleColorPicker">
+      <div i18n class="input-group-text left-group px-0 justify-content-center">#</div>
+    </div>
+    <input i18n type="text" class="form-control" id="{{ formControlName }}" #inputElement
+      (ngModelChange)="onKeyup($event)" [ngModel]="inputValue" [colorPicker]="inputValue"
+      [(cpToggle)]="toggleColorPicker" (colorPickerChange)="onKeyup($event)" [style.background]="inputValue"
+      [ngClass]="{'ng-valid': control.valid, 'ng-invalid': control.invalid, 'ng-dirty': control.dirty }"
+      [class.is-invalid]="control.invalid && control.dirty" placeholder="CCCCCC" />
+    <div class="input-group-append" (click)="toggleColorPicker=!toggleColorPicker">
+      <div class="input-group-text color-preview" [style.background]="'#' + colorPreview"></div>
+    </div>
+  </div>
+  <!-- <div *ngIf="(control && control.invalid && (control.dirty || control.touched))" i18n class="text-error mt-1"
+    role="alert">
+    Invalid color
+  </div> -->
+</div>

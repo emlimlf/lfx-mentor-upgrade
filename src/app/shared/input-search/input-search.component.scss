@@ -1,0 +1,83 @@
+.wrap {
+  position: relative;
+}
+
+.wrap-search {
+  position: absolute;
+  top: 0;
+  right: 1.5rem;
+}
+
+.input-search {
+  border-radius: 1rem;
+  border: 1px solid #ccc;
+  padding: 0.25rem 1rem;
+  outline: none;
+}
+
+.mentor_mentee_logo {
+  border: solid 1px #888;
+  border-radius: 1.5em;
+}
+.filltered-project-list {
+  background: #fff;
+  position: absolute;
+  right: 0;
+  z-index: 30;
+  box-shadow: 1px 0px 4px #ccc;
+  max-height: 360px;
+  min-width: 300px;
+  overflow: scroll;
+}
+
+.fpl-item {
+  display: flex;
+  align-items: center;
+  padding-bottom: 0.5rem;
+  margin: 1rem;
+  border-bottom: 1px solid #ccc;
+  min-width: 300px;
+}
+
+.fpl-item.last {
+  border: none;
+  padding-bottom: 0;
+  margin-bottom: 0.75rem;
+}
+
+.fpl-item .fpl-name {
+  margin-left: 1rem;
+}
+
+.fpl-item img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.clear-search {
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #676767;
+  position: absolute;
+}
+
+.search-icon {
+  position: absolute;
+  top: 0.25rem;
+  left: -0.25rem;
+}
+.view-more {
+  text-align: center;
+  padding: 10px;
+  border-top: 1px solid lightgray;
+  cursor: pointer;
+}
+.with-link {
+  cursor: pointer;
+  &:hover {
+    .fpl-name {
+      text-decoration: underline;
+    }
+  }
+}

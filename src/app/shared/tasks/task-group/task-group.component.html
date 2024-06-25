@@ -1,0 +1,112 @@
+<div>
+  <div class="project-title-row" [ngStyle]="{ 'border-top-color': color }" *ngIf="!hideTitle">
+    <div class="d-flex">
+      <div
+        [ngClass]="{
+          'col-md-3': !!avatarText,
+          'col-md-10': !avatarText,
+          'align-middle': true
+        }"
+      >
+        <h2>
+          <img
+            class="project-logo logo-rounded logo-small"
+            [src]="icon || '/assets/default-icon.svg'"
+            height="40"
+            width="40"
+            style="background-color:white;"
+          />
+          &nbsp;&nbsp;{{ title }}
+          <!-- <ng-container *ngIf="status === 'graduated'">
+            - Graduated
+          </ng-container> -->
+
+          <ng-container *ngIf="status"> - {{ status }} </ng-container>
+        </h2>
+      </div>
+      <div class="col-md-7 align-middle apprentice-display" *ngIf="avatarText">
+        <h3>
+          <img class="apprentice-avatar" height="30" width="30" [src]="avatarUrl || '/assets/check-light.svg'" />
+          &nbsp;{{ avatarText }}
+          <!-- <ng-container *ngIf="status === 'graduated'">
+            - Graduated
+          </ng-container> -->
+          <ng-container *ngIf="status"> - {{ status }} </ng-container>
+        </h3>
+      </div>
+      <div class="col-md-2 align-middle">
+        <div *ngIf="isAdmin" ng-hide="!isAdmin" class="ng-hide">
+          <button
+            *ngIf="status !== 'graduated' && status !== 'pending' && hasAnyActiveMentee"
+            type="button"
+            class="btn btn-add-task"
+            (click)="onAddTask()"
+          >
+            Add Task
+          </button>
+          <button
+            *ngIf="status === 'graduated'"
+            type="button"
+            class="btn btn-add-task simple"
+            (click)="toggleProjectTaskDetails()"
+          >
+            View Tasks
+          </button>
+        </div>
+
+        <div *ngIf="!isAdmin" ng-hide="isAdmin" class="ng-hide">
+          <button
+            *ngIf="status === 'graduated'"
+            type="button"
+            class="btn btn-add-task simple"
+            (click)="toggleProjectTaskDetails()"
+          >
+            View Tasks
+          </button>
+        </div>
+      </div>
+    </div>
+    <div #transactionContainer>
+      <div class="overflow" style="overflow: visible !important;" #transactionTable>
+        <table class="table" *ngIf="displayProjectTasksDetails">
+          <thead>
+            <tr *ngIf="tasks.length > 0">
+              <th [class.with-icon]="!!groupBy">Task</th>
+              <th>Status</th>
+              <th>Due Date</th>
+              <th>Creation Date</th>
+              <th>Last Updated</th>
+              <th *ngIf="isAdmin">&nbsp;</th>
+            </tr>
+          </thead>
+          <ng-template [ngIf]="!isAdmin">
+            <tbody colspan="5">
+              <ng-container *ngTemplateOutlet="columns"></ng-container>
+            </tbody>
+          </ng-template>
+          <ng-template [ngIf]="isAdmin">
+            <tbody colspan="6">
+              <ng-container *ngTemplateOutlet="columns"></ng-container>
+            </tbody>
+          </ng-template>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #columns>
+    <tr
+      app-task
+      [disableAction]="disableAction"
+      [editing]="editing === task.taskId"
+      [icon]="task.taskIcon"
+      [isAdmin]="isAdmin"
+      [task]="task"
+      (edit)="onEditTask($event)"
+      (toggleUpdateStatus)="onToggleUpdateStatus(task)"
+      (updateStatus)="onUpdateStatus($event.taskId, $event.status)"
+      (fileUpdate)="fileUpdate.emit($event)"
+      *ngFor="let task of tasks"
+    ></tr>
+  </ng-template>
+</div>

@@ -1,0 +1,35 @@
+@import '~constants.scss';
+
+.expiry {
+  border-left-width: 0px !important;
+}
+
+.credit-card-number {
+  border-right-width: 0px !important;
+  border-left-width: 0px !important;
+  border-radius: 0px !important;
+}
+
+.input-group-text {
+  background-color: $background-grey-color !important;
+}
+
+.invalid {
+  .input-group-text {
+    border-color: $primary-red-color;
+  }
+}
+
+.card-digits {
+  word-spacing: 0.3em;
+}
+
+.card-icon {
+  width: 30px;
+  height: 20px;
+  margin-left: 11px;
+  margin-right: 4px;
+}
+.input-group {
+  width: 288px;
+}

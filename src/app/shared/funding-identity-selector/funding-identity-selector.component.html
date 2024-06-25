@@ -1,0 +1,57 @@
+<div class="mt-3" [formGroup]="parentForm" role="radiogroup" aria-labelledby="identity-header">
+  <h2 id="identity-header" class="header-6" i18n>Funding as</h2>
+  <app-radio-line-button
+    *ngIf="!locked || currentValue === 'individual'"
+    value="individual"
+    inputId="radio-individual"
+    [parentForm]="parentForm"
+    controlName="identity"
+  >
+    <div class="row mx-0 px-0 no-gutters">
+      <app-avatar class="my-auto" [rounded]="true" [avatarUrl]="(userIdentity$ | async)!.avatarUrl"></app-avatar>
+      <label class="col ml-2 my-auto" for="radio-individual">
+        <span class="row mx-0 px-0">
+          <span class="header-5 medium text-black">{{ (userIdentity$ | async)?.name }}</span>
+        </span>
+        <span class="row mx-0 px-0"> <span class="small text-light medium float-left" i18n>Individual</span> </span>
+      </label>
+    </div>
+  </app-radio-line-button>
+  <ng-container *ngFor="let org of organizations$ | async">
+    <app-radio-line-button
+      *ngIf="!locked || org.id === currentValue"
+      [value]="org.id"
+      inputId="radio-organization-{{ org.id }}"
+      [parentForm]="parentForm"
+      [controlName]="controlName"
+      class="mt-2"
+    >
+      <div class="row mx-0 px-0 no-gutters">
+        <app-avatar class="my-auto" [rounded]="true" [avatarUrl]="org.avatarUrl"> </app-avatar>
+        <label class="col ml-2 my-auto" for="radio-organization-{{ org.id }}">
+          <span class="row mx-0 px-0">
+            <span class="header-5 medium text-black">{{ org.name }}</span>
+          </span>
+          <span class="row mx-0 px-0"> <span class="small text-light medium float-left" i18n>Organization</span> </span>
+        </label>
+        <button
+          class="bold text-light my-auto ml-auto btn btn-link edit-text"
+          type="button"
+          #editOrganizationButton
+          (click)="editOrganization(org)"
+          (mousedown)="$event.preventDefault()"
+        >
+          <u i18n class="edit-text">Edit</u>
+        </button>
+      </div>
+    </app-radio-line-button>
+  </ng-container>
+  <button
+    *ngIf="!locked && (organizations$ | async)?.length < 3"
+    type="button"
+    class="btn btn-md btn-outline-light w-100 organisation-button mt-2 d-flex"
+    (click)="editOrganization()"
+  >
+    <span class="my-auto mx-auto text-paragraph" i18n> + Add Organization </span>
+  </button>
+</div>

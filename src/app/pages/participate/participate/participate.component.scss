@@ -1,0 +1,663 @@
+@import '~constants.scss';
+
+:host {
+  @include page-base($background-grey-color);
+}
+
+.background-white{
+  background: #ffffff;
+}
+
+.header-banner {
+    padding: 20px 0px;
+    background-color: #003366;
+}
+
+h1 {
+  font-size: 48px;
+  font-weight: 600;
+  text-align: center;
+  color: #010101;
+  padding: 60px 0 0;
+}
+
+h3 {
+  font-size: 17.5px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #878686;
+}
+
+.btn-blue {
+  font-size: 12.5px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  text-align: center;
+  color: #ffffff;
+  background-color: #2178bb;
+  padding: 0 40px;
+}
+
+.btn-blue:hover {
+  background-color: #2a99cc;
+}
+
+
+.welcome-cards {
+    margin-left: -60px;
+    margin-right: -60px;
+    padding-top: 100px;
+    padding-bottom: 100px;
+
+    @media screen and (max-width: 991px) {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+
+
+    .welcome-card {
+        text-align: center;
+        @media (max-width: 991px) {
+            margin-bottom: 45px;
+        }
+    }
+
+    .card-title {
+        font-size: 26px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #010101;
+    }
+
+    .card-text {
+        font-size: 13.5px;
+        letter-spacing: -0.3px;
+        text-align: center;
+        color: #878686;
+        margin-bottom: 40px;
+
+        @media screen and (min-width: 1375px) {
+          min-height: 4.5em;
+        }
+        @media screen and (min-width: 1160px) and (max-width: 1374px) {
+          min-height: 6em;
+        }
+        @media screen and (min-width: 1130px) and (max-width: 1159px) {
+          min-height: 7.5em;
+        }
+        @media screen and (min-width: 1015px) and (max-width: 1129px) {
+          min-height: 9em;
+        }
+    }
+
+    .btn-info {
+        border-radius: 7.5px;
+        background-color: #0099cc !important;
+        font-size: 12.5px;
+        font-weight: 600;
+        letter-spacing: -0.5px;
+        text-align: center;
+        color: #fff;
+        padding: 0 40px;
+        text-transform: uppercase;
+        font-family: "Open Sans";
+    }
+
+    .btn-info:hover {
+      border:2px solid #878686;
+    }
+
+    .fas {
+      font-size: 4em;
+      background-color: #E1F2F8;
+      color: #0099cc;
+      border-radius: 50%;
+      width: 150px;
+      height: 150px;
+      line-height: 150px;
+    }
+}
+
+.card {
+  min-height: 274px;
+  background-color: $card-background-color;
+  border-radius: 0px;
+  border-width: 0px;
+  transition: box-shadow 0.15s ease-in-out;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px !important;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.card-img-top {
+  width: 300px;
+  height: 150px;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center center !important;
+  border-radius: 0px;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-color {
+  width: 100%;
+  height: 8px;
+}
+
+.card-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  text-align: center;
+}
+
+small {
+  background-color: $background-grey-color;
+}
+
+.card-description {
+  height: 77px;
+  line-height: 1.67em;
+  overflow: hidden;
+}
+
+.card-budget-title {
+  @include primary-text-semibold($header-6-font-size);
+}
+
+.card-price {
+  @include primary-text-semibold();
+}
+
+.card-footer {
+  padding-bottom: 32px;
+  background: transparent;
+  display: hidden;
+  border: 0;
+}
+
+.overflow {
+  width: 236px;
+  /*   background:red; */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 1) 100
+  );
+  height: 20px;
+  margin-top: -20px;
+  position: absolute;
+  opacity: 1;
+}
+
+.card-progress {
+  position: relative;
+  bottom: 34px;
+}
+
+.card-body {
+  padding-top: 0;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+}
+
+.card-title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.4px;
+  color: #010101;
+}
+
+.card-description {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #878686;
+}
+
+.avatar-top {
+  align-self: center;
+  position: relative;
+  bottom: 29px;
+}
+
+.avatar-url {
+  width: 40px;
+  height: 40px;
+  border-radius: 28.8px;
+  border-width: 1px;
+  border-color: #e4e6e6;
+  border-style: solid;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.avatar-small {
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.avatar-rounded {
+  border-radius: 50% !important;
+}
+
+.header-top {
+  align-self: center;
+  transition: all 0.2s;
+  transform-origin: 50% 0%;
+}
+
+.card:hover .header-top {
+  transform: scale(1.25);
+}
+
+.separator {
+  border-top: solid $card-grey-color 1px;
+}
+
+.small.card-industry {
+  position: absolute;
+  top: 35px;
+}
+
+.card-description-label {
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #878686;
+}
+
+.card-funding-total {
+  font-family: Poppins;
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.card-semester {
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  text-align: center;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.card-semester.orange {
+  background-color: #ffad5f;
+}
+
+.card-semester.green {
+  background-color: #6abf4b;
+}
+
+.opportunities-rounded {
+  border-radius: 50%;
+  border: 1px solid #dee2e6;
+}
+
+.opportunities-small {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+}
+
+.card-opportunities > .opportunities-small:nth-child(1) {
+  z-index: 3;
+  position: absolute;
+  left: 0;
+}
+
+.card-opportunities > .opportunities-small:nth-child(2) {
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+}
+
+.card-opportunities > .opportunities-small:nth-child(3) {
+  z-index: 1;
+  position: absolute;
+  left: 40px;
+}
+
+.card-opportunities > .opportunities-small:nth-child(4) {
+  z-index: 0;
+  position: absolute;
+  left: 60px;
+}
+
+.project-progress-value {
+  position: relative;
+  top: 32px;
+  right: 15px;
+}
+
+.project-m-progress-value {
+  position: relative;
+  top: 32px;
+  font-size: 0.8em;
+}
+
+.small-progress-value {
+  right: 0;
+  font-size: $header-5-font-size;
+  font-weight: 500;
+}
+
+.project-progress-total-value {
+  position: relative;
+  top: 32px;
+  color: $primary-grey-color;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.project-m-progress-total-value {
+  position: relative;
+  top: 32px;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+  color: $primary-grey-color;
+  font-size: 0.8em;
+}
+
+.small-progress-total-value {
+  font-size: $header-5-font-size;
+  font-weight: 500;
+}
+
+.project-progress {
+  height: 4px;
+  position: relative;
+  top: 39px;
+  right: 15px;
+  min-width: 445px;
+  overflow: visible;
+}
+
+.project-m-progress {
+  height: 4px;
+  position: relative;
+  top: 39px;
+  overflow: visible;
+  max-width: 350px;
+}
+
+.small-progress {
+  min-width: 0;
+  right: 0;
+}
+
+.circle {
+  @include circle(12px, white);
+  position: absolute !important;
+  bottom: -3px !important;
+  border: 4px solid;
+}
+
+.progress-values {
+  display: flex;
+  width: 430px;
+}
+
+.progress-m-values {
+  display: flex;
+  max-width: 350px;
+}
+
+.small-progress-values {
+  width: 236px;
+}
+
+.progress-bar {
+  border-radius: 4px;
+}
+
+.progress-bar-striped {
+  background-image: none;
+}
+
+.card-popup {
+  position: absolute;
+  background: #fff;
+  border-top-right-radius: 18px;
+  border-top-left-radius: 18px;
+  width: 300px;
+  box-shadow: 0 -1.5px 2.5px 0 rgba(209, 209, 209, 0.5);
+  bottom: 0px;
+  z-index: 10;
+}
+
+.close-funding {
+  font-size: 8px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  text-align: right;
+  color: #000000;
+  cursor: pointer;
+}
+
+.card-popup .card-title {
+  text-align: left;
+}
+
+.card-popup .card-description {
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #434549;
+  height: auto;
+}
+
+.card-popup .btn {
+  border-radius: 7.5px;
+  background-color: #f79d18;
+  width: 100%;
+  height: auto;
+  color: #fff;
+}
+
+.card-popup .funding-current-total {
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.91;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.card-popup .funding-current-goal {
+  font-size: 9.5px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  text-align: right;
+  color: #000000;
+}
+
+.card-popup.popup-mentor {
+  background: #003366;
+  color: #fff;
+}
+
+.card-popup.popup-mentor * {
+  color: #fff;
+}
+
+.card-popup.popup-mentor .project-mentors-list {
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.card-popup .mentor-small {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #fff;
+}
+
+.card-popup .mentor-name {
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+.card-popup .mentor-description {
+  font-size: 8px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #e6e6e6;
+}
+
+.card-popup .project-mentors-list::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.project-card {
+  // Ensure the card popups stay within the card
+  position: relative;
+}
+
+.funding-container, .mentors-container {
+  cursor: pointer;
+}
+
+/*
+  Navigation Bar
+*/
+.nav-bar {
+  background-color: white;
+  // Ensure margins match those on in the page body
+  padding-left: 6rem;
+  padding-right: 6rem;
+  font-size: .8rem;
+}
+
+.nav-items {
+  margin-bottom: 0;
+}
+.nav-item {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+  &.active {
+    font-weight: bold;
+  }
+}
+
+/*
+  Featured Section
+*/
+
+.featured-section {
+  .section-header {
+    margin-top: 30px;
+    border-bottom: 1px solid #c8caca;
+
+    .section-name {
+      font-size: 1.25rem;
+      display: inline-block;
+    }
+    .view-all {
+      float: right;
+      border: 0;
+      background: none;
+      font-size: .75rem;
+      cursor: pointer;
+      color: #2a99cc;
+      font-weight: bold;
+      &:hover {
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+/*
+  Mentor Card
+*/
+.card.mentor-card {
+  .card-title, .card-description, .card-description-label {
+    color: white;
+  }
+  .overflow {
+    display: none;
+  }
+  .skills-container {
+    .skill-tags {
+      small {
+        background-color: #ffc40c;
+        line-height: 12px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+}
+
+.skills-container {
+  .skill-tags {
+    flex-flow: row wrap;
+    align-content: space-between;
+    small {
+      margin-bottom: 2px;
+    }
+  }
+}

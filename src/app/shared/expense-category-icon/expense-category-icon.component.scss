@@ -1,0 +1,41 @@
+@import '~constants.scss';
+
+.circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  fill: currentColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.svg-root {
+  transform: translateY(-3px);
+  width: 18px;
+  height: 18px;
+}
+
+.marketing {
+  background-color: $marketing-category-color;
+}
+
+.meetups {
+  background-color: $meetups-category-color;
+}
+
+.development {
+  background-color: $development-category-color;
+}
+
+.travel {
+  background-color: $travel-category-color;
+}
+
+.apprentice {
+  background-color: $apprentice-category-color;
+}
+
+.other {
+  background-color: $other-category-color;
+}

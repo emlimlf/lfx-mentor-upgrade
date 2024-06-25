@@ -1,0 +1,25 @@
+.error {
+  color: red;
+  font-size: 10px;
+  padding: 5px 0px;
+}
+
+.field-container {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+.close-container {
+  margin: 5px 0px;
+  display: flex;
+  justify-content: flex-end;
+  .fas {
+    cursor: pointer;
+  }
+}
+
+.fas.required {
+  color: red !important;
+  margin-right: 2px;
+  font-size: 9px;
+}

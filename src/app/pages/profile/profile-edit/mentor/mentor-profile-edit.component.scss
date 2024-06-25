@@ -1,0 +1,44 @@
+@import '~constants.scss';
+@import '../../../../app.component.scss';
+
+:host {
+  @include page-base($background-grey-color);
+}
+
+.upload-logo-container {
+  // Ensure the spacing between fields is uniform
+  padding-top: 1.5rem;
+}
+
+.btn-success {
+  padding: 0 90px;
+}
+
+.blur {
+  filter: blur(3px);
+  &:focus {
+    box-shadow: none;
+    border-color: grey;
+  }
+}
+.border {
+  border: solid 1px grey;
+  border-radius: 4px !important;
+}
+
+.project-link-container {
+  word-break: break-all;
+  .project-link {
+    color: #0a6dd4;
+    cursor: pointer;
+    &:hover {
+      color: #0a6dd4;
+      text-decoration: underline;
+    }
+  }
+}
+
+.project-action {
+  color: red;
+  cursor: pointer;
+}

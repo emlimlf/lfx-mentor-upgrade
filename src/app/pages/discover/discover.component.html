@@ -1,0 +1,326 @@
+<app-supporter-wall></app-supporter-wall>
+<div class="discoveryTabs">
+  <div id="discoveryTabs" class="container">
+    <ngb-tabset [destroyOnHide]="false" [activeId]="activeId" [justify]="'start'" (tabChange)="onTabChange($event)">
+      <!-- <ngb-tab id="featured-tab" title="Featured"> </ngb-tab> -->
+      <ngb-tab id="projects-tab" title="Mentorships"> </ngb-tab>
+      <ngb-tab id="mentees-tab" title="Mentees"> </ngb-tab>
+      <ngb-tab id="mentors-tab" title="Mentors"> </ngb-tab>
+      <ngb-tab id="my-mentorships-tab" title="My Mentorships" *ngIf="auth.isAuthenticated$ | async"> </ngb-tab>
+      <ngb-tab id="my-tasks-tab" title="My Tasks" *ngIf="auth.isAuthenticated$ | async"> </ngb-tab>
+      <ngb-tab id="my-account-tab" title="My Account" *ngIf="auth.isAuthenticated$ | async"> </ngb-tab>
+    </ngb-tabset>
+  </div>
+</div>
+
+<div
+  class="container mb-5 discover-content"
+  [ngClass]="{ 'projects-tab': currentPageState === 'projects' }"
+  [ngSwitch]="currentPageState"
+>
+  <!-- <div class="featured-section" *ngSwitchCase="'featured'">
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Mentorships</h1>
+        <button class="view-all" (click)="onClickChangePageState('projects')">View All</button>
+      </div>
+      <div class="cards-center">
+        <ng-container
+          *ngIf="featuredProjectCards?.length === 0 && featuredProjectCardsLoaded; else featuredProjectBlock"
+        >
+          <div class="empty">
+            No mentorships
+          </div>
+        </ng-container>
+        <ng-template #featuredProjectBlock>
+          <div class="card-align" *ngFor="let projectCard of featuredProjectCards; index as i">
+            <app-project-card
+              [projectCard]="projectCard"
+              [allowApplyButton]="true"
+              [preloadedMentees]="preloadedMentees"
+            ></app-project-card>
+          </div>
+        </ng-template>
+      </div>
+      <app-loader *ngIf="!featuredProjectCardsLoaded"></app-loader>
+    </div>
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Mentors</h1>
+        <button class="view-all" (click)="onClickChangePageState('mentors')">View All</button>
+      </div>
+      <div class="cards-center">
+        <div class="card-align" *ngFor="let mentorCard of featuredMentorCards; index as i">
+          <app-mentor-card [mentorCard]="mentorCard"></app-mentor-card>
+        </div>
+        <div *ngIf="featuredMentorCards.length === 0 && featuredMentorCardsLoaded" class="empty">
+          No mentors
+        </div>
+      </div>
+      <app-loader *ngIf="!featuredMentorCardsLoaded"></app-loader>
+    </div>
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Mentees</h1>
+        <button class="view-all" (click)="onClickChangePageState('mentees')">View All</button>
+      </div>
+      <div class="cards-center">
+        <div class="card-align" *ngFor="let menteeCard of featuredMenteeCards; index as i">
+          <app-apprentice-card [apprenticeCard]="menteeCard" [projectsPrePopulated]="true"> </app-apprentice-card>
+        </div>
+        <div *ngIf="featuredMenteeCards.length === 0 && featuredMenteeCardsLoaded" class="empty">
+          No mentees
+        </div>
+      </div>
+      <app-loader *ngIf="!featuredMenteeCardsLoaded"></app-loader>
+    </div> -->
+  <!-- <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Companies</h1>
+        <button class="view-all" (click)="onClickChangePageState('employers')">View All</button>
+      </div>
+      <div class="cards-center">
+        <div class="mt-4plus" *ngFor="let employerCard of featuredEmployerCards; index as i">
+          <app-employer-card [employerCard]="employerCard"></app-employer-card>
+        </div>
+        <div *ngIf="!featuredEmployerCards?.length && featuredEmployerCardsLoaded" class="empty">
+          No companies
+        </div>
+      </div>
+      <app-loader *ngIf="!featuredEmployerCardsLoaded"></app-loader>
+    </div> -->
+  <!-- </div> -->
+  <div *ngSwitchCase="'projects'">
+    <div class="container search-section project-search-section">
+      <div class="sub-nav">
+        <form [formGroup]="radioGroupForm">
+          <div class="btn-group btn-group-toggle" ngbRadioGroup name="radioMentorship" formControlName="model">
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'all'" /> All Mentorships
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'accepting'" /> Accepting Applications
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'in-progress'" /> In Progress
+            </label>
+            <label ngbButtonLabel class="btn-primary">
+              <input ngbButton type="radio" [value]="'closed'" /> Completed
+            </label>
+          </div>
+        </form>
+      </div>
+      <app-input-search [type]="'project'" [subType]="projectSubTab" (filter)="onProjectSearchEnter($event)">
+      </app-input-search>
+    </div>
+    <div>
+      <div>
+        <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickProjectNext('all')">
+          <div *ngIf="projectSubTab === 'all'">
+            <div class="cards-center">
+              <div
+                class="card-align"
+                *ngFor="let projectCard of visibleAllProjectCards$ | async; index as i; trackBy: trackByFunc"
+              >
+                <app-project-card
+                  [projectCard]="projectCard"
+                  [allowApplyButton]="true"
+                  [preloadedMentees]="preloadedMentees"
+                ></app-project-card>
+              </div>
+              <div *ngIf="allProjectCardsLoaded && (visibleAllProjectCards$ | async)?.length === 0" class="empty">
+                No mentorships
+              </div>
+            </div>
+            <app-loader *ngIf="!allProjectCardsLoaded"></app-loader>
+          </div>
+        </div>
+        <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickProjectNext('accepting')">
+          <div *ngIf="projectSubTab === 'accepting'">
+            <div class="cards-center">
+              <div class="card-align" *ngFor="let projectCard of visibleAcceptingProjectCards$ | async; index as i">
+                <app-project-card
+                  [projectCard]="projectCard"
+                  [allowApplyButton]="true"
+                  [preloadedMentees]="preloadedMentees"
+                ></app-project-card>
+              </div>
+              <div
+                *ngIf="acceptingProjectCardsLoaded && (visibleAcceptingProjectCards$ | async)?.length === 0"
+                class="empty"
+              >
+                No mentorships
+              </div>
+            </div>
+            <app-loader *ngIf="!acceptingProjectCardsLoaded"></app-loader>
+          </div>
+        </div>
+        <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickProjectNext('in-progress')">
+          <div *ngIf="projectSubTab === 'in-progress'">
+            <div class="cards-center">
+              <div class="card-align" *ngFor="let projectCard of visibleInProgressProjectCards$ | async; index as i">
+                <app-project-card
+                  [projectCard]="projectCard"
+                  [allowApplyButton]="true"
+                  [preloadedMentees]="preloadedMentees"
+                ></app-project-card>
+              </div>
+              <div
+                *ngIf="inProgressProjectCardsLoaded && (visibleInProgressProjectCards$ | async)?.length === 0"
+                class="empty"
+              >
+                No mentorships
+              </div>
+            </div>
+            <app-loader *ngIf="!inProgressProjectCardsLoaded"></app-loader>
+          </div>
+        </div>
+        <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickProjectNext('closed')">
+          <div *ngIf="projectSubTab === 'closed'">
+            <div class="cards-center">
+              <div class="card-align" *ngFor="let projectCard of visibleClosedProjectCards$ | async; index as i">
+                <app-project-card
+                  [projectCard]="projectCard"
+                  [allowApplyButton]="true"
+                  [preloadedMentees]="preloadedMentees"
+                ></app-project-card>
+              </div>
+              <div *ngIf="closedProjectCardsLoaded && (visibleClosedProjectCards$ | async)?.length === 0" class="empty">
+                No mentorships
+              </div>
+            </div>
+            <app-loader *ngIf="!closedProjectCardsLoaded"></app-loader>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngSwitchCase="'mentors'">
+    <div class="container search-section">
+      <app-input-search [type]="'mentors'" (filter)="onMentorSearchEnter($event)"></app-input-search>
+    </div>
+    <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickMentorNext()">
+      <div class="cards-center">
+        <div *ngFor="let mentorCard of visibleMentorCards$ | async; index as i" class="card-align">
+          <app-mentor-card [mentorCard]="mentorCard"></app-mentor-card>
+        </div>
+        <div *ngIf="featuredMentorCardsLoaded && (visibleMentorCards$ | async)?.length === 0" class="empty">
+          No mentors
+        </div>
+      </div>
+      <app-loader *ngIf="!featuredMentorCardsLoaded"></app-loader>
+    </div>
+  </div>
+  <div *ngSwitchCase="'mentees'">
+    <div class="container search-section">
+      <app-input-search [type]="'mentees'" (filter)="onMenteeSearchEnter($event)"></app-input-search>
+    </div>
+    <div infinite-scroll [infiniteScrollDistance]="2" (scrolled)="onClickMenteeNext()">
+      <div class="cards-center">
+        <div *ngFor="let menteeCard of visibleMenteeCards$ | async; index as i" class="card-align">
+          <app-apprentice-card [apprenticeCard]="menteeCard" [projectsPrePopulated]="true"> </app-apprentice-card>
+        </div>
+        <div *ngIf="featuredMenteeCardsLoaded && (visibleMenteeCards$ | async)?.length === 0" class="empty">
+          No mentees
+        </div>
+      </div>
+      <app-loader *ngIf="!featuredMenteeCardsLoaded"></app-loader>
+    </div>
+  </div>
+  <!-- <div class="employers-section" *ngSwitchCase="'employers'">
+    <div class="">
+      <div class="search-section">
+        <app-input-search [type]="'employers'" (filter)="onCompanySearchEnter($event)"></app-input-search>
+      </div>
+      <div class="cards-center">
+        <div *ngFor="let employerCard of visibleEmployerCards$ | async; index as i">
+          <app-employer-card [employerCard]="employerCard"></app-employer-card>
+        </div>
+        <div *ngIf="!(visibleEmployerCards$ | async)?.length" class="empty">
+          No companies
+        </div>
+      </div>
+    </div>
+  </div> -->
+  <div *ngSwitchCase="'my-mentorships'">
+    <app-projects-section></app-projects-section>
+  </div>
+  <div *ngSwitchCase="'my-tasks'">
+    <app-tasks></app-tasks>
+  </div>
+  <div *ngSwitchCase="'my-account'">
+    <app-profile></app-profile>
+  </div>
+  <!-- <div class="row">
+    <div class="col">
+      <div *ngSwitchCase="'projects'">
+        <div *ngIf="projectSubTab === 'all'">
+          <button
+            *ngIf="allProjectCardsLoaded && (allShouldShowNextButton$ | async)"
+            class="next-button btn btn-outline-light btn-block"
+            (click)="onClickProjectNext('all')"
+          >
+            View More
+          </button>
+        </div>
+        <div *ngIf="projectSubTab === 'accepting'">
+          <button
+            *ngIf="acceptingProjectCardsLoaded && (acceptingShouldShowNextButton$ | async)"
+            class="next-button btn btn-outline-light btn-block"
+            (click)="onClickProjectNext('accepting')"
+          >
+            View More
+          </button>
+        </div>
+        <div *ngIf="projectSubTab === 'in-progress'">
+          <button
+            *ngIf="inProgressProjectCardsLoaded && (inProgressShouldShowNextButton$ | async)"
+            class="next-button btn btn-outline-light btn-block"
+            (click)="onClickProjectNext('in-progress')"
+          >
+            View More
+          </button>
+        </div>
+        <div *ngIf="projectSubTab === 'closed'">
+          <button
+            *ngIf="closedProjectCardsLoaded && (closedShouldShowNextButton$ | async)"
+            class="next-button btn btn-outline-light btn-block"
+            (click)="onClickProjectNext('closed')"
+          >
+            View More
+          </button>
+        </div>
+      </div>
+      <div *ngSwitchCase="'mentors'">
+        <button
+          *ngIf="shouldShowNextMentorButton$ | async"
+          class="next-button btn btn-outline-light btn-block"
+          (click)="onClickMentorNext()"
+        >
+          View More
+        </button>
+      </div>
+      <div *ngSwitchCase="'mentees'">
+        <button
+          *ngIf="shouldShowNextMenteeButton$ | async"
+          class="next-button btn btn-outline-light btn-block"
+          (click)="onClickMenteeNext()"
+        >
+          View More
+        </button>
+      </div>
+      <div *ngSwitchCase="'employers'">
+        <button
+          *ngIf="shouldShowNextEmployerButton$ | async"
+          class="next-button btn btn-outline-light btn-block"
+          (click)="onClickEmployerNext()"
+        >
+          View More
+        </button>
+      </div>
+    </div>
+  </div> -->
+</div>
+<div class="jump-top" (click)="jumpTop()" *ngIf="canJumpTop() && showJumpToTopIcon">
+  <i class="fas fa-chevron-up"></i>
+</div>

@@ -1,0 +1,22 @@
+{
+  "extends": [
+    "tslint:recommended",
+    "tslint-angular",
+    "tslint-consistent-codestyle",
+    "tslint-config-prettier"
+  ],
+  "rules": {
+    "ordered-imports": false,
+    "interface-name": false,
+    "use-component-view-encapsulation": false,
+    "no-console": false,
+    "trailing-comma": true,
+    "no-unused": true,
+    "max-classes-per-file": false,
+    "array-type": false,
+    "only-arrow-functions": false
+  },
+  "rulesDirectory": [
+    "codelyzer"
+  ]
+}

@@ -1,0 +1,444 @@
+<app-stepper [selectedStep]="currentPage">
+  <app-stepper-item name="Company Details" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Participation" *ngIf="showHiringFields || showFundingFields" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Invites" i18n-name> </app-stepper-item>
+</app-stepper>
+
+<app-loader *ngIf="!profileLoaded"></app-loader>
+
+<form [formGroup]="form" class="container mx-auto px-0 mt-5" *ngIf="profileLoaded">
+  <app-form-card
+    formGroupName="formPage1"
+    *ngIf="currentPage === 0"
+    class="text-paragraph"
+    heading="Edit Company Profile"
+    i18n-heading
+  >
+    <div class="mt-4">
+      <h3>Company Details</h3>
+      <div class="row">
+        <div class="col">
+          <label i18n class="header-5"><i class="fas fa-asterisk required"></i> Company Name</label>
+          <input
+            i18n-placeholder
+            autofocus
+            type="text"
+            class="form-control"
+            placeholder="Company Name"
+            formControlName="companyName"
+            required
+          />
+          <div *ngIf="companyName.invalid && pageSubmitted" class="alert alert-danger">
+            <div *ngIf="companyName.errors?.required">
+              Company Name is required.
+            </div>
+            <div *ngIf="companyName.errors?.uniqueName">
+              This Company Name is taken.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <app-logo-cropper-field [parent]="formPage1" control="logoUrl" label="Company Logo" [previewUrl]="logoUrlValue">
+      </app-logo-cropper-field>
+    </div>
+    <div class="mt-4 section-break">
+      <div class="mt-4">
+        <label i18n class="header-5"><i class="fas fa-asterisk required"></i>Company Bio</label>
+        <div class="row">
+          <div class="col">
+            <textarea
+              formControlName="description"
+              class="form-control"
+              rows="10"
+              placeholder="Tell us a little about your company."
+            ></textarea>
+            <div *ngIf="description.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="description.errors?.required">
+                Company Bio is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4 section-break">
+      <h3>Participating Opportunities <span class="sub-title">Select all that apply</span></h3>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <div class="form-check">
+            <label
+              ><input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="participatingHiring"
+                (change)="toggleHiringFields()"
+              />Hiring</label
+            >
+            <label
+              ><input
+                class="form-check-input"
+                type="checkbox"
+                formControlName="participatingFunding"
+                (change)="toggleFundingFields()"
+              />Funding</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+  <app-form-card
+    formGroupName="formPage2"
+    *ngIf="currentPage === 1 && showHiringFields"
+    class="text-paragraph"
+    heading="Employment Opportunities"
+    i18n-heading
+  >
+    <div class="hiring-opportunities">
+      <div class="mt-4">
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-4"><i class="fas fa-asterisk required"></i> Number of Interviews</label>
+            <app-slider [min]="1" [max]="100" [step]="2" [parent]="formPage2" [control]="'interviews'"> </app-slider>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label i18n class="header-4">Interview Contact</label>
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> First Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="First Name"
+              formControlName="firstName"
+              [required]="showHiringFields"
+            />
+            <div *ngIf="firstName.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="firstName.errors?.required">
+                First Name is required.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Last Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Last Name"
+              formControlName="lastName"
+              [required]="showHiringFields"
+            />
+            <div *ngIf="lastName.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="lastName.errors?.required">
+                Last Name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label i18n class="mt-4 header-6"><i class="fas fa-asterisk required"></i> Email</label>
+            <input
+              i18n-placeholder
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              formControlName="email"
+              [required]="showHiringFields"
+            />
+            <div
+              *ngIf="
+                (email.invalid && pageSubmitted) ||
+                (email.value != '' && email.invalid && (email.dirty || email.touched))
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="email.errors?.required">
+                Email is required.
+              </div>
+              <div *ngIf="email.errors?.email">
+                Please enter a valid email address.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4"></div>
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Phone Number</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Phone Number"
+              formControlName="phone"
+              [required]="showHiringFields"
+            />
+            <div *ngIf="phone.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="phone.errors?.required">
+                Phone Number is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label i18n class="header-4"><i class="fas fa-asterisk required"></i> Graduate Matching</label>
+        <div class="row">
+          <div class="col">
+            <div class="typeahead-container">
+              <app-add-tags
+                [tagTypes]="skills"
+                [(itemList)]="hiringSkills"
+                feature="skill"
+                [tagSectionLabel]="'Desired Skills'"
+                [skills]="true"
+              ></app-add-tags>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="pageSubmitted && hiringSkills.length === 0" class="alert alert-danger">
+          At least one skill are required.
+        </div>
+        <div class="mt-4"></div>
+        <div class="row">
+          <div class="col">
+            <div class="typeahead-container">
+              <app-add-tags
+                [tagTypes]="projects"
+                [(itemList)]="hiringProjects"
+                feature="project"
+                [tagSectionLabel]="'Projects'"
+                [typeaheadItems]="projectsList"
+              >
+              </app-add-tags>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="pageSubmitted && hiringProjects.length === 0" class="alert alert-danger">
+          At least one project are required.
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+  <app-form-card
+    formGroupName="formPage2"
+    *ngIf="currentPage === 1 && showFundingFields"
+    class="text-paragraph"
+    heading="Financial Support"
+    i18n-heading
+  >
+    <div class="funding-opportunities mt-4">
+      <div class="row">
+        <div class="col">
+          <label i18n class="header-4"><i class="fas fa-asterisk required"></i> Total Funds Committed</label>
+          <div class="input-group px-0">
+            <div class="input-group-prepend">
+              <div i18n class="input-group-text left-group px-0 justify-content-center">$</div>
+            </div>
+            <input
+              i18n-placeholder
+              formControlName="totalFunds"
+              type="number"
+              class="form-control"
+              id="totalFunds"
+              placeholder="Total funds I am committed to providing"
+              [required]="showFundingFields"
+            />
+          </div>
+        </div>
+      </div>
+      <div *ngIf="totalFunds.invalid && pageSubmitted" class="alert alert-danger">
+        <div *ngIf="totalFunds.errors?.required">
+          Total Funding is required
+        </div>
+      </div>
+      <div class="mt-4">
+        <label i18n class="header-4">Finance Contact</label>
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> First Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="First Name"
+              formControlName="financialFirstName"
+              [required]="showFundingFields"
+            />
+            <div *ngIf="financialFirstName.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="financialFirstName.errors?.required">
+                First Name is required.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Last Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Last Name"
+              formControlName="financialLastName"
+              [required]="showFundingFields"
+            />
+            <div *ngIf="financialLastName.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="financialLastName.errors?.required">
+                Last Name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label i18n class="mt-4 header-6"><i class="fas fa-asterisk required"></i> Email</label>
+            <input
+              i18n-placeholder
+              type="email"
+              class="form-control"
+              placeholder="Email"
+              formControlName="financialEmail"
+              [required]="showFundingFields"
+            />
+            <div
+              *ngIf="
+                (financialEmail.invalid && pageSubmitted) ||
+                (financialEmail.value != '' &&
+                  financialEmail.invalid &&
+                  (financialEmail.dirty || financialEmail.touched))
+              "
+              class="alert alert-danger"
+            >
+              <div *ngIf="financialEmail.errors?.required">
+                Email is required.
+              </div>
+              <div *ngIf="financialEmail.errors?.email">
+                Please enter a valid email address.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4"></div>
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Phone Number</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Phone Number"
+              formControlName="financialPhone"
+              [required]="showFundingFields"
+            />
+            <div *ngIf="financialPhone.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="financialPhone.errors?.required">
+                Phone Number is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="mt-4">
+        <label i18n class="header-4"><i class="fas fa-asterisk required"></i> Fund Allocation</label>
+        <div class="row">
+          <div class="col">
+            <div class="typeahead-container">
+              <app-add-tags
+                [tagTypes]="projects"
+                [(itemList)]="fundProjects"
+                feature="project"
+                [tagSectionLabel]="'Project Selection'"
+                [typeaheadItems]="projectsList"
+              >
+              </app-add-tags>
+            </div>
+            <div *ngIf="pageSubmitted && fundProjects.length === 0" class="alert alert-danger">
+              At least one project are required.
+            </div>
+            <div class="typeahead-container">
+              <app-add-tags
+                [tagTypes]="initiatives"
+                [(itemList)]="fundInitiative"
+                feature="initiative"
+                [tagSectionLabel]="'Initiative Selection'"
+                [typeaheadItems]="initiativeList"
+              >
+              </app-add-tags>
+            </div>
+            <div *ngIf="pageSubmitted && fundInitiative.length === 0" class="alert alert-danger">
+              At least one initiative are required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+
+  <app-form-card
+    formGroupName="formPage3"
+    *ngIf="currentPage === 2"
+    class="text-paragraph"
+    heading="Invites"
+    i18n-heading
+  >
+    <div class="mentoring-opportunities">
+      <div class="mt-4">
+        <h3>Mentoring</h3>
+        <div class="row">
+          <div class="col">
+            <app-add-tags
+              [tagTypes]="mentors"
+              [(itemList)]="employerMentors"
+              feature="mentor"
+              [tagSectionLabel]="'Invite employees as mentors'"
+            ></app-add-tags>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+
+  <!--Buttons-->
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto justify-content-between">
+    <!-- Page validation error -->
+    <div *ngIf="pageSubmitted && !validate()" class="alert alert-danger">
+      Something on the form is not complete or invalid. Please correct the highlighted fields before continuing.
+    </div>
+    <div *ngIf="submissionFailed" class="alert alert-danger">
+      There was a problem with the submission. Please try again later or contact support.
+    </div>
+    <button *ngIf="currentPage === 0" type="button" class="btn btn-link btn-md" (click)="onCancel()" i18n>
+      Cancel
+    </button>
+    <button *ngIf="currentPage === 0" type="button" class="btn btn-info btn-md" (click)="next()" i18n>
+      {{ nextBtnText }}
+    </button>
+    <button *ngIf="currentPage === 1" type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+      <i class="fas fa-arrow-left"></i>
+      Back: Company Details
+    </button>
+    <button *ngIf="currentPage === 1" type="button" class="btn btn-info btn-md" (click)="next()" i18n>
+      Next: Invites
+    </button>
+    <button *ngIf="currentPage === 2" type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+      <i class="fas fa-arrow-left"></i> Back:
+      {{ this.showFundingFields || this.showHiringFields ? 'Participation' : 'Company Details' }}
+    </button>
+    <button
+      *ngIf="currentPage === 2"
+      type="button"
+      class="btn btn-success btn-md"
+      (click)="submit()"
+      [disabled]="formSubmitted"
+      i18n
+    >
+      {{ submitBtnLabel }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,761 @@
+@import '~constants.scss';
+
+:host {
+  @include page-base($background-grey-color, 0);
+}
+
+.container {
+  margin-bottom: 3.5rem;
+}
+.non-participant {
+  display: none;
+}
+.card {
+  min-height: 274px;
+  background-color: $card-background-color;
+  border-radius: 0px;
+  border-width: 0px;
+  transition: box-shadow 0.15s ease-in-out;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px !important;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.card-img-top {
+  width: 300px;
+  height: 150px;
+  overflow: hidden;
+  background-size: cover !important;
+  background-position: center center !important;
+  border-radius: 0px;
+}
+
+.card:hover {
+  box-shadow: 0px 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+.card-color {
+  width: 100%;
+  height: 8px;
+}
+
+.card-title {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
+  text-align: center;
+}
+
+small {
+  background-color: $background-grey-color;
+}
+
+.card-description {
+  height: 77px;
+  line-height: 1.67em;
+  overflow: hidden;
+}
+
+.card-budget-title {
+  @include primary-text-semibold($header-6-font-size);
+}
+
+.card-price {
+  @include primary-text-semibold();
+}
+
+.card-footer {
+  padding-bottom: 30px;
+  background: transparent;
+  display: hidden;
+  border: 0;
+
+  .participation-container {
+    height: 60px;
+  }
+}
+
+.employer-card-pending {
+  position: absolute;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 999;
+  width: 100%;
+  text-align: center;
+  padding: 100px 0;
+
+  h2 {
+    font-size: 20px;
+    color: #fff;
+    font-weight: bold;
+    padding-top: 10px;
+  }
+  .btn {
+    width: 85%;
+  }
+}
+
+.overflow {
+  width: 236px;
+  /*   background:red; */
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 60%,
+    rgba(255, 255, 255, 1) 100%
+  );
+  height: 20px;
+  margin-top: -20px;
+  position: absolute;
+  opacity: 1;
+}
+
+.card-progress {
+  position: relative;
+  bottom: 34px;
+}
+
+.card-body {
+  padding-top: 0;
+}
+
+.card-top {
+  display: flex;
+  flex-direction: column;
+  height: 60px;
+}
+
+.card-title {
+  font-family: Poppins;
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.4px;
+  color: #010101;
+}
+
+.card-description {
+  font-family: Poppins;
+  font-size: 12px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #878686;
+}
+
+.avatar-top {
+  align-self: center;
+  position: relative;
+  bottom: 29px;
+
+  img {
+    object-fit: cover;
+    object-position: center;
+  }
+}
+
+.avatar-url {
+  width: 40px;
+  height: 40px;
+  border-radius: 28.8px;
+  border-width: 1px;
+  border-color: #e4e6e6;
+  border-style: solid;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  background-color: white;
+}
+
+.default-avatar {
+  border-width: 1px;
+  border-color: #e4e6e6;
+  border-style: solid;
+  box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.15);
+  background-color: white;
+
+  &:before {
+    content: '';
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-image: url(/assets/default-icon.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(0.6);
+  }
+}
+
+.avatar-small {
+  width: 56px !important;
+  height: 56px !important;
+}
+
+.avatar-rounded {
+  border-radius: 50% !important;
+}
+
+img.avatar-rounded {
+  object-position: center;
+  object-fit: cover;
+}
+
+.header-top {
+  align-self: center;
+  transition: all 0.2s;
+  transform-origin: 50% 0%;
+}
+
+.card:hover .header-top {
+  transform: scale(1.25);
+}
+
+.separator {
+  border-top: solid $card-grey-color 1px;
+}
+
+.small.card-industry {
+  position: absolute;
+  top: 35px;
+}
+
+.card-description-label {
+  font-family: Poppins;
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #878686;
+}
+
+.card-description-total.empty {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-top: 2px;
+  color: #878686;
+}
+
+.card-funding-total {
+  font-family: Poppins;
+  font-size: 17px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.card-semester {
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  text-align: center;
+  color: #ffffff;
+  margin-right: 5px;
+}
+
+.card-semester.orange {
+  background-color: #ffad5f;
+}
+
+.card-semester.green {
+  background-color: #6abf4b;
+}
+
+.card-semester.yellow {
+  background-color: #fdd627;
+}
+
+.card-semester.gray {
+  background-color: #f5f6f6;
+  color: #6e6e6e;
+}
+
+.card-semester.more-skills {
+  cursor: pointer;
+}
+
+.card-semester.more-skills:hover {
+  background-color: #ffcf3a !important;
+}
+.card-opportunities > div {
+  background-size: cover;
+}
+
+.card-opportunities .empty {
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-top: 2px;
+  color: #878686;
+
+  // Since the opportunities are positioned absolute, the
+  // empty state should also be absolute. Otherwise, it will add extra
+  // padding to the card.
+  position: absolute;
+}
+
+.opportunities-rounded {
+  border-radius: 50%;
+  border: 1px solid #dee2e6;
+}
+
+.opportunities-small {
+  width: 40px;
+  height: 40px;
+  background: #fff;
+  display: inline-flex;
+  background-size: cover;
+  margin-right: 5px;
+}
+
+.card-opportunities > .opportunities-small:nth-child(1) {
+  z-index: 3;
+  position: absolute;
+  left: 0;
+}
+
+.card-opportunities > .opportunities-small:nth-child(2) {
+  z-index: 2;
+  position: absolute;
+  left: 20px;
+}
+
+.card-opportunities > .opportunities-small:nth-child(3) {
+  z-index: 1;
+  position: absolute;
+  left: 40px;
+}
+
+.card-opportunities > .opportunities-small:nth-child(4) {
+  z-index: 0;
+  position: absolute;
+  left: 62px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #6e6e6e;
+  padding-left: 20px;
+  padding-top: 10px;
+  background-color: #f5f6f6;
+  cursor: pointer;
+}
+
+.card-opportunities div.no-icon-url {
+  &:before {
+    content: '';
+    background-image: url(/assets/default-icon.svg);
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-position: center;
+    transform: scale(0.6);
+  }
+}
+
+.project-progress-value {
+  position: relative;
+  top: 32px;
+  right: 15px;
+}
+
+.project-m-progress-value {
+  position: relative;
+  top: 32px;
+  font-size: 0.8em;
+}
+
+.small-progress-value {
+  right: 0;
+  font-size: $header-5-font-size;
+  font-weight: 500;
+}
+
+.project-progress-total-value {
+  position: relative;
+  top: 32px;
+  color: $primary-grey-color;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.project-m-progress-total-value {
+  position: relative;
+  top: 32px;
+  flex: 1;
+  text-align: right;
+  white-space: nowrap;
+  color: $primary-grey-color;
+  font-size: 0.8em;
+}
+
+.small-progress-total-value {
+  font-size: $header-5-font-size;
+  font-weight: 500;
+}
+
+.project-progress {
+  height: 4px;
+  position: relative;
+  top: 39px;
+  right: 15px;
+  min-width: 445px;
+  overflow: visible;
+}
+
+.project-m-progress {
+  height: 4px;
+  position: relative;
+  top: 39px;
+  overflow: visible;
+  max-width: 350px;
+}
+
+.small-progress {
+  min-width: 0;
+  right: 0;
+}
+
+.circle {
+  @include circle(12px, white);
+  position: absolute !important;
+  bottom: -3px !important;
+  border: 4px solid;
+}
+
+.progress-values {
+  display: flex;
+  width: 430px;
+}
+
+.progress-m-values {
+  display: flex;
+  max-width: 350px;
+}
+
+.small-progress-values {
+  width: 236px;
+}
+
+.progress-bar {
+  border-radius: 4px;
+}
+
+.progress-bar-striped {
+  background-image: none;
+}
+
+.card-popup {
+  position: absolute;
+  background: #003366;
+  color: white;
+  border-top-right-radius: 18px;
+  border-top-left-radius: 18px;
+  width: 300px;
+  box-shadow: 0 -1.5px 2.5px 0 rgba(39, 39, 39, 0.5);
+  bottom: 0px;
+  z-index: 10;
+  max-height: 0px;
+  overflow: hidden;
+  &:close {
+    max-height: 0 !important;
+    height: 0;
+  }
+
+  &.preview {
+    max-height: 40px;
+    height: 40px;
+  }
+}
+
+.description-popup {
+  height: 270px;
+}
+
+.close-funding {
+  font-size: 8px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  text-align: right;
+  color: white;
+  cursor: pointer;
+}
+
+.card-popup.animate {
+  -webkit-transition: all 1s ease;
+  -moz-transition: all 1s ease;
+  -o-transition: all 1s ease;
+  -ms-transition: all 1s ease;
+  transition: all 1s ease;
+}
+
+.card-popup.hover {
+  height: 30px;
+}
+
+.card-popup.open {
+  max-height: 270px;
+  height: 270px;
+}
+
+.card-popup.hover {
+  max-height: 50px;
+}
+
+.card-popup .card-title {
+  text-align: left;
+}
+
+.card-popup .card-description {
+  font-size: 10px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.4px;
+  text-align: center;
+  color: #434549;
+  height: auto;
+}
+
+.card-popup .btn {
+  border-radius: 7.5px;
+  background-color: #f79d18;
+  width: 100%;
+  height: auto;
+  color: #fff;
+}
+
+.card-popup .funding-current-total {
+  font-size: 16px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: 0.91;
+  letter-spacing: -0.2px;
+  color: #000000;
+}
+
+.card-popup .funding-current-goal {
+  font-size: 9.5px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.1px;
+  text-align: right;
+  color: #000000;
+}
+
+.card-popup.popup-mentor {
+  background: #003366;
+  color: #fff;
+}
+
+.card-popup.popup-mentor * {
+  color: #fff;
+}
+
+.card-popup.popup-funding .mentor-description-popup {
+  max-height: 270px;
+  overflow-y: auto;
+  font-size: 12px;
+}
+
+.card-popup.popup-mentor .project-mentors-list {
+  max-height: 150px;
+  overflow-y: auto;
+
+  .default-avatar {
+    // Ensure that the avatar inside is positioned
+    // at the center of this element
+    position: relative;
+  }
+
+  .project-avatar {
+    background-size: cover;
+    display: inline-table;
+    margin: 0 2px;
+  }
+}
+
+.card-popup .mentor-small {
+  width: 50px;
+  height: 50px;
+  border: 1px solid #fff;
+}
+
+.card-popup .mentor-name {
+  font-size: 10px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #ffffff;
+}
+
+.card-popup .mentor-description {
+  font-size: 8px;
+  font-weight: normal;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: -0.2px;
+  color: #e6e6e6;
+}
+
+.card-popup .project-mentors-list::-webkit-scrollbar,
+.no-scrollbar::-webkit-scrollbar {
+  width: 0px;
+  background: transparent; /* make scrollbar transparent */
+}
+
+.project-card {
+  // Ensure the card popups stay within the card
+  position: relative;
+}
+
+.description-read-more {
+  cursor: pointer;
+}
+
+/*
+  Navigation Bar
+*/
+.nav-bar {
+  background-color: white;
+  // Ensure margins match those on in the page body
+  padding-left: 6rem;
+  padding-right: 6rem;
+  font-size: 0.8rem;
+}
+
+.nav-items {
+  margin-bottom: 0;
+}
+.nav-item {
+  display: inline-block;
+  margin: 10px;
+  cursor: pointer;
+  &.active {
+    font-weight: bold;
+  }
+}
+
+/*
+  Featured Section
+*/
+
+.featured-section {
+  .section-header {
+    margin-top: 30px;
+    border-bottom: 1px solid #c8caca;
+
+    .section-name {
+      font-size: 1.25rem;
+      display: inline-block;
+    }
+    .view-all {
+      float: right;
+      border: 0;
+      background: none;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: #2a99cc;
+      font-weight: bold;
+    }
+  }
+}
+
+/*
+  Mentor Card
+*/
+.card.mentor-card {
+  .card-title,
+  .card-description,
+  .card-description-label {
+    color: white;
+  }
+  .overflow {
+    display: none;
+  }
+  .skills-container {
+    min-height: 85px;
+    .skill-tags {
+      small {
+        background-color: #ffc40c;
+        line-height: 12px;
+        margin-bottom: 3px;
+      }
+    }
+  }
+  .card-opportunities {
+    // Setting a min height prevents sections from overlapping
+    min-height: 40px;
+  }
+}
+
+.skills-container {
+  .skill-tags {
+    flex-flow: row wrap;
+    align-content: space-between;
+    small {
+      margin-bottom: 2px;
+    }
+  }
+}
+
+.next-button {
+  border-radius: 0;
+  max-width: 5rem;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.card-deck {
+  @media (min-width: 1200px) {
+    .project-card:nth-child(3n + 2) {
+      margin-left: 20px;
+      margin-right: 20px;
+    }
+  }
+  @media (min-width: 992px) and (max-width: 1199px) {
+    justify-content: space-between;
+    // Adding extra padding to keep cards from being too far apart
+    padding-left: 30px;
+    padding-right: 30px;
+  }
+  @media (max-width: 991px) {
+    justify-content: center;
+  }
+
+  // Empty card deck
+  & > .empty {
+    margin: 50px auto;
+    color: #878686;
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}

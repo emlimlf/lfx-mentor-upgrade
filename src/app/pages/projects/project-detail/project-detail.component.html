@@ -1,0 +1,255 @@
+<app-banner
+  class="hero-banner"
+  [color]="{ '#FFFFFF': isPending || isRejected }"
+  [isLarge]="false"
+  [isPending]="isPending"
+  [isRejected]="isRejected"
+  *ngIf="isPending || isRejected"
+></app-banner>
+
+<app-loader *ngIf="!projectLoaded"></app-loader>
+
+<div *ngIf="projectLoaded">
+  <div class="detail-header">
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-lg-6 offset-lg-2">
+          <div class="clearfix cat-list-container">
+            <ul class="tag-list project-info-list industry-list" #industryList>
+              <li class="float-left" *ngFor="let cat of project?.apprenticeNeeds?.skills">
+                {{ cat }}
+              </li>
+            </ul>
+            <div class="popover-container" (mouseleave)="closePopover()">
+              <span
+                *ngIf="isListOverflowed"
+                i18n
+                [ngbPopover]="listViewerTemplate"
+                #tagsList="ngbPopover"
+                (mouseenter)="openPopover(tagsList)"
+                [placement]="['bottom-left', 'bottom-right', 'top-left', 'top-right']"
+                triggers="manual"
+                popoverClass="custom-popover"
+                >...</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2">
+          <!-- <app-avatar class="hero-avatar" [rounded]="true" [avatarUrl]="project.logoUrl" [xLarge]="true"> </app-avatar> -->
+          <img class="mx-auto project-logo" alt="" [src]="project.logoUrl || '/assets/default-icon.svg'" />
+          <div class="project-repo">
+            <a
+              class="btn btn-outline-dark btn-lg btn-block mb-2 btn-repo custom-btn"
+              *ngIf="project.repoLink"
+              [href]="project.repoLink.startsWith('http') ? project.repoLink : '//' + project.repoLink"
+              target="_blank"
+              >View Repository</a
+            >
+            <a
+              class="btn btn-outline-dark btn-lg btn-block mb-2 btn-repo custom-btn"
+              *ngIf="project.websiteUrl"
+              [href]="project.websiteUrl.startsWith('http') ? project.websiteUrl : '//' + project.websiteUrl"
+              target="_blank"
+              >View Site</a
+            >
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-sm-12">
+              <div>
+                <app-ellipsis-text [text]="project.name" [minHeight]="'14rem'" [isHeading]="true"></app-ellipsis-text>
+              </div>
+              <div class="mb-4" *ngIf="project.projectCIIProjectId">
+                <app-cii [appCii]="project.projectCIIProjectId" [showTitle]="false"> </app-cii>
+              </div>
+              <div class="col-sm-12 col-md-6 project-detail-highlight pl-0">
+                <h6>Terms</h6>
+                <p *ngIf="!doesOneActiveTermExists()">N/A</p>
+                <ul class="tag-list term-list">
+                  <!-- <li [class.yellow]="term === 'Summer'"
+                                      [class.green]="term === 'Spring'"
+                                      [class.orange]="term === 'Fall'"
+                                      [class.gray]="term !== 'Summer' && term !== 'Spring' && term !== 'Fall'"
+                                      [class.dark-text]="term !== 'Summer' && term !== 'Spring' && term !== 'Fall'"
+                                      class="float-left term" *ngFor="let term of activeTerms">
+                                      {{term}} <span *ngIf="term =='Custom'">Term</span>
+                                  </li> -->
+                  <li class="float-left term" *ngFor="let term of activeTerms">
+                    {{ term }} <span *ngIf="term == 'Custom'">Term</span>
+                  </li>
+                </ul>
+              </div>
+              <div class="project-goals mt-4 mb-4">
+                <div class="clearfix mb-2">
+                  <!-- <strong class="float-left goal-title mb-2" *ngIf="!hideM">Mentees
+                                        For {{ mTerms }} <span *ngIf="mTerms == 'Custom'">Term</span></strong>
+                                    <strong class="float-left goal-title mb-2" *ngIf="hideM">Mentees</strong> -->
+                </div>
+                <!-- <app-progress-bar-funding
+                  *ngIf="projectFunding.mentee"
+                  type="large"
+                  [showGoal]="true"
+                  [totaGoalAmount]="projectFunding.mentee.totalAnnualGoalInCents"
+                  [currentAmount]="projectFunding.mentee.totalDonationsInCents"
+                  [amountPerMentee]="projectFunding.apprenticeCostInCents"
+                  [mainColor]="project.color"
+                  [maxPoints]="15"
+                >
+                </app-progress-bar-funding> -->
+              </div>
+              <div>
+                <!-- <h3 [innerHTML]="project.description | lineBreak">
+                                </h3> -->
+
+                <app-ellipsis-text [text]="project.description"> </app-ellipsis-text>
+              </div>
+              <div class="code-of-conduct mt-4">
+                <a
+                  *ngIf="project.codeOfConduct; else noCodeOfConduct"
+                  href="{{ project.codeOfConduct }}"
+                  target="_blank"
+                  >Code of Conduct</a
+                >
+                <ng-template #noCodeOfConduct>
+                  <a [href]="codeOfConductDefaultURL" target="_blank">Code of Conduct</a>
+                </ng-template>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 mx-0  project-detail-highlight" *ngIf="showApplyBtn">
+              <button
+                class="btn btn-success btn-lg btn-block mb-4 apply-btn"
+                (click)="onClickApply()"
+                [disabled]="isPending || isRejected || !areApplicationsOpenAndActiveTermExists()"
+                [ngStyle]="{
+                  cursor: !(isPending || isRejected || !areApplicationsOpenAndActiveTermExists())
+                    ? 'pointer'
+                    : 'default'
+                }"
+                [ngClass]="{ 'btn-disabled': !areApplicationsOpenAndActiveTermExists() }"
+              >
+                {{ applyBtnLabel }}
+              </button>
+              <div i18n class="text-error" *ngIf="showAlreadyMemberError">
+                {{ buttonApplyErrorMessage }}
+              </div>
+            </div>
+            <div
+              class="{{ showApplyBtn ? 'col-lg-6 col-md-6' : 'col-lg-12' }} mx-0 btn-donate  project-detail-highlight"
+            >
+              <button
+                class="btn btn-success btn-lg btn-block btn-info crowd-funding"
+                (click)="onClickViewCrowdfunding()"
+                [disabled]="isPending || isRejected"
+                [ngStyle]="{ cursor: !(isPending || isRejected) ? 'pointer' : 'default' }"
+              >
+                View Crowdfunding
+              </button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 project-detail-highlight">
+              <h6>Mentees</h6>
+              <ul class="floated-circle-list" *ngIf="projectMentees && projectMentees.length > 0">
+                <li class="float-left" *ngFor="let mentee of projectMentees | slice: 0:3">
+                  <img
+                    *ngIf="mentee.logoUrl"
+                    [src]="mentee.logoUrl"
+                    width="50"
+                    height="50"
+                    title="{{ mentee.firstName + ' ' + mentee.lastName }}"
+                  />
+                  <img
+                    class="default-circle-icon"
+                    *ngIf="!mentee.logoUrl"
+                    [src]="mentee.avatarUrl"
+                    width="50"
+                    height="50"
+                  />
+                </li>
+                <li *ngIf="projectMentees && projectMentees.length > 3" (click)="scroll('Mentees')">
+                  +{{ projectMentees.length - 3 }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 project-detail-highlight">
+              <h6>Mentors</h6>
+              <ul class="floated-circle-list" *ngIf="projectMentors && projectMentors.length > 0">
+                <li class="float-left" *ngFor="let mentor of projectMentors | slice: 0:3">
+                  <img *ngIf="mentor.logoUrl" [src]="mentor.logoUrl" width="50" height="50" [title]="mentor.name" />
+                  <img
+                    class="default-circle-icon"
+                    *ngIf="!mentor.logoUrl"
+                    [src]="mentor.avatarUrl"
+                    width="50"
+                    height="50"
+                  />
+                </li>
+                <li *ngIf="projectMentors && projectMentors.length > 3" (click)="scroll('Mentors')">
+                  +{{ projectMentors.length - 3 }}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-sm-12 col-md-12 project-detail-highlight">
+              <h6>Sponsor Organizations</h6>
+              <div class="mt-1"></div>
+              <div class="sponsor-container">
+                <app-sponsor
+                  style="width: 33%;"
+                  *ngFor="let opportunity of projectOpportunities.slice(0, sponsorsLimit)"
+                  [logoUrl]="opportunity.logoUrl"
+                  [altName]="opportunity.name"
+                >
+                </app-sponsor>
+                <app-sponsor
+                  class="clickable"
+                  (click)="removeSponsorsLimit(); $event.currentTarget.classList.add('hidden')"
+                  *ngIf="projectOpportunities.length > 3"
+                  [defaultText]="'+' + (projectOpportunities.length - 3)"
+                >
+                </app-sponsor>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="details" #stickyMarker *ngIf="projectLoaded">
+    <app-sticky-tab-bar
+      *ngIf="isProjectAdmin$ | async"
+      baseRoute="/project/{{ projectId }}"
+      [logoUrl]="project.logoUrl"
+      [displayLogo]="false"
+      [isScrolled]="isScrolled"
+      color="#0099CC"
+      class="row mt-0"
+      (changed)="onTabChange($event)"
+      #stickyTabBar
+    >
+      <app-sticky-tab label="Dashboard" link="./" i18n-label> </app-sticky-tab>
+      <app-sticky-tab label="Current Mentees" link="mentees" i18n-label> </app-sticky-tab>
+      <app-sticky-tab label="Past Mentees" link="mentees-past" i18n-label> </app-sticky-tab>
+    </app-sticky-tab-bar>
+    <div class="col-md-12 mt-4 overflow">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>
+
+<ng-template #listViewerTemplate>
+  <div class="selected-items-popover-item ellipsis" *ngFor="let tag of project?.apprenticeNeeds?.skills.reverse()">
+    {{ tag }}
+  </div>
+</ng-template>

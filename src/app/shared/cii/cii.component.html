@@ -1,0 +1,6 @@
+<div class="cii-status" *ngIf="ciiStatus !== undefined && ciiProjectID">
+  <label i18n class="header-6 d-flex justify-content-center" *ngIf="showTitle">Project CII Badge</label>
+  <a href="https://bestpractices.coreinfrastructure.org/projects/{{ ciiProjectID }}" target="_window">
+    <img src="https://bestpractices.coreinfrastructure.org/projects/{{ ciiProjectID }}/badge" />
+  </a>
+</div>

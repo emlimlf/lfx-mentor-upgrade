@@ -1,0 +1,141 @@
+<div class="container mt-5">
+  <div class="mt-4 break" id="Mentors">
+    <div class="card-row row">
+      <div class="col">
+        <h4>
+          Mentors
+          <!-- <i class="spacer-3"></i><a class="normal" ><i *ngIf="isAdmin" (click)="export('mentors')"  class="fas fa-file-download"></i><i class="spacer-3"></i></a>
+ -->
+        </h4>
+        <div class="row text-center" *ngIf="projectMentors && projectMentors.length > 0">
+          <div class="col-lg-4 col-md-6" *ngFor="let mentor of projectMentors">
+            <div class="card-item">
+              <div class="card-image">
+                <img *ngIf="mentor.logoUrl" [src]="mentor.logoUrl" width="300" height="300" />
+              </div>
+              <h6>{{ mentor.name }}</h6>
+              <div>
+                <app-ellipsis-text [text]="mentor.introduction" [minHeight]="'8rem'" [preserveMinHeight]="true">
+                </app-ellipsis-text>
+              </div>
+              <div>
+                <a class="btn btn-outline-dark btn-lg btn-block" (click)="onClickMentorProfile(mentor.id)"
+                  >View Profile</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="!projectMentors || projectMentors.length === 0">
+          <p>No mentors found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4"></div>
+
+<div class="container" *ngIf="showAcceptedMentees">
+  <div class="break" id="Mentees">
+    <div class="card-row row">
+      <div class="col">
+        <h4>
+          Mentees
+          <!-- <i class="spacer-3"></i><a class="normal" ><i *ngIf="isAdmin" (click)="export('mentees')" class="fas fa-file-download"></i><i class="spacer-3"></i></a>
+            -->
+        </h4>
+        <div class="row text-center" *ngIf="projectActiveMentees && projectActiveMentees.length > 0">
+          <div class="col-lg-4 col-md-6" *ngFor="let mentee of projectActiveMentees">
+            <div class="card-item">
+              <div class="card-image">
+                <img *ngIf="mentee.logoUrl" [src]="mentee.logoUrl" width="300" height="300" />
+                <img *ngIf="!mentee.logoUrl" [src]="mentee.avatarUrl" width="300" height="300" />
+              </div>
+              <h6>{{ mentee.firstName }} {{ mentee.lastName }}</h6>
+              <div>
+                <app-ellipsis-text [text]="mentee.introduction" [minHeight]="'8rem'" [preserveMinHeight]="true">
+                </app-ellipsis-text>
+              </div>
+              <div>
+                <a class="btn btn-outline-dark btn-lg btn-block" (click)="onClickMenteeProfile(mentee.userId)"
+                  >View Profile</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="!projectActiveMentees || projectActiveMentees.length === 0">
+          <p>No mentees found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4"></div>
+
+<div class="container">
+  <div class="break">
+    <div class="card-row row">
+      <div class="col">
+        <h4>
+          Graduated Mentees
+        </h4>
+        <div class="row text-center" *ngIf="projectGraduatedMentees && projectGraduatedMentees.length > 0">
+          <div class="col-lg-4 col-md-6" *ngFor="let mentee of projectGraduatedMentees">
+            <div class="card-item">
+              <div class="card-image">
+                <img *ngIf="mentee.logoUrl" [src]="mentee.logoUrl" width="300" height="300" />
+                <img *ngIf="!mentee.logoUrl" [src]="mentee.avatarUrl" width="300" height="300" />
+              </div>
+              <h6>{{ mentee.firstName }} {{ mentee.lastName }}</h6>
+              <div>
+                <app-ellipsis-text [text]="mentee.introduction" [minHeight]="'8rem'" [preserveMinHeight]="true">
+                </app-ellipsis-text>
+              </div>
+              <div>
+                <a class="btn btn-outline-dark btn-lg btn-block" (click)="onClickMenteeProfile(mentee.userId)"
+                  >View Profile</a
+                >
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button
+              *ngIf="activeShouldShowNextButton$ | async"
+              class="next-button btn btn-outline-light btn-block"
+              (click)="onClickGraduatedMenteesNext()"
+            >
+              View More
+            </button>
+          </div>
+        </div>
+        <div class="col-md-12" *ngIf="!projectGraduatedMentees || projectGraduatedMentees.length === 0">
+          <p>No graduated mentees found.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mt-4"></div>
+
+<!-- <div class="container">
+  <div class="row">
+    <div class="col">
+      <div class="section-header">
+        <h1 class="section-name">Companies</h1>
+      </div>
+      <div class="cards-center">
+        <div class="card-deck align-items-center row">
+          <div *ngFor="let employerCard of employerCardList" class="col-lg-4">
+            <app-employer-card [employerCard]="employerCard"></app-employer-card>
+          </div>
+          <div *ngIf="!employerCardList?.length && employerCardListLoaded" class="empty">
+            No companies
+          </div>
+        </div>
+      </div>
+      <app-loader *ngIf="!employerCardListLoaded"></app-loader>
+    </div>
+  </div>
+</div> -->
+<div class="mt-4"></div>

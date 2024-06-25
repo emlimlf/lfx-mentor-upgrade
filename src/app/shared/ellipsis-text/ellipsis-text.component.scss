@@ -1,0 +1,40 @@
+.description {
+  overflow: hidden;
+  overflow-y: hidden !important;
+  white-space: pre-wrap;
+  font-family: Poppins, Roboto, 'Helvetica Neue', Arial, sans-serif;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 0rem;
+  text-align: left;
+}
+
+.heading {
+  font-weight: 600;
+  font-size: 2.25em;
+}
+
+.description.full-description {
+  height: 100% !important;
+}
+
+.viewLink {
+  color: #0099cc;
+  cursor: pointer;
+}
+
+/deep/.ngx-ellipsis-more {
+  color: #000;
+}
+
+.viewLinkDiv {
+  max-height: 23px;
+  margin-bottom: 10px;
+  text-align: left;
+
+  a:hover {
+    color: #0099cc !important;
+  }
+}

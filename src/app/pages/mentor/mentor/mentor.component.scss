@@ -1,0 +1,484 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+:host {
+  @include page-base($background-grey-color, 0rem);
+}
+
+small {
+  background-color: $background-grey-color;
+  border-radius: 4px;
+}
+
+.btn-small {
+  height: 48px;
+}
+
+.cards-center {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+
+  .card-align {
+    margin: 20px 10px 0 10px;
+  }
+}
+
+.github-icon {
+  height: 18px;
+  width: 25px;
+  display: inline-block;
+  fill: currentColor;
+}
+
+.github-link {
+  display: flex;
+  flex-direction: row;
+}
+
+.github-m-link {
+  display: flex;
+  flex-direction: row;
+  font-size: $header-6-font-size;
+}
+
+.word-wrap {
+  word-wrap: break-word;
+}
+
+.details {
+  background-color: $background-grey-color;
+}
+
+.budget {
+  background-color: white;
+}
+
+@include media-breakpoint-down(sm) {
+  .budget {
+    font-size: $header-4-font-size !important;
+  }
+}
+
+.hero-banner {
+  min-height: 92px !important;
+  transition: background-color 0.125s linear;
+  background: #003366;
+}
+
+.hero-m-avatar {
+  position: relative;
+  bottom: 20px;
+}
+
+.project-col-1 {
+  display: block;
+}
+
+.project-col-2 {
+  display: block;
+}
+
+.project-col-3 {
+  display: block;
+  position: relative;
+  top: 160px;
+}
+
+.project-title {
+  position: relative;
+  bottom: 28px;
+}
+
+@include media-breakpoint-up(lg) {
+  .project-container {
+    margin-bottom: 106px;
+  }
+}
+
+.project-description {
+  position: relative;
+  right: 15px;
+  margin-top: 57px;
+  min-width: 445px;
+}
+
+.project-m-description {
+  position: relative;
+  margin-top: 58px;
+}
+
+.coc-link {
+  position: relative;
+  right: 15px;
+  color: $primary-blue-color;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.card-row {
+  background-color: #ffffff;
+  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.5);
+  h4 {
+    font-size: 21px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.2px;
+    color: #000000;
+    padding: 15px 40px;
+    border-bottom: #e4e6e6 1px solid;
+    margin: 0 -20px 15px;
+  }
+}
+
+.card-item {
+  padding: 40px 0;
+  max-width: 260px;
+  margin: 0 auto;
+
+  h6 {
+    font-size: 0.9em;
+    margin: 15px 0;
+  }
+
+  p {
+    font-size: 0.8em;
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    height: auto;
+    font-size: 0.8em;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+  }
+
+  .card-image img {
+    border-radius: 60px;
+    border: 2px solid #e4e6e6;
+    height: 120px;
+    width: 120px;
+  }
+}
+
+.detail-header {
+  background-color: #ffffff;
+  padding: 5px 0 25px 45px;
+  box-shadow: 1px 1px #ccc;
+
+  h1 {
+    padding-top: 25px;
+    font-size: 30px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.6px;
+  }
+
+  h2 {
+    font-size: 16px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.2px;
+    color: #878686;
+    margin-bottom: 30px;
+  }
+
+  h3 {
+    font-size: 17px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.6px;
+  }
+
+  h6 {
+    font-size: 0.7em;
+    font-weight: 600;
+    color: #878686;
+    margin: 0 0 10px;
+  }
+
+  .btn {
+    color: #fff;
+    height: auto;
+    &.btn-success {
+      padding-top: 1.25em;
+      padding-bottom: 1.25em;
+    }
+
+    &.btn-info {
+      color: #fff;
+    }
+
+    &.btn-repo {
+      color: black;
+      font-size: 12px;
+
+      i {
+        margin-right: 5px;
+      }
+    }
+
+    &.btn-repo:hover {
+      color: #fff;
+    }
+  }
+
+  .project-logo {
+    margin: -45px 0 40px;
+    background: white;
+    img {
+      border: 10px solid black;
+      border-radius: 75px;
+      background-color: white;
+    }
+
+    .logo-small {
+      width: 56px !important;
+      height: 56px !important;
+    }
+
+    .logo-rounded {
+      border-radius: 50% !important;
+    }
+  }
+
+  .project-repo {
+    .btn {
+      border-color: #c8caca;
+      border-width: 2px;
+    }
+  }
+
+  .project-detail-highlight {
+    margin-bottom: 20px;
+  }
+
+  .code-of-conduct a {
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.5px;
+    color: #003366;
+    text-decoration: underline;
+    font-size: 0.8em;
+  }
+}
+
+.floated-circle-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+  padding-left: 20px;
+
+  li {
+    margin: 0 0 0 -20px;
+    height: 40px;
+    width: 40px;
+
+    &:last-child {
+      font-size: 0.7em;
+      line-height: 36px;
+      background-color: #f5f6f6;
+      color: #6e6e6e;
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    img {
+      border: 2px solid #ffffff;
+      border-radius: 20px;
+    }
+  }
+}
+
+.tag-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  z-index: 1;
+
+  li {
+    border-radius: 4px;
+    border: 0 solid transparent;
+    padding: 6px 12px;
+    margin: 0 8px 8px 0;
+  }
+
+  &.skill-list li {
+    border-width: 1.5px;
+    border-color: #ffc40c;
+    font-size: 0.8em;
+  }
+
+  &.term-list li {
+    background-color: #6abf4b;
+    color: #ffffff;
+    font-size: 0.7em;
+    font-weight: 600;
+  }
+
+  &.project-info-list li {
+    font-size: 0.7em;
+    font-weight: 600;
+    background-color: #f5f6f6;
+    color: #878686;
+  }
+}
+
+.cii-badge {
+  position: relative;
+  z-index: 100;
+}
+
+.cii-badge-description {
+  margin-left: -3px;
+}
+
+.project-goals {
+  strong {
+    font-size: 1.3em;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.2px;
+  }
+
+  .goal-progress {
+    font-size: 0.8em;
+    line-height: 32px;
+  }
+}
+
+.progress-bar {
+  height: 4px;
+  background: #f3f4f4;
+  position: relative;
+
+  .progress-success-bar {
+    background: #31b55c;
+    position: absolute;
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 1%;
+
+    &:after {
+      background: #f3f4f4;
+      content: '';
+      position: absolute;
+      border: 4px solid #31b55c;
+      border-radius: 8px;
+      height: 4px;
+      width: 4px;
+      right: -6px;
+      top: -4px;
+      padding: 2px;
+    }
+  }
+}
+
+.default-circle-icon {
+  border: solid 1px black !important;
+}
+
+.term.orange {
+  background-color: #ffad5f !important;
+}
+
+.term.green {
+  background-color: #6abf4b !important;
+}
+
+.term.yellow {
+  background-color: #fdd627 !important;
+}
+
+.term.gray {
+  background-color: #f5f6f6 !important;
+  color: #6e6e6e;
+}
+
+.section-header {
+  border-bottom: 1px solid #ccc;
+}
+h1.section-name {
+  font-size: 20px;
+  font-weight: 600;
+  font-style: normal;
+  font-stretch: normal;
+  line-height: normal;
+  letter-spacing: 0.3px;
+}
+
+.detail-apprentice {
+  background: #000;
+  color: #fff;
+
+  .section-header {
+    border-bottom: 2px solid #ccc;
+  }
+
+  h1 {
+    font-size: 21px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.2px;
+    margin: 0;
+    padding: 20px 0;
+  }
+
+  .section-body {
+    padding-top: 60px;
+
+    .apprentice-card {
+      display: inline-block;
+    }
+
+    h3 {
+      font-size: 14px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: -0.3px;
+    }
+
+    p {
+      font-size: 12px;
+      font-weight: normal;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: -0.2px;
+      text-align: center;
+    }
+  }
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1380px;
+    max-width: 1430px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1742px;
+    max-width: 1780px;
+  }
+}

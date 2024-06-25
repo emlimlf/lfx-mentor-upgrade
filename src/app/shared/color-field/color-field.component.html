@@ -1,0 +1,23 @@
+<div [formGroup]="parent">
+  <label i18n for="{{ control }}" class="header-5"><i class="fas fa-asterisk required"></i>Program Accent Color</label>
+  <div class="input-group">
+    <div class="input-group-prepend">
+      <div i18n class="input-group-text left-group px-0 justify-content-center">#</div>
+    </div>
+    <input
+      i18n
+      formControlName="{{ control }}"
+      type="text"
+      class="form-control"
+      id="{{ control }}"
+      placeholder="CCCCCC"
+    />
+    <div class="input-group-append">
+      <div class="input-group-text color-preview" [style.background]="'#' + colorPreview"></div>
+    </div>
+  </div>
+  <p class="header-6 regular text-light mt-2" i18n>
+    This color will be used throughout LFX Mentorship to customize your program’s brand. Vibrant colors are recommended.
+    Do not use white!
+  </p>
+</div>

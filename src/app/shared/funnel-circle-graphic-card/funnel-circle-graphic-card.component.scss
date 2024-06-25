@@ -1,0 +1,66 @@
+.graph-text {
+  color: #ffffff;
+  font-family: Open Sans;
+  font-weight: bold;
+  text-align: left;
+  padding: 5px 2px;
+
+  &.count {
+    font-size: 20px;
+    line-height: 1px;
+  }
+
+  &.sub-text {
+    font-size: 14px;
+  }
+}
+
+.all-applications {
+  position: absolute;
+  top: 50px;
+  left: 20px;
+}
+
+.accepted-mentees {
+  position: absolute;
+  top: 128px;
+  left: 20px;
+}
+
+.graduated-applications {
+  position: absolute;
+  top: 205px;
+  left: 20px;
+}
+
+.circle-graphic {
+  width: 128px;
+  height: 128px;
+  background: #ffffff;
+  border: 0px solid #000000;
+  border-radius: 100%;
+  position: absolute;
+  top: 85px;
+  left: 160px;
+}
+
+.circle-text {
+  color: #0099cc;
+  font-family: Open Sans;
+  font-weight: bold;
+  text-align: center;
+  line-height: 1px;
+  padding: 5px;
+  position: relative;
+
+  &.count {
+    font-size: 20px;
+    line-height: 1px;
+    top: 50px;
+  }
+
+  &.sub-text {
+    font-size: 12px;
+    top: 60px;
+  }
+}

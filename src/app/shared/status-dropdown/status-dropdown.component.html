@@ -1,0 +1,11 @@
+<div class="pill-dropdown" [ngStyle]="styles">
+  <span class="pill" [ngClass]="[Id]" [style.cursor]="showOptions ? 'pointer' : ''" (click)="toggle()">
+    {{ value | titlecase }}
+  </span>
+  <div class="dropdown-chevron" [style.visibility]="showOptions ? 'visible' : 'hidden'" (click)="toggle()">
+    <i class="fa" [ngClass]="[Id]" [class.fa-chevron-down]="!optionsVisible" [class.fa-chevron-up]="optionsVisible"></i>
+  </div>
+  <div class="dropdown" [style.display]="optionsVisible ? 'block' : 'none'">
+    <div class="option" *ngFor="let option of options" (click)="select(option)">{{ option | titlecase }}</div>
+  </div>
+</div>

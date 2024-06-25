@@ -1,0 +1,133 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+$bar-height: 72px;
+
+$underline-height: 3px;
+
+.tab-underline {
+  height: $underline-height;
+  margin-top: -$underline-height;
+  margin-left: 0rem;
+  margin-right: 0rem;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+a {
+  border: 0px !important;
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
+.nav-item {
+  color: $primary-grey-color;
+  border: 0px;
+  margin-right: 0.75rem;
+  margin-left: 0.75rem;
+  height: 68px;
+}
+
+.sticky-bar {
+  background-color: white;
+  border-top-style: solid;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-top-width: 1px;
+  border-color: $loading-grey-color;
+  width: 100%;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  height: $bar-height;
+}
+
+.sticky-spacer {
+  height: $bar-height;
+}
+
+.sticky {
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+
+.prespacer {
+  width: 63px;
+}
+
+.medium-spacer {
+  width: 80px !important;
+}
+
+.sticky-row {
+  height: 68px;
+}
+
+.nav-item.large-tabs {
+  margin: 0.5rem 1.5rem;
+}
+
+.nav-item:first-child {
+  margin-left: 0;
+}
+
+.nav-item:last-child {
+  margin-right: 0;
+}
+
+.nav-item :hover {
+  border: 0px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.nav-link {
+  margin-top: 14px;
+}
+
+.active {
+  .nav-link {
+    color: black;
+  }
+}
+
+.nav-tabs {
+  border-bottom-width: 0;
+  height: 68px;
+}
+
+.subscribe-btn {
+  min-width: 160px;
+  transition: opacity 0.2s ease-in-out;
+}
+
+@include media-breakpoint-down(sm) {
+  .subscribe-btn {
+    min-width: 102px;
+  }
+}
+
+.alphed-out {
+  opacity: 0;
+}
+
+.mobile-nav-button {
+  border-width: 1px;
+  border-radius: 4px;
+  min-width: 136px;
+  height: 48px;
+  margin-left: 12px !important;
+}
+
+.nav-group-mobile {
+  width: 100%;
+  max-width: 136px;
+}
+
+.dropdown-menu {
+  min-width: 136px;
+  border-radius: 0;
+  top: 109%;
+  left: 11px;
+}

@@ -1,0 +1,253 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+:host {
+  @include page-base(white, 0);
+}
+
+/*
+  Featured Section
+*/
+
+.cards-center {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+
+  .card-align {
+    margin: 20px 10px 0 10px;
+  }
+}
+.featured-section {
+  .section-header {
+    margin-top: 30px;
+    border-bottom: 1px solid #c8caca;
+
+    .section-name {
+      font-size: 1.25rem;
+      display: inline-block;
+    }
+
+    .view-all {
+      float: right;
+      border: 0;
+      background: none;
+      font-size: 0.75rem;
+      cursor: pointer;
+      color: #2a99cc;
+      font-weight: bold;
+    }
+  }
+}
+
+.next-button {
+  border-radius: 0;
+  max-width: 8rem;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.empty {
+  margin: 50px auto;
+  color: #878686;
+}
+
+:host /deep/ .search-section {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+  // max-width: 964px;
+  margin: 0 auto;
+  text-align: right;
+  margin-top: 20px;
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: unset;
+    .sub-nav {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .input-search {
+      width: 100%;
+    }
+
+    .filltered-project-list,
+    .fpl-item {
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+  &.project-search-section {
+    justify-content: space-between;
+  }
+}
+
+.sub-nav {
+  font-size: 13px;
+  position: relative;
+
+  // form {
+  //   position: absolute;
+  //   margin-top: -3.5%;
+  // }
+
+  .btn {
+    height: 100%;
+    color: #8492a6;
+    background: #f3f4f4;
+    border: none;
+    border: 1px solid #8492a6;
+    border-left: none;
+    border-right: none;
+
+    &:first-child {
+      border-left: 1px solid #8492a6;
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+
+    &:last-child {
+      border-right: 1px solid #8492a6;
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+
+    &:hover,
+    &.active {
+      color: #f3f4f4;
+      background: #8492a6;
+    }
+
+    &.active {
+      border-radius: 5px;
+    }
+
+    &.focus {
+      box-shadow: 0 0 0 0 rgba(38, 38, 38, 0.5);
+    }
+  }
+
+  @media (max-width: 576px) {
+    // form {
+    //   position: relative;
+    //   margin-top: 2.5%;
+    //   width: 100%;
+    // }
+
+    .btn {
+      width: 18vw;
+      height: auto;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  @media (max-width: 798px) {
+    .btn-group {
+      display: flex;
+      align-items: unset;
+    }
+    // form {
+    //   position: relative;
+    //   margin-top: 1.5%;
+    //   width: 100%;
+    // }
+
+    .btn {
+      width: 12vw;
+      height: 3rem;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
+  }
+
+  @media (min-width: 798px) and (max-width: 992px) {
+    // form {
+    //   position: absolute;
+    //   margin-top: -6.5%;
+    //   margin-left: -7%;
+    // }
+
+    .btn {
+      width: 10vw;
+      height: 3rem;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+.discoveryTabs {
+  .container {
+    margin-top: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    @media (max-width: 576px) {
+      width: 90vw;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+
+    @media (min-width: 576px) and (max-width: 798px) {
+      width: 100%;
+      max-width: 95vw;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+
+    @media (min-width: 798px) and (max-width: 992px) {
+      width: 100%;
+      max-width: 95vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  background: #d9e0e7;
+  border: 0px solid #ffffff;
+  border-radius: 0px;
+  padding-top: 0.3rem;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1430px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1780px;
+  }
+}
+
+.sticky,
+.search-sticky {
+  position: fixed;
+  width: 100%;
+  z-index: 33;
+}
+
+.search-sticky {
+  top: 100px;
+  background-color: #ffffff;
+  margin-top: 0;
+  padding-top: 20px;
+  padding-bottom: 10px;
+  @media (max-width: 1024px) {
+    top: 100px;
+  }
+}
+
+.sticky + .discover-content {
+  padding-top: 90px;
+
+  &.projects-tab {
+    @media (max-width: 798px) {
+      padding-top: 152px;
+    }
+  }
+}

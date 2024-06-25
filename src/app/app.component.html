@@ -1,0 +1,11 @@
+<div class="secondary-navigation">
+  <a routerLink="/participate/maintainer">Enroll a Program</a>
+  <a routerLink="/participate/mentor">Become a Mentor</a>
+  <a routerLink="/participate/mentee">Become a Mentee</a>
+</div>
+<app-alert-bar *ngIf="url !== '/404'"></app-alert-bar>
+<app-nav-secondary-tabs *ngIf="!isLandingPage"></app-nav-secondary-tabs>
+<main [ngClass]="!isLandingPage ? '' : 'landing'">
+  <router-outlet *ngIf="loadState && !(auth.loading$ | async)"></router-outlet>
+  <app-redirecting *ngIf="!loadState || (auth.loading$ | async)"></app-redirecting>
+</main>

@@ -1,0 +1,16 @@
+<div class="title-row">
+  <div class="svg-root" [style.color]="'#' + color" inlineSVG="/assets/dot.svg" aria-disabled="true"
+    [removeSVGAttributes]="['fill','id']">
+  </div>
+
+  <h3 *ngIf="!smallText && !xSmallText" class="header-4 pl-2">
+    {{ title }}
+  </h3>
+  <h3 i18n *ngIf="smallText" class="header-5 pl-2">
+    {{ title }}
+  </h3>
+  <h3 i18n *ngIf="xSmallText" class="header-6 pl-2">
+    {{ title }}
+  </h3>
+  <h3 i18n class="header-6 percentage">{{ value }}</h3>
+</div>

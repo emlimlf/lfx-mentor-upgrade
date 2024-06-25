@@ -1,0 +1,33 @@
+<div class="mt-2 progress-bar-container pg-{{type}} ">
+  <div class="progress md-progress project-progress small-progress" [style.background-color]="false && barColor">
+
+    <div [style.background-color]="barColor" class="progress-filled">
+    </div>
+
+    <div class="circle circle--start">
+      <span class="circle__label">0</span>
+    </div>
+
+    <div class="progress-wrapper">
+      <div class="progress-bar progress-bar-striped" [style.background-color]="mainColor"
+        [style.width]="percentagePoint" role="progressbar">
+      </div>
+
+      <div class="circle circle-progress" [style.border-color]="mainColor" [style.left]="percentagePoint">
+        <span class="circle__percentage">{{ percentagePointText }}</span>
+      </div>
+    </div>
+    <div class="circle circle--end">
+      <span class="circle__label">{{totalMentees}}</span>
+    </div>
+  </div>
+
+  <div class="mentees-items" [ngClass]="{ 'ml-3': threePointsDisplayed }">
+    <div class="mentee-item-hidden">0</div>
+    <div *ngFor="let item of totalMenteesItems"
+      [ngClass]="{ 'mentee-item': item, 'mentee-item-hidden': !showGoal || totalMenteesGoal != item, 'goal': totalMenteesGoal == item && showGoal }">
+      {{ item }}
+    </div>
+  </div>
+
+</div>

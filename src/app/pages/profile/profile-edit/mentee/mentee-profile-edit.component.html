@@ -1,0 +1,744 @@
+<app-stepper [selectedStep]="currentStep">
+  <app-stepper-item name="Profile" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Skills" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Demographics" i18n-name> </app-stepper-item>
+</app-stepper>
+
+<form [formGroup]="editMenteeForm" class="container mx-auto px-0 mt-5">
+  <div *ngIf="currentStep === 0" formGroupName="formPage1">
+    <app-form-card class="text-paragraph" heading="User Information" i18n-heading>
+      <div class="mt-4">
+        <div class="row">
+          <div class="col">
+            <label i18n class="header-6"> First Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="First Name"
+              formControlName="firstName"
+              required
+              [readonly]="true"
+            />
+          </div>
+          <div class="col">
+            <label i18n class="header-6"> Last Name</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Last Name"
+              formControlName="lastName"
+              required
+              [readonly]="true"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <label i18n class="mt-4 header-6">Email</label>
+            <input
+              i18n-placeholder
+              type="text"
+              class="form-control"
+              placeholder="Email"
+              formControlName="email"
+              [readonly]="true"
+            />
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="row mx-0">
+              <label i18n class="mt-4 header-6"><i class="fas fa-asterisk required"></i> Phone</label>
+              <label i18n class="mt-4 header-6 ml-auto regular text-light"
+                >{{ phone?.value.length }} / {{ maxPhoneNumberLength }}</label
+              >
+            </div>
+            <input
+              i18n-placeholder
+              type="tel"
+              minlength="{{ minPhoneNumberLength }}"
+              maxlength="{{ maxPhoneNumberLength }}"
+              class="form-control"
+              placeholder="123-456-7890"
+              formControlName="phone"
+              required
+              trim="blur"
+            />
+            <div *ngIf="phone.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="phone.errors?.required">
+                Phone is required.
+              </div>
+              <div *ngIf="!phone.errors?.pattern && phone.errors?.minlength">
+                Phone number must be at least 4 digits long.
+              </div>
+              <div *ngIf="phone.errors?.pattern">
+                Please enter a valid phone number.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col upload-logo-container mt-4">
+          <app-logo-cropper-field
+            [parent]="formPage1"
+            [defaultLogoUrl]="defaultLogoUrl"
+            control="logoUrl"
+            label="Avatar"
+            [showError]="pageSubmitted"
+            [previewUrl]="avatarUrl"
+          ></app-logo-cropper-field>
+        </div>
+      </div>
+    </app-form-card>
+
+    <div class="mt-3"></div>
+    <app-form-card class="text-paragraph" heading="Introduction" isRequired="'true'" i18n-heading>
+      <div class="mt-4">
+        <label i18n class="header-6"
+          ><i class="fas fa-asterisk required"></i> Tell us a little bit about yourself.</label
+        >
+        <textarea
+          formControlName="introduction"
+          class="form-control"
+          id="exampleFormControlTextarea1"
+          rows="10"
+          [placeholder]="menteeIntroductionPlaceholder"
+          trim="blur"
+        ></textarea>
+        <div *ngIf="introduction.invalid && pageSubmitted" class="alert alert-danger">
+          <div *ngIf="introduction.errors?.required">
+            Introduction is required
+          </div>
+        </div>
+      </div>
+    </app-form-card>
+
+    <app-form-card class="text-paragraph" heading="Mailing Address" i18n-heading>
+      <p class="header-5 regular text-light mt-2" i18n>
+        Your address is required to ensure that you are not a person or entity restricted by U.S. export controls or 
+        sanction programs; and are not a resident of Cuba, Iran, North Korea, Syria, Sudan, Russian Federation or Crimea region of Ukraine.
+      </p>
+      <div class="mt-4">
+        <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Full Address</label>
+        <input
+          i18n-placeholder
+          type="text"
+          class="form-control"
+          placeholder="Address, Line 1"
+          formControlName="address1"
+          required
+        />
+        <div *ngIf="address1.invalid && pageSubmitted" class="alert alert-danger">
+          <div *ngIf="address1.errors?.required">
+            Address Line is required.
+          </div>
+        </div>
+
+        <label i18n class="mt-4 header-6">Address Line 2</label>
+        <input
+          i18n-placeholder
+          type="text"
+          class="form-control"
+          placeholder="Address, Line 2"
+          formControlName="address2"
+        />
+
+        <div class="mt-4">
+          <div class="row">
+            <div class="col">
+              <label i18n for="country" class="header-6"><i class="fas fa-asterisk required"></i> Country</label>
+              <select
+                class="form-control custom-select"
+                id="country"
+                formControlName="country"
+                (change)="openStatesFields()"
+                required
+              >
+                <option i18n value="">Select a country</option>
+                <option i18n value="AF">Afghanistan</option>
+                <option i18n value="AX">Åland Islands</option>
+                <option i18n value="AL">Albania</option>
+                <option i18n value="DZ">Algeria</option>
+                <option i18n value="AS">American Samoa</option>
+                <option i18n value="AD">Andorra</option>
+                <option i18n value="AO">Angola</option>
+                <option i18n value="AI">Anguilla</option>
+                <option i18n value="AG">Antigua and Barbuda</option>
+                <option i18n value="AR">Argentina</option>
+                <option i18n value="AM">Armenia</option>
+                <option i18n value="AW">Aruba</option>
+                <option i18n value="AU">Australia</option>
+                <option i18n value="AT">Austria</option>
+                <option i18n value="AZ">Azerbaijan</option>
+                <option i18n value="BS">Bahamas</option>
+                <option i18n value="BH">Bahrain</option>
+                <option i18n value="BD">Bangladesh</option>
+                <option i18n value="BB">Barbados</option>
+                <option i18n value="BY">Belarus</option>
+                <option i18n value="BE">Belgium</option>
+                <option i18n value="BZ">Belize</option>
+                <option i18n value="BJ">Benin</option>
+                <option i18n value="BM">Bermuda</option>
+                <option i18n value="BT">Bhutan</option>
+                <option i18n value="BO">Bolivia, Plurinational State of</option>
+                <option i18n value="BQ">Bonaire, Sint Eustatius and Saba</option>
+                <option i18n value="BA">Bosnia and Herzegovina</option>
+                <option i18n value="BW">Botswana</option>
+                <option i18n value="BV">Bouvet Island</option>
+                <option i18n value="BR">Brazil</option>
+                <option i18n value="IO">British Indian Ocean Territory</option>
+                <option i18n value="BN">Brunei Darussalam</option>
+                <option i18n value="BG">Bulgaria</option>
+                <option i18n value="BF">Burkina Faso</option>
+                <option i18n value="BI">Burundi</option>
+                <option i18n value="KH">Cambodia</option>
+                <option i18n value="CM">Cameroon</option>
+                <option i18n value="CA">Canada</option>
+                <option i18n value="CV">Cape Verde</option>
+                <option i18n value="KY">Cayman Islands</option>
+                <option i18n value="CF">Central African Republic</option>
+                <option i18n value="TD">Chad</option>
+                <option i18n value="CL">Chile</option>
+                <option i18n value="CN">China</option>
+                <option i18n value="CX">Christmas Island</option>
+                <option i18n value="CC">Cocos (Keeling) Islands</option>
+                <option i18n value="CO">Colombia</option>
+                <option i18n value="KM">Comoros</option>
+                <option i18n value="CG">Congo</option>
+                <option i18n value="CD">Congo, the Democratic Republic of the</option>
+                <option i18n value="CK">Cook Islands</option>
+                <option i18n value="CR">Costa Rica</option>
+                <option i18n value="CI">Côte d'Ivoire</option>
+                <option i18n value="HR">Croatia</option>
+                <!-- <option i18n value="CU">Cuba</option> -->
+                <option i18n value="CW">Curaçao</option>
+                <option i18n value="CY">Cyprus</option>
+                <option i18n value="CZ">Czech Republic</option>
+                <option i18n value="DK">Denmark</option>
+                <option i18n value="DJ">Djibouti</option>
+                <option i18n value="DM">Dominica</option>
+                <option i18n value="DO">Dominican Republic</option>
+                <option i18n value="EC">Ecuador</option>
+                <option i18n value="EG">Egypt</option>
+                <option i18n value="SV">El Salvador</option>
+                <option i18n value="GQ">Equatorial Guinea</option>
+                <option i18n value="ER">Eritrea</option>
+                <option i18n value="EE">Estonia</option>
+                <option i18n value="ET">Ethiopia</option>
+                <option i18n value="FK">Falkland Islands (Malvinas)</option>
+                <option i18n value="FO">Faroe Islands</option>
+                <option i18n value="FJ">Fiji</option>
+                <option i18n value="FI">Finland</option>
+                <option i18n value="FR">France</option>
+                <option i18n value="GF">French Guiana</option>
+                <option i18n value="PF">French Polynesia</option>
+                <option i18n value="TF">French Southern Territories</option>
+                <option i18n value="GA">Gabon</option>
+                <option i18n value="GM">Gambia</option>
+                <option i18n value="GE">Georgia</option>
+                <option i18n value="DE">Germany</option>
+                <option i18n value="GH">Ghana</option>
+                <option i18n value="GI">Gibraltar</option>
+                <option i18n value="GR">Greece</option>
+                <option i18n value="GL">Greenland</option>
+                <option i18n value="GD">Grenada</option>
+                <option i18n value="GP">Guadeloupe</option>
+                <option i18n value="GU">Guam</option>
+                <option i18n value="GT">Guatemala</option>
+                <option i18n value="GG">Guernsey</option>
+                <option i18n value="GN">Guinea</option>
+                <option i18n value="GW">Guinea-Bissau</option>
+                <option i18n value="GY">Guyana</option>
+                <option i18n value="HT">Haiti</option>
+                <option i18n value="HM">Heard Island and McDonald Islands</option>
+                <option i18n value="VA">Holy See (Vatican City State)</option>
+                <option i18n value="HN">Honduras</option>
+                <option i18n value="HK">Hong Kong</option>
+                <option i18n value="HU">Hungary</option>
+                <option i18n value="IS">Iceland</option>
+                <option i18n value="IN">India</option>
+                <option i18n value="ID">Indonesia</option>
+                <!-- <option i18n value="IR">Iran, Islamic Republic of</option> -->
+                <option i18n value="IQ">Iraq</option>
+                <option i18n value="IE">Ireland</option>
+                <option i18n value="IM">Isle of Man</option>
+                <option i18n value="IL">Israel</option>
+                <option i18n value="IT">Italy</option>
+                <option i18n value="JM">Jamaica</option>
+                <option i18n value="JP">Japan</option>
+                <option i18n value="JE">Jersey</option>
+                <option i18n value="JO">Jordan</option>
+                <option i18n value="KZ">Kazakhstan</option>
+                <option i18n value="KE">Kenya</option>
+                <option i18n value="KI">Kiribati</option>
+                <!-- <option i18n value="KP">Korea, Democratic People's Republic of</option> -->
+                <option i18n value="KR">Korea, Republic of</option>
+                <option i18n value="XK">Kosovo, Republic of</option>
+                <option i18n value="KW">Kuwait</option>
+                <option i18n value="KG">Kyrgyzstan</option>
+                <option i18n value="LA">Lao People's Democratic Republic</option>
+                <option i18n value="LV">Latvia</option>
+                <option i18n value="LB">Lebanon</option>
+                <option i18n value="LS">Lesotho</option>
+                <option i18n value="LR">Liberia</option>
+                <option i18n value="LY">Libya</option>
+                <option i18n value="LI">Liechtenstein</option>
+                <option i18n value="LT">Lithuania</option>
+                <option i18n value="LU">Luxembourg</option>
+                <option i18n value="MO">Macao</option>
+                <option i18n value="MK">Macedonia, the former Yugoslav Republic of</option>
+                <option i18n value="MG">Madagascar</option>
+                <option i18n value="MW">Malawi</option>
+                <option i18n value="MY">Malaysia</option>
+                <option i18n value="MV">Maldives</option>
+                <option i18n value="ML">Mali</option>
+                <option i18n value="MT">Malta</option>
+                <option i18n value="MH">Marshall Islands</option>
+                <option i18n value="MQ">Martinique</option>
+                <option i18n value="MR">Mauritania</option>
+                <option i18n value="MU">Mauritius</option>
+                <option i18n value="YT">Mayotte</option>
+                <option i18n value="MX">Mexico</option>
+                <option i18n value="FM">Micronesia, Federated States of</option>
+                <option i18n value="MD">Moldova, Republic of</option>
+                <option i18n value="MC">Monaco</option>
+                <option i18n value="MN">Mongolia</option>
+                <option i18n value="ME">Montenegro</option>
+                <option i18n value="MS">Montserrat</option>
+                <option i18n value="MA">Morocco</option>
+                <option i18n value="MZ">Mozambique</option>
+                <option i18n value="MM">Myanmar</option>
+                <option i18n value="NA">Namibia</option>
+                <option i18n value="NR">Nauru</option>
+                <option i18n value="NP">Nepal</option>
+                <option i18n value="NL">Netherlands</option>
+                <option i18n value="NC">New Caledonia</option>
+                <option i18n value="NZ">New Zealand</option>
+                <option i18n value="NI">Nicaragua</option>
+                <option i18n value="NE">Niger</option>
+                <option i18n value="NG">Nigeria</option>
+                <option i18n value="NU">Niue</option>
+                <option i18n value="NF">Norfolk Island</option>
+                <option i18n value="MP">Northern Mariana Islands</option>
+                <option i18n value="NO">Norway</option>
+                <option i18n value="OM">Oman</option>
+                <option i18n value="PK">Pakistan</option>
+                <option i18n value="PW">Palau</option>
+                <option i18n value="PS">Palestinian Territory, Occupied</option>
+                <option i18n value="PA">Panama</option>
+                <option i18n value="PG">Papua New Guinea</option>
+                <option i18n value="PY">Paraguay</option>
+                <option i18n value="PE">Peru</option>
+                <option i18n value="PH">Philippines</option>
+                <option i18n value="PN">Pitcairn</option>
+                <option i18n value="PL">Poland</option>
+                <option i18n value="PT">Portugal</option>
+                <option i18n value="PR">Puerto Rico</option>
+                <option i18n value="QA">Qatar</option>
+                <option i18n value="RE">Réunion</option>
+                <option i18n value="RO">Romania</option>
+                <option i18n value="RW">Rwanda</option>
+                <option i18n value="BL">Saint Barthélemy</option>
+                <option i18n value="SH">Saint Helena, Ascension and Tristan da Cunha</option>
+                <option i18n value="KN">Saint Kitts and Nevis</option>
+                <option i18n value="LC">Saint Lucia</option>
+                <option i18n value="MF">Saint Martin (French part)</option>
+                <option i18n value="PM">Saint Pierre and Miquelon</option>
+                <option i18n value="VC">Saint Vincent and the Grenadines</option>
+                <option i18n value="WS">Samoa</option>
+                <option i18n value="SM">San Marino</option>
+                <option i18n value="ST">Sao Tome and Principe</option>
+                <option i18n value="SA">Saudi Arabia</option>
+                <option i18n value="SN">Senegal</option>
+                <option i18n value="RS">Serbia</option>
+                <option i18n value="SC">Seychelles</option>
+                <option i18n value="SL">Sierra Leone</option>
+                <option i18n value="SG">Singapore</option>
+                <option i18n value="SX">Sint Maarten (Dutch part)</option>
+                <option i18n value="SK">Slovakia</option>
+                <option i18n value="SI">Slovenia</option>
+                <option i18n value="SB">Solomon Islands</option>
+                <option i18n value="SO">Somalia</option>
+                <option i18n value="ZA">South Africa</option>
+                <option i18n value="GS">South Georgia and the South Sandwich Islands</option>
+                <option i18n value="SS">South Sudan</option>
+                <option i18n value="ES">Spain</option>
+                <option i18n value="LK">Sri Lanka</option>
+                <!-- <option i18n value="SD">Sudan</option> -->
+                <option i18n value="SR">Suriname</option>
+                <option i18n value="SJ">Svalbard and Jan Mayen</option>
+                <option i18n value="SZ">Swaziland</option>
+                <option i18n value="SE">Sweden</option>
+                <option i18n value="CH">Switzerland</option>
+                <!-- <option i18n value="SY">Syrian Arab Republic</option> -->
+                <option i18n value="TW">Taiwan, Province of China</option>
+                <option i18n value="TJ">Tajikistan</option>
+                <option i18n value="TZ">Tanzania, United Republic of</option>
+                <option i18n value="TH">Thailand</option>
+                <option i18n value="TL">Timor-Leste</option>
+                <option i18n value="TG">Togo</option>
+                <option i18n value="TK">Tokelau</option>
+                <option i18n value="TO">Tonga</option>
+                <option i18n value="TT">Trinidad and Tobago</option>
+                <option i18n value="TN">Tunisia</option>
+                <option i18n value="TR">Turkey</option>
+                <option i18n value="TM">Turkmenistan</option>
+                <option i18n value="TC">Turks and Caicos Islands</option>
+                <option i18n value="TV">Tuvalu</option>
+                <option i18n value="UG">Uganda</option>
+                <option i18n value="UA">Ukraine (except Crimea Region)</option>
+                <option i18n value="AE">United Arab Emirates</option>
+                <option i18n value="GB">United Kingdom</option>
+                <option i18n value="US">United States</option>
+                <option i18n value="UM">United States Minor Outlying Islands</option>
+                <option i18n value="UY">Uruguay</option>
+                <option i18n value="UZ">Uzbekistan</option>
+                <option i18n value="VU">Vanuatu</option>
+                <option i18n value="VE">Venezuela, Bolivarian Republic of</option>
+                <option i18n value="VN">Viet Nam</option>
+                <option i18n value="VG">Virgin Islands, British</option>
+                <option i18n value="VI">Virgin Islands, U.S.</option>
+                <option i18n value="WF">Wallis and Futuna</option>
+                <option i18n value="EH">Western Sahara</option>
+                <option i18n value="YE">Yemen</option>
+                <option i18n value="ZM">Zambia</option>
+                <option i18n value="ZW">Zimbabwe</option>
+              </select>
+              <div *ngIf="country.invalid && pageSubmitted" class="alert alert-danger">
+                <div *ngIf="country.errors?.required">
+                  Country is required.
+                </div>
+              </div>
+            </div>
+            <div class="col" *ngIf="isUnitedStatesSelected">
+              <label i18n for="state" class="header-6"><i class="fas fa-asterisk required"></i> State</label>
+              <select class="form-control custom-select" id="state" formControlName="state">
+                <option i18n value="" selected>Select a state</option>
+                <option i18n value="AL">Alabama</option>
+                <option i18n value="AK">Alaska</option>
+                <option i18n value="AZ">Arizona</option>
+                <option i18n value="AR">Arkansas</option>
+                <option i18n value="CA">California</option>
+                <option i18n value="CO">Colorado</option>
+                <option i18n value="CT">Connecticut</option>
+                <option i18n value="DE">Delaware</option>
+                <option i18n value="DC">District Of Columbia</option>
+                <option i18n value="FL">Florida</option>
+                <option i18n value="GA">Georgia</option>
+                <option i18n value="HI">Hawaii</option>
+                <option i18n value="ID">Idaho</option>
+                <option i18n value="IL">Illinois</option>
+                <option i18n value="IN">Indiana</option>
+                <option i18n value="IA">Iowa</option>
+                <option i18n value="KS">Kansas</option>
+                <option i18n value="KY">Kentucky</option>
+                <option i18n value="LA">Louisiana</option>
+                <option i18n value="ME">Maine</option>
+                <option i18n value="MD">Maryland</option>
+                <option i18n value="MA">Massachusetts</option>
+                <option i18n value="MI">Michigan</option>
+                <option i18n value="MN">Minnesota</option>
+                <option i18n value="MS">Mississippi</option>
+                <option i18n value="MO">Missouri</option>
+                <option i18n value="MT">Montana</option>
+                <option i18n value="NE">Nebraska</option>
+                <option i18n value="NV">Nevada</option>
+                <option i18n value="NH">New Hampshire</option>
+                <option i18n value="NJ">New Jersey</option>
+                <option i18n value="NM">New Mexico</option>
+                <option i18n value="NY">New York</option>
+                <option i18n value="NC">North Carolina</option>
+                <option i18n value="ND">North Dakota</option>
+                <option i18n value="OH">Ohio</option>
+                <option i18n value="OK">Oklahoma</option>
+                <option i18n value="OR">Oregon</option>
+                <option i18n value="PA">Pennsylvania</option>
+                <option i18n value="RI">Rhode Island</option>
+                <option i18n value="SC">South Carolina</option>
+                <option i18n value="SD">South Dakota</option>
+                <option i18n value="TN">Tennessee</option>
+                <option i18n value="TX">Texas</option>
+                <option i18n value="UT">Utah</option>
+                <option i18n value="VT">Vermont</option>
+                <option i18n value="VA">Virginia</option>
+                <option i18n value="WA">Washington</option>
+                <option i18n value="WV">West Virginia</option>
+                <option i18n value="WI">Wisconsin</option>
+                <option i18n value="WY">Wyoming</option>
+              </select>
+              <div *ngIf="state.invalid && pageSubmitted" class="alert alert-danger" required>
+                <div *ngIf="state.errors?.required">
+                  State is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-4">
+          <div class="row">
+            <div class="col">
+              <label i18n class="header-6"><i class="fas fa-asterisk required"></i> City</label>
+              <input
+                i18n-placeholder
+                type="text"
+                class="form-control"
+                placeholder="City"
+                formControlName="city"
+                required
+              />
+              <div *ngIf="city.invalid && pageSubmitted" class="alert alert-danger">
+                <div *ngIf="city.errors?.required">
+                  City is required.
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Postal Code</label>
+              <input
+                i18n-placeholder
+                type="text"
+                class="form-control"
+                placeholder="Postal Code"
+                formControlName="zipCode"
+                required
+              />
+              <div *ngIf="zipCode.invalid && pageSubmitted" class="alert alert-danger">
+                <div *ngIf="zipCode.errors?.required">
+                  Postal Code is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </app-form-card>
+    <!-- <div class="mt-3"></div>
+    <app-form-card class="text-paragraph" heading="Work Authorization Status" i18n-heading>
+      <div class="mt-4">
+        <div class="row">
+          <div class="col" style="flex: 5">
+            <h5>
+              <i class="fas fa-asterisk required"></i> Are you legally authorized to work in your country of residence?
+            </h5>
+          </div>
+          <div class="col">
+            <input class="form-check-input" type="radio" name="workAuthorized" id="yes-q-one" value="Yes"
+              formControlName="workAuthorized">
+            <label class="form-check-label" for="yes-q-one">
+              Yes
+            </label>
+          </div>
+          <div class="col">
+            <input class="form-check-input" type="radio" name="workAuthorized" id="no-q-one" value="No"
+              formControlName="workAuthorized" checked>
+            <label class="form-check-label" for="no-q-one">
+              No
+            </label>
+          </div>
+        </div>
+        <div *ngIf="workAuthorized.invalid && pageSubmitted" class="alert alert-danger" required>
+          <div *ngIf="workAuthorized.errors?.required">
+            Work Authorization Status is required.
+          </div>
+        </div>
+      </div>
+    </app-form-card> -->
+
+    <div class="mt-3"></div>
+    <app-form-card class="text-paragraph" heading="External Profile Links" i18n-heading>
+      <label i18n class="mt-4 header-6">LinkedIn Profile</label>
+      <input
+        i18n-placeholder
+        type="text"
+        class="form-control"
+        placeholder="https://www.linkedin.com/in/username"
+        formControlName="linkedInUrl"
+      />
+      <div
+        *ngIf="linkedInUrl.invalid && (linkedInUrl.dirty || linkedInUrl.touched || pageSubmitted)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="linkedInUrl.errors?.url">
+          Please enter a valid URL.
+        </div>
+      </div>
+
+      <label i18n class="mt-4 header-6">GitHub Profile</label>
+      <input
+        i18n-placeholder
+        type="text"
+        class="form-control"
+        placeholder="https://github.com/username"
+        formControlName="githubUrl"
+      />
+      <div
+        *ngIf="githubUrl.invalid && (githubUrl.dirty || githubUrl.touched || pageSubmitted)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="githubUrl.errors?.url">
+          Please enter a valid URL.
+        </div>
+      </div>
+
+      <app-resume-field
+        [resumeLink]="savedResumeUrl"
+        [parent]="formPage1"
+        [control]="'resumeUrl'"
+        [showError]="pageSubmitted"
+      ></app-resume-field>
+    </app-form-card>
+  </div>
+  <div *ngIf="currentStep === 1" formGroupName="formPage2">
+    <app-form-card class="text-paragraph" heading="Skills" i18n-heading>
+      <app-add-tags
+        [tagTypes]="currentSkills"
+        [(itemList)]="skills"
+        feature="skill"
+        [tagSectionLabel]="
+          'What skills are you currently proficient in? List up to five skills for each category: programming languages, operating systems, and technologies.'
+        "
+        [skills]="true"
+        required="true"
+      ></app-add-tags>
+      <div class="mt-5"></div>
+      <div *ngIf="pageSubmitted && skills.length === 0" class="alert alert-danger">
+        At least one skill is required.
+      </div>
+      <app-add-tags
+        [tagTypes]="skillsToImproveOn"
+        [(itemList)]="improvementSkills"
+        feature="skill"
+        [tagSectionLabel]="'What areas do you want to improve in?'"
+        [skills]="true"
+        required="true"
+      ></app-add-tags>
+      <div *ngIf="pageSubmitted && improvementSkills.length === 0" class="alert alert-danger">
+        At least one desired skill is required.
+      </div>
+      <div class="mt-5">
+        <div class="header-6">Anything else you want mentors to know?</div>
+        <div class="mt-2">
+          <textarea
+            class="form-control"
+            i18n-placeholder
+            name="comments"
+            placeholder=""
+            formControlName="comments"
+          ></textarea>
+        </div>
+      </div>
+    </app-form-card>
+  </div>
+  <div *ngIf="currentStep === 2" formGroupName="formPage3">
+    <app-form-card class="text-paragraph" heading="Demographics (optional)" i18n-heading>
+      <div class="header-5 regular text-light mt-4" i18n>
+        <p i18n>
+          We want to encourage greater diversity within the open source community, and demographic information helps us
+          achieve that goal. Demographic information is collected for the purpose of compiling, analyzing and disclosing
+          aggregate statistics regarding diversity of participation in open source projects and communities (including
+          in Mentorship projects and Mentorship opportunities), to help track progress towards meeting our commitment to
+          diversity initiatives.
+        </p>
+        <p i18n>
+          Consent to provide demographic information for the purpose listed above is optional and purely voluntary, and
+          is provided by selecting an option from the drop-down for the corresponding category. Demographic information
+          is considered confidential and private, and will not be shared with mentors as part of your registration
+          details when you are considered for mentorships, nor will it be used to subject you to adverse treatment.
+        </p>
+        <p i18n>
+          Should you choose to provide any demographic information, you may request removal of that information from
+          Mentorship at any time by writing to
+          <a href="mailto:privacy@linuxfoundation.org">privacy@linuxfoundation.org</a>.
+        </p>
+      </div>
+
+      <label i18n class="mt-4 header-6">{{ ageQuestion.question }}</label>
+
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <select class="form-control" formControlName="age">
+            <option *ngFor="let option of ageQuestion.options" [value]="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+      </div>
+
+      <label i18n class="mt-4 header-6">{{ racesQuestion.question }}</label>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <select class="form-control" formControlName="race">
+            <option *ngFor="let option of racesQuestion.options" [value]="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+      </div>
+      <label i18n class="mt-4 header-6">{{ genderQuestion.question }}</label>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <select class="form-control" formControlName="gender">
+            <option *ngFor="let option of genderQuestion.options" [value]="option.value">{{ option.text }}</option>
+          </select>
+        </div>
+      </div>
+
+      <label i18n class="mt-4 header-6"> {{ incomeConsentQuestion.question }} </label>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <select class="form-control" formControlName="householdIncome">
+            <option *ngFor="let option of incomeConsentQuestion.options" [value]="option.value"
+              >{{ option.text }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <label i18n class="mt-4 header-6">{{ educationLevelQuestion.question }}</label>
+      <div class="form-group row">
+        <div class="col-sm-10">
+          <select class="form-control" formControlName="educationLevel">
+            <option *ngFor="let option of educationLevelQuestion.options" [value]="option.value"
+              >{{ option.text }}
+            </option>
+          </select>
+        </div>
+      </div>
+    </app-form-card>
+  </div>
+
+  <div>
+    <!-- Page validation error -->
+    <div class="d-flex justify-content-between col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto">
+      <div *ngIf="pageSubmitted && !validate()" class="alert alert-danger">
+        Something on the form is not complete or invalid. Please correct the highlighted fields before continuing.
+      </div>
+    </div>
+    <div
+      class="d-flex justify-content-between col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto"
+      *ngIf="currentStep === 0"
+    >
+      <button type="button" class="btn btn-link btn-md" (click)="cancel()" i18n>Cancel</button>
+      <button type="button" class="btn btn-info btn-md" (click)="next()" i18n>Next: Skills</button>
+    </div>
+    <div
+      class="d-flex justify-content-between col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto"
+      *ngIf="currentStep === 1"
+    >
+      <button type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+        <i class="fas fa-arrow-left"></i> Back: Profile
+      </button>
+      <button type="button" class="btn btn-info btn-md" (click)="next()" i18n>Next: Demographics</button>
+    </div>
+    <div
+      class="d-flex justify-content-between col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto"
+      *ngIf="currentStep === 2"
+    >
+      <button type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+        <i class="fas fa-arrow-left"></i> Back: Skills
+      </button>
+      <button type="button" class="btn btn-info btn-md" (click)="submit()" [disabled]="formSubmitted" i18n>
+        {{ submitBtnLabel }}
+      </button>
+    </div>
+  </div>
+</form>

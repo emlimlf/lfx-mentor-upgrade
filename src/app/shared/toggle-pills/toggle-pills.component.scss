@@ -1,0 +1,39 @@
+$regent-gray-color: #8493a6;
+$pacific-blue-color: #189aca;
+:host {
+  display: block;
+  position: relative;
+}
+.lfx-toggle-pills {
+  &.btn-group {
+    box-shadow: none;
+    .btn {
+      background-color: white;
+      border: 1px solid $regent-gray-color;
+      box-shadow: none;
+      color: #5a5656;
+      font-family: 'Open Sans';
+      font-size: 12px;
+      height: 25px;
+      padding: 0;
+
+      &.active {
+        background-color: $pacific-blue-color;
+        color: white;
+        border-color: $pacific-blue-color;
+      }
+    }
+
+    .btn-pill-left {
+      border-radius: 18px;
+      border-top-right-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+
+    .btn-pill-right {
+      border-radius: 18px;
+      border-top-left-radius: 0;
+      border-bottom-left-radius: 0;
+    }
+  }
+}

@@ -1,0 +1,98 @@
+@import '~styles.scss';
+
+.form-card {
+  background-color: white;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+}
+
+aside {
+  border-radius: 4px;
+}
+
+hr {
+  margin-left: -1rem;
+  margin-right: -1rem;
+}
+
+@include media-breakpoint-up(sm) {
+  hr {
+    margin-left: -1.5rem;
+    margin-right: -1.5rem;
+  }
+}
+
+@include media-breakpoint-up(md) {
+  hr {
+    margin-left: -3rem;
+    margin-right: -3rem;
+  }
+}
+
+@include media-breakpoint-up(lg) {
+  hr {
+    margin-left: -6rem;
+    margin-right: -6rem;
+  }
+}
+
+@keyframes LoadingBar {
+  0% {
+    transform: translateX(-102%);
+  }
+
+  45% {
+    transform: translateX(0);
+  }
+
+  55% {
+    transform: translateX(0);
+  }
+
+  90% {
+    transform: translateX(102%);
+  }
+
+  100% {
+    transform: translateX(102%);
+  }
+}
+
+.loading-bar {
+  background-color: white;
+  display: block;
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+.loading-bar:before {
+  content: '';
+  position: absolute;
+  display: block;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 102%;
+  background-color: $loading-grey-color;
+  animation: LoadingBar 1.5s cubic-bezier(0.5, 0.01, 0.51, 1) infinite;
+}
+
+.opt {
+  position: relative;
+  bottom: 4px;
+  font-weight: 500;
+}
+
+.form-card-icon {
+  position: absolute;
+  left: -9.5%;
+}
+
+.form-card-m-icon {
+  position: relative;
+  bottom: 6px;
+}

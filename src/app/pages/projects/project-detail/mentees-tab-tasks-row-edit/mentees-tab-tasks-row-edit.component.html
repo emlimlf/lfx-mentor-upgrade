@@ -1,0 +1,113 @@
+<div class="modal-edit">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Edit Task</h4>
+    <button type="button" class="close" aria-label="Close" (click)="cancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <form class="form" [formGroup]="form">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="taskName"><i class="fas fa-asterisk required"></i> Task Name</label>
+            <input type="text" id="taskName" class="form-control" formControlName="taskName" required trim="blur" />
+            <div *ngIf="taskName.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskName.errors?.required">
+                A task name is required.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="form-group">
+            <label for="taskDueDate">Due Date</label>
+            <div class="input-group" (appClickOutside)="closePicker(taskDueDatePicker)">
+              <input
+                id="taskDueDate"
+                class="form-control"
+                placeholder="yyyy-mm-dd"
+                formControlName="taskDueDate"
+                ngbDatepicker
+                #taskDueDatePicker="ngbDatepicker"
+                [minDate]="{
+                  year: currentDate.getFullYear(),
+                  month: currentDate.getMonth() + 1,
+                  day: currentDate.getDate()
+                }"
+              />
+              <div class="input-group-append">
+                <button
+                  class="btn btn-outline-secondary calendar"
+                  (click)="taskDueDatePicker.toggle()"
+                  type="button"
+                ></button>
+              </div>
+            </div>
+            <div *ngIf="taskDueDate.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskDueDate.errors?.invalidDueDateTemplate">
+                A valid due date is required (yyyy-mm-dd).
+              </div>
+              <div *ngIf="taskDueDate.errors?.invalidDueDate">
+                Due date should be greater than today's date.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="taskDescription"><i class="fas fa-asterisk required"></i> Task Description</label>
+            <textarea
+              class="form-control"
+              formControlName="taskDescription"
+              id="taskDescription"
+              rows="4"
+              required=""
+              trim="blur"
+            ></textarea>
+            <div *ngIf="taskDescription.invalid && taskSubmitted" class="alert alert-danger">
+              <div *ngIf="taskDescription.errors?.required">
+                A task description is required.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <div class="submit-file-wrap">
+              <input type="checkbox" id="submitFile" name="submitFile" formControlName="submitFile" />
+              <label for="submitFile">Check if completition of this task requires that mentee submits a file</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label for="taskStatus" i18n>Task Status</label>
+            <div class="form-group">
+              <select disabled id="taskstatus" formControlName="taskStatus" class="form-control">
+                <option value="pending">Pending</option>
+                <option value="inProgress">In Progress</option>
+                <option value="submitted">Submitted</option>
+                <option value="completed">Completed</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-sm-3-inverse" (click)="cancel()">Cancel</a>&nbsp;&nbsp;
+    <button type="button" class="btn btn-sm-3" [disabled]="isLoading" (click)="onSubmitEditTask()">
+      <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Submit
+    </button>
+  </div>
+</div>

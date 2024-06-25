@@ -1,0 +1,191 @@
+service: jobspring-ui
+
+frameworkVersion: '>=2.0.0'
+
+# Only package lambda@edge function.
+package:
+  exclude:
+    - '**'
+  include:
+    - edge/dist/*
+
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: us-east-1 # Region can't be configurable, lambda@edge is us-east-1 only.
+  #profile: jobspring
+  deploymentBucket:
+    serverSideEncryption: AES256 # Make sure items are uploaded encrypted.
+  role: EdgeRole
+
+plugins:
+  # Serverless Finch does s3 uploading. Called with 'sls client deploy'.
+  # Also allows bucket removal with 'sls client remove'.
+  - serverless-finch
+  # Automatically versions and updates the lambda@edge function.
+  - serverless-lambda-version
+  # Automatically invalidates cloudfront after frontend bucket is deployed
+  - serverless-invalidate-cloudfront
+
+custom:
+  project: ${file(../project-vars.yml):projectIdentifier}
+  uiUrl:
+    dev: people.dev.platform.linuxfoundation.org
+    staging: people.staging.platform.linuxfoundation.org
+    prod: mentorship.lfx.linuxfoundation.org
+    # prod: p2umrmcl7k1jcd98ioi3ac12c73.communitybridge.org
+  client: # Configurations for serverless finch.
+    bucketName: ${self:custom.project}-${opt:stage}-${self:service}
+    distributionFolder: dist
+    indexDocument: index.html
+    # Because our application is a Single Page Application, we always want our index
+    # documents to handle 404/403 urls.
+    errorDocument: index.html
+  invalidateCloudfront:
+    CloudfrontDistribution:
+      paths:
+        - '/*'
+  uiMentorshipCert:
+    dev: ${ssm:/communitybridge-cert-arn-${opt:stage}~true}
+    staging: ${ssm:/communitybridge-cert-arn-${opt:stage}~true}
+    prod: ${ssm:/mentorship-cert-arn-${opt:stage}~true}
+
+functions:
+  # Configure a lambda@edge handler. Lambda@edge is a function that adds http headers to
+  # cloudfront requests. We use it to enforce HTTP security best practices.
+  clientEdge:
+    handler: edge/dist/index.response
+    memorySize: 128 # This is the maximum memory size for lambda@edge functions
+    timeout: 1 # This is the maximum execution time for lambda@edge functions
+  clientEdgeRequest:
+    handler: edge/dist/index.request
+    memorySize: 128 # This is the maximum memory size for lambda@edge functions
+    timeout: 1 # This is the maximum execution time for lambda@edge functions
+
+resources:
+  Conditions:
+    # Cloudfront takes a long time to provision, so we have a shortcut to skip provisioning
+    # for temporary stages.
+    CreateCloudFront:
+      'Fn::Equals':
+        - ${opt:cloudfront}
+        - true
+  Resources:
+    # The bucket the website is uploaded to. We make sure to turn on AES256 encryption, which
+    # is best practice.
+    WebsiteDeploymentBucket:
+      Type: AWS::S3::Bucket
+      Properties:
+        BucketEncryption:
+          ServerSideEncryptionConfiguration:
+            - ServerSideEncryptionByDefault:
+                SSEAlgorithm: AES256
+        BucketName: ${self:custom.project}-${opt:stage}-${self:service}
+    # The cloudfront distribution wraps around our static website S3 bucket. Using a CDN to host our SPA is good
+    # practice, and also lets us set custom headers using lambda@edge.
+    CloudfrontDistribution:
+      Type: AWS::CloudFront::Distribution
+      Condition: CreateCloudFront
+      DependsOn:
+        - WebsiteDeploymentBucket
+      Properties:
+        DistributionConfig:
+          Enabled: true
+          Origins:
+            - DomainName: # Point to the s3 website url, with 'http://' stripped from the string.
+                'Fn::Select':
+                  - 2
+                  - 'Fn::Split':
+                      - '/'
+                      - 'Fn::GetAtt':
+                          - WebsiteDeploymentBucket
+                          - WebsiteURL
+              Id:
+                Ref: WebsiteDeploymentBucket
+              CustomOriginConfig:
+                HTTPPort: 80
+                HTTPSPort: 443
+                OriginProtocolPolicy: http-only
+          HttpVersion: http2
+          DefaultRootObject: index.html
+          DefaultCacheBehavior:
+            AllowedMethods:
+              - GET
+              - HEAD
+            # Links our lambda@edge function, (which adds HTTPS our security headers), to the cloudfront distribution.
+            LambdaFunctionAssociations:
+              - EventType: 'viewer-response'
+                # Cloudfront requires a lambda@edge arn in the format
+                # 'arn:aws:lambda:${region}:${accountNumber}:function:${lambdaName}:${explicitVersion}'
+                # We use the serverless-lambda-version plugin to automatically update this every time there is a change.
+                LambdaFunctionARN: ClientEdgeLambdaFunction
+              - EventType: 'viewer-request'
+                LambdaFunctionARN: ClientEdgeRequestLambdaFunction
+              - EventType: 'origin-response'
+                LambdaFunctionARN: ClientEdgeLambdaFunction
+            Compress: true # Turns on gzipping
+            MaxTTL: 31536000 # Can keep the file in the cloudfront cache for a maximum of a year.
+            MinTTL: 0
+            DefaultTTL: 86400 # Defaults to a day if no Cache-Control header is set.
+            TargetOriginId:
+              Ref: WebsiteDeploymentBucket
+            ForwardedValues:
+              QueryString: true
+              Cookies:
+                Forward: none
+            ViewerProtocolPolicy: redirect-to-https
+          PriceClass: PriceClass_100 # Cheapest class, only hosts content at North American cloudfront locations.
+          Aliases:
+            - ${self:custom.uiUrl.${opt:stage}}
+          ViewerCertificate:
+            AcmCertificateArn: ${self:custom.uiMentorshipCert.${opt:stage}, self:custom.uiMentorshipCert.dev}
+            SslSupportMethod: sni-only
+          CustomErrorResponses:
+            - ErrorCode: 403
+              ResponseCode: 200
+              ErrorCachingMinTTL: 1
+              ResponsePagePath: /index.html
+            - ErrorCode: 404
+              ResponseCode: 200
+              ResponsePagePath: /index.html
+    # Severless usually generates our roles out of the box, but lambda@edge support is lacking, so we have to create
+    # our own. This role can assume the edgelambda.amazonaws.com role, (the lambda won't run without it).
+    EdgeRole:
+      Type: AWS::IAM::Role
+      Properties:
+        RoleName: ${self:custom.project}-${opt:stage}-edge-role
+        Path: /
+        AssumeRolePolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+            - Effect: Allow
+              Principal:
+                Service:
+                  - lambda.amazonaws.com
+                  - edgelambda.amazonaws.com # This is the important part of this role.
+              Action:
+                - sts:AssumeRole
+        Policies:
+          - PolicyName: LogGroupPolicy # Permissions to access Lambda@edge log groups.
+            PolicyDocument:
+              Version: '2012-10-17'
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - logs:CreateLogGroup
+                    - logs:CreateLogStream
+                    - logs:DescribeLogGroups
+                    - logs:DescribeLogStreams
+                    - logs:PutLogEvents
+                    - logs:GetLogEvents
+                    - logs:FilterLogEvents
+                  Resource:
+                    - 'Fn::Join':
+                        - ':'
+                        - - arn:aws:logs
+                          - 'Ref': 'AWS::Region'
+                          - 'Ref': 'AWS::AccountId'
+                          - log-group
+                          - '*'
+        ManagedPolicyArns:
+          - arn:aws:iam::aws:policy/CloudWatchLogsFullAccess

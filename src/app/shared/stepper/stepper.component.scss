@@ -1,0 +1,104 @@
+@import '~constants.scss';
+
+:host {
+  background-color: white;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+ul {
+  padding-left: 0px;
+}
+
+li {
+  margin-top: 32px;
+  position: relative;
+  list-style: none;
+  flex: 1;
+  flex-grow: 1;
+  text-align: center;
+}
+li:first-of-type,
+li:last-of-type {
+  //flex-grow: 0 !important;
+}
+ul.two-step {
+  li {
+    flex-grow: 1 !important;
+  }
+}
+
+li::before {
+  // Used for the circle
+  content: '';
+  border-radius: 50%;
+  border-width: 2px;
+  border-color: $border-grey-color;
+  background-color: white;
+  border-style: solid;
+  display: block;
+  position: absolute;
+  left: calc(50% - 12px);
+  top: -32px;
+  width: 24px;
+  height: 24px;
+  z-index: 2;
+}
+
+li::after {
+  content: '';
+  // Used for the connecting line
+  display: block;
+  width: 100%;
+  height: 2px;
+  background-color: $border-grey-color;
+  position: absolute;
+  transform: translateY(-39px);
+}
+
+li:first-of-type::after {
+  width: 50%;
+  transform: translate(102%, -39px);
+}
+li:last-of-type::after {
+  width: 50%;
+}
+
+li:last-of-type {
+  &.selected::after,
+  &.completed::after {
+    background-color: $secondary-green-color;
+  }
+}
+
+li:not(:first-child):not(:last-child) {
+  &.selected::after {
+    background: linear-gradient(
+      to right,
+      $secondary-green-color 0%,
+      $secondary-green-color 50%,
+      $border-grey-color 51%,
+      $border-grey-color 100
+    );
+  }
+}
+
+.selected {
+  font-weight: $primary-font-semibold-weight !important;
+  color: black !important;
+}
+.selected::before {
+  border-color: $secondary-green-color !important;
+}
+
+.completed::before {
+  border-width: 0;
+  background-color: $secondary-green-color;
+  background-image: url('/assets/check-light.svg');
+  background-repeat: no-repeat;
+  background-size: 16px;
+  background-position: 4px, 4px;
+}
+
+.completed::after {
+  background-color: $secondary-green-color;
+}

@@ -1,0 +1,14 @@
+<span class="switch" [formGroup]="formGroup">
+  <input #switchInput type="checkbox" [formControlName]="controlName" role="switch" class="switch" [id]="controlName + 'Id'"
+    [attr.aria-checked]="control.value === '' ? false : control.value">
+  <label [for]="controlName  + 'Id'">
+    <div class="sr-only" i18n>
+      <ng-container *ngIf="control.value">
+        {{ toggleOffDescription }}
+      </ng-container>
+      <ng-container *ngIf="!control.value">
+        {{ toggleOnDescription }}
+      </ng-container>
+    </div>
+  </label>
+</span>

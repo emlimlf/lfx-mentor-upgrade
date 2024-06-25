@@ -1,0 +1,45 @@
+// Navbar toggle animation adapted from:
+// http://kylegoslan.co.uk/bootstrap-4-hamburger-menu-animation/
+
+.navbar-toggler {
+  border: none;
+  background: transparent !important;
+  -webkit-appearance: none;
+
+  .top-bar {
+    transform: rotate(45deg);
+    transform-origin: 10% 10%;
+  }
+
+  .middle-bar {
+    opacity: 0;
+  }
+
+  .bottom-bar {
+    transform: rotate(-45deg);
+    transform-origin: 10% 90%;
+  }
+}
+
+.navbar-toggler.collapsed {
+  .top-bar {
+    transform: rotate(0);
+  }
+
+  .middle-bar {
+    opacity: 1;
+  }
+
+  .bottom-bar {
+    transform: rotate(0);
+  }
+}
+
+.icon-bar {
+  width: 22px;
+  height: 2px;
+  background-color: black;
+  display: block;
+  transition: all 0.2s;
+  margin-top: 4px;
+}

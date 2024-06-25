@@ -1,0 +1,154 @@
+<div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front d-flex flex-column">
+      <div class="card-head">
+        <div class="ribbon ribbon-top-left"><span>Mentor</span></div>
+        <i class="fas fa-chalkboard-teacher mentor-chalk-icon"></i>
+        <div class="card-top on-top">
+          <div class="avatar-top outline">
+            <img
+              class="avatar-url"
+              alt=""
+              (click)="onClickMentorProfile(mentorCard)"
+              [src]="mentorCard.avatarUrl"
+              onerror="this.src = '/assets/default-icon.svg'; this.className='default-avatar'"
+            />
+          </div>
+        </div>
+        <div class="title-description-container">
+          <label class="sr-only" for="">{{ mentorCard.title }}</label>
+          <a class="card-title" id="">
+            <span (click)="onClickMentorProfile(mentorCard)">
+              {{ mentorCard.title | titlecase }}
+            </span>
+          </a>
+          <div class="card-description-container">
+            <div ellipsis class="card-description" ellipsis-word-boundaries=" \n">
+              {{ mentorCard.description }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="info-container">
+        <div class="body-section-container">
+          <div>
+            <div class="thin-title">
+              Skills
+            </div>
+            <div class="icons-container">
+              <div class="card-industry">
+                <small
+                  class="rounded py-1 px-2 mr-2 small first-tag"
+                  [hidden]="mentorCard.skillTags.length === 0"
+                  title="{{ mentorCard.skillTags[0] }}"
+                >
+                  {{ mentorCard.skillTags[0] }}
+                </small>
+                <small
+                  class="rounded py-1 px-2 mr-2 small second-tag"
+                  [hidden]="mentorCard.skillTags.length < 2"
+                  title="{{ mentorCard.skillTags[1] }}"
+                >
+                  {{ mentorCard.skillTags[1] }}
+                </small>
+                <small
+                  class="rounded py-1 px-2 small count-tag"
+                  *ngIf="mentorCard.skillTags.length > 2"
+                  (mouseleave)="closePopover()"
+                >
+                  <span
+                    [ngbPopover]="listViewerTemplate"
+                    #tagsList="ngbPopover"
+                    (mouseenter)="openPopover(tagsList)"
+                    [placement]="['bottom', 'top']"
+                    triggers="manual"
+                    popoverClass="custom-popover"
+                  >
+                    +{{ mentorCard.skillTags.length - 2 }}
+                  </span>
+                </small>
+              </div>
+            </div>
+          </div>
+          <div class="mr-3">
+            <div class="thin-title">
+              Current Mentees
+            </div>
+            <div class="icons-container">
+              <div [routerLink]="'/mentor/' + mentorCard.id" [fragment]="'mentees'">
+                <img
+                  *ngFor="let mentee of mentorCard.apprentices | slice: 0:3"
+                  class="icon"
+                  [src]="mentee.avatar"
+                  onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+                  [title]="mentee.name"
+                />
+                <div [hidden]="mentorCard.apprentices?.length <= 3" class="icon-default">
+                  +{{ mentorCard.apprentices?.length - 3 }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="body-section-container">
+          <div>
+            <div class="thin-title">
+              Projects
+            </div>
+            <div class="icons-container">
+              <div [routerLink]="'/mentor/' + mentorCard.id" [fragment]="'projects'">
+                <img
+                  *ngFor="let project of mentorCard.projects | slice: 0:3"
+                  class="icon"
+                  [src]="project.logoUrl"
+                  onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+                  [title]="project.name"
+                />
+                <div [hidden]="mentorCard.projects?.length <= 3" class="icon-default">
+                  +{{ mentorCard.projects?.length - 3 }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="thin-title">
+              Graduated Mentees
+            </div>
+            <div class="icons-container">
+              <div [routerLink]="'/mentor/' + mentorCard.id" [fragment]="'graduatedMentees'">
+                <img
+                  *ngFor="let graduatedMentee of mentorCard.graduates | slice: 0:3"
+                  class="icon"
+                  [src]="graduatedMentee.avatar"
+                  onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+                  [title]="graduatedMentee.name"
+                />
+                <div [hidden]="mentorCard.graduates?.length <= 3" class="icon-default">
+                  +{{ mentorCard.graduates?.length - 3 }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mentor-card-footer m-auto">
+        <div>
+          <div class="footer-btn center-btn-text mt-3" *ngIf="!editProfile" (click)="onClickMentorProfile(mentorCard)">
+            View Profile
+          </div>
+          <div class="footer-btn center-btn-text mt-3" *ngIf="editProfile" (click)="onEdit()">
+            Edit Mentor Profile
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #listViewerTemplate>
+  <div class="selected-items-popover-item ellipsis" *ngFor="let tag of mentorCard.skillTags | slice: 2">
+    {{ tag }}
+  </div>
+</ng-template>

@@ -1,0 +1,52 @@
+@import '~constants.scss';
+
+:host {
+  width: 100% !important;
+}
+
+.separator {
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  margin-left: -32px;
+  margin-right: -32px;
+  padding-left: 32px;
+  padding-right: 32px;
+}
+
+.separator-mobile {
+  border-bottom: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: $loading-grey-color;
+  width: calc(100% + 32px);
+  margin-left: -16px;
+}
+
+.page-counter {
+  width: 130px;
+}
+
+.arrow {
+  font-size: 1em !important;
+  padding-left: 13px !important;
+  padding-right: 13px !important;
+}
+
+.svg-root-icon {
+  width: 16px;
+  fill: currentColor;
+}
+
+.svg-root {
+  fill: currentColor;
+  color: $primary-grey-color;
+  width: 45px;
+  height: 54px;
+  opacity: 0.2;
+}
+
+.empty-description-text {
+  width: 228px;
+}
+
+.circle {
+  @include circle(180px, $background-grey-color);
+}

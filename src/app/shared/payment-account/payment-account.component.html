@@ -1,0 +1,57 @@
+<app-form-card [loading]="loading" heading="Payment Method" i18n-heading>
+
+  <div class="form-group px-0">
+
+    <div *ngIf="(card$ | async) === undefined">
+      <button class="btn btn-info btn-sm mt-4" i18n id="add-card" (click)="openEditCardModal()" type="button">Add Card</button>
+    </div>
+    <div *ngIf="(card$ | async) !== undefined">
+      <label for="card-field" class="header-6 mt-4" i18n>
+        Credit or debit card
+      </label>
+      <div class="input-group disabled" id="card-field" [ngClass]="{ invalid: (expired$ | async)}">
+        <div class="input-group-prepend">
+          <div class="input-group-text left-group px-0 justify-content-center" [ngSwitch]="(card$ | async)!.brand">
+            <img *ngSwitchCase="cardBrand.AMEX" class="card-icon" src="/assets/cards/amex.png" alt="American Express"
+              i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.DINERS_CLUB" class="card-icon" src="/assets/cards/diners.png" alt="Diners Club"
+              i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.DISCOVER" class="card-icon" src="/assets/cards/discover.png" alt="Discover"
+              i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.JCB" class="card-icon" src="/assets/cards/jcb.png" alt="JCB" i18n-alt />
+
+            <img *ngSwitchCase="cardBrand.MASTERCARD" class="card-icon" src="/assets/cards/mastercard.png" alt="MasterCard"
+              i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.UNIONPAY" class="card-icon" src="/assets/cards/unionpay.png" alt="UnionPay"
+              i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.VISA" class="card-icon" src="/assets/cards/visa.png" alt="Visa" i18n-alt role="presentation" />
+            <img *ngSwitchCase="cardBrand.UNKNOWN" class="card-icon" src="/assets/cards/unknown.png" role="presentation"
+              i18n-alt role="presentation" />
+          </div>
+        </div>
+        <div class="input-group-text form-control credit-card-number" i18n>
+          <span aria-hidden="true" id="card-number" class="card-digits text-light">
+            •••• {{ (card$ | async)!.lastFourDigits }}
+          </span>
+          <span class="sr-only">
+            {{ (card$ | async)!.brand }} ending in {{ getScreenReadableDigits((card$ | async)!.lastFourDigits) }}
+          </span>
+        </div>
+
+        <div class="input-group-append border-danger">
+          <div class="input-group-text expiry">
+            <label for="expiry" class="sr-only" i18n *ngIf="!(expired$ | async)">expires</label>
+            <label for="expiry" class="sr-only" i18n *ngIf="(expired$ | async)">expired</label>
+            <span id="expiry" [ngClass]="{ 'text-danger': (expired$ | async), 'text-light': !(expired$ | async) }">
+              {{ (card$ | async)!.expiryMonth }} / {{ shortYear( (card$ | async)!.expiryYear) }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="text-error mt-1" i18n role="alert" *ngIf="(expired$ | async)">Your card has expired. Please update
+        your payment method.</div>
+
+      <button class="btn btn-info btn-sm mt-4" i18n id="add-card" (click)="openEditCardModal()" type="button">Edit Card</button>
+    </div>
+  </div>
+</app-form-card>

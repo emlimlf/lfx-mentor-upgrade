@@ -1,0 +1,59 @@
+@import '~constants.scss';
+@import "../../../../app.component.scss";
+
+:host {
+  @include page-base($background-grey-color);
+}
+
+.section-break {
+  margin-top: 3.5em !important;
+}
+
+.btn-success {
+  padding: 0 90px;
+}
+
+label i {
+  padding-left: 5px; 
+}
+
+.tc-link {
+  text-decoration: underline;
+}
+
+.left-group {
+  width: 46px;
+}
+
+.input-group .form-control {
+  border-radius: 0 4px 4px 0 !important;
+}
+
+.input-group-prepend {
+  .input-group-text {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+}
+
+.input-group-append {
+  .input-group-text {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  }
+}
+
+h3 {
+  span {
+    font-size: 15px;
+    font-weight: 100;
+    margin-left: 25px;
+  }
+}
+
+.form-group {
+  .form-check {
+    padding-bottom: 0.5rem;
+    display: grid;
+  }
+}

@@ -1,0 +1,316 @@
+@import '~constants.scss';
+
+:host {
+  @include page-base(white, 0);
+  width: 100%;
+}
+
+.btn-lfid {
+  background-color: #003561;
+}
+
+.btn-lfid:hover {
+  background-color: #2a99cc;
+}
+
+.cards-center {
+  display: flex;
+  justify-content: start;
+  flex-wrap: wrap;
+
+  .card-align {
+    margin: 20px 10px 0 10px;
+  }
+}
+
+.card {
+  min-height: 274px;
+  background-color: $card-background-color;
+  border-radius: 0px;
+  border-width: 0px;
+  transition: box-shadow 0.15s ease-in-out;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-bottom: 0px !important;
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  width: 300px;
+}
+
+.card-row {
+  background-color: #ffffff;
+  box-shadow: 0 1px 1.5px 0 rgba(0, 0, 0, 0.5);
+  h4 {
+    font-size: 21px;
+    font-weight: 600;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: -0.2px;
+    color: #000000;
+    padding: 15px 40px;
+    border-bottom: #e4e6e6 1px solid;
+    margin: 0 -20px 15px;
+  }
+}
+
+.card-item {
+  padding: 40px 0;
+  max-width: 260px;
+  margin: 0 auto;
+
+  h6 {
+    font-size: 0.9em;
+    margin: 15px 0;
+  }
+
+  p {
+    font-size: 0.8em;
+    margin-bottom: 24px;
+  }
+
+  .btn {
+    height: auto;
+    font-size: 0.8em;
+    padding-top: 1.25em;
+    padding-bottom: 1.25em;
+  }
+
+  .card-image img {
+    border-radius: 60px;
+    border: 2px solid #e4e6e6;
+    height: 120px;
+    width: 120px;
+  }
+}
+
+.next-button {
+  border-radius: 0;
+  max-width: 8rem;
+  margin: 2rem auto;
+  text-align: center;
+}
+
+.section-header {
+  margin-top: 30px;
+  border-bottom: 1px solid #c8caca;
+  display: flex;
+
+  // @media (min-width: 576px) {
+  //   margin-left: -15px;
+  //   margin-right: -15px;
+  // }
+
+  .section-name {
+    font-size: 1.25rem;
+    display: inline-block;
+  }
+  .view-all {
+    float: right;
+    border: 0;
+    background: none;
+    font-size: 0.75rem;
+    cursor: pointer;
+    color: #2a99cc;
+    font-weight: bold;
+  }
+}
+
+.edit-block {
+  border: solid 3px #cbcdcd;
+  border-radius: 4px;
+  padding: 10px 30px;
+  background: #fff;
+
+  .apprentice-details {
+    .apprentice-name {
+      font-size: 18.5px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      margin-bottom: 0;
+    }
+
+    .apprentice-email {
+      font-size: 14.5px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      color: #6d7073;
+      margin-bottom: 0;
+    }
+  }
+
+  .apprentice-edit {
+    a {
+      position: absolute;
+      right: 35px;
+      top: 30px;
+      font-size: 11.5px;
+      font-weight: 600;
+      font-style: normal;
+      font-stretch: normal;
+      line-height: normal;
+      letter-spacing: 0.1px;
+      text-align: right;
+      color: #6d7073;
+      cursor: pointer;
+    }
+  }
+}
+
+::ng-deep {
+  .profile {
+    .tab-content {
+      padding-top: 50px;
+    }
+
+    .nav-tabs .nav-link {
+      font-size: 14px;
+      font-weight: 600;
+      padding-left: 6px;
+      padding-right: 6px;
+      margin-right: 25px;
+      border-bottom: 3px solid transparent;
+    }
+
+    .nav-tabs .nav-link:hover,
+    .nav-tabs .nav-link:focus {
+      border: none;
+      background: none;
+      border-bottom: 3px solid #31b55c !important;
+    }
+
+    .nav-tabs .nav-link.active,
+    .nav-tabs .nav-item.show .nav-link {
+      color: #000 !important;
+      background: none !important;
+      border: none !important;
+      border-bottom: 3px solid #31b55c !important;
+    }
+  }
+
+  .modal-dialog {
+    max-width: 700px;
+
+    .calendar {
+      height: auto;
+      border: 1px solid #ccc;
+    }
+  }
+}
+
+:host {
+  ::ng-deep .filter-section {
+    .input-search {
+      max-width: 260px;
+      @media (max-width: 575px) {
+        min-width: 100%;
+        max-width: 100%;
+      }
+    }
+
+    .filltered-project-list,
+    .fpl-item {
+      min-width: 255px;
+      @media (max-width: 575px) {
+        min-width: 100%;
+        max-width: 100%;
+      }
+    }
+    .fpl-item {
+      min-width: calc(255px - 2rem);
+    }
+  }
+}
+.filter-section {
+  display: flex;
+  margin-top: 0.5rem;
+  width: 100%;
+  @media (max-width: 575px) {
+    flex-direction: column;
+  }
+
+  .dropdown-container {
+    margin-inline-start: auto;
+    @media (max-width: 575px) {
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .dropdown-item {
+    display: block;
+    width: 100%;
+    padding: 0.25rem 1.5rem;
+    clear: both;
+    font-weight: 400;
+    color: #212529;
+    text-align: inherit;
+    white-space: nowrap;
+    background-color: transparent;
+    border: 0;
+  }
+  .dropdown-menu.show,
+  #dropdownManual {
+    display: block;
+    min-width: 230.917px !important;
+    border-radius: 25px;
+    margin-inline-end: 20px;
+    @media (max-width: 575px) {
+      min-width: 100% !important;
+      margin-inline-end: 0px;
+      margin-bottom: 5px;
+    }
+  }
+
+  .filter-dropdown-option {
+    font-family: $font-family;
+    font-size: 12px;
+    margin-left: 0 !important;
+    padding-left: 1rem;
+    width: 100%;
+    border: none;
+    background-color: #ffffff;
+    text-align: left;
+    border-radius: 25px;
+  }
+
+  button.filter-dropdown-option:hover {
+    background-color: silver;
+  }
+
+  .dropdown-toggle::after {
+    display: none;
+  }
+
+  .btn.is-light-grey {
+    padding-bottom: 0.3rem;
+    text-align: left;
+
+    &:hover,
+    &:focus,
+    &:active {
+      .filter-grey {
+        background: url('../../../../assets/ic_filter_list_48px_white.svg') no-repeat top left;
+        background-size: contain;
+        float: left;
+        height: 18px;
+        width: 18px;
+        margin-top: -3px;
+      }
+    }
+
+    .filter-grey {
+      background: url('../../../../assets/ic_filter_list_48px_light_grey.svg') no-repeat top left;
+      background-size: contain;
+      float: left;
+      height: 18px;
+      width: 18px;
+      margin-top: -3px;
+    }
+  }
+}

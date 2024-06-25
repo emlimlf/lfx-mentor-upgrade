@@ -1,0 +1,15 @@
+<a
+  role="button"
+  href
+  class="navbar-toggler"
+  [class.collapsed]="isCollapsed"
+  type="button"
+  [attr.aria-expanded]="!isCollapsed"
+  attr.aria-controls="{{ ariaControls }}"
+  (click)="onCollapse()"
+  aria-label="Toggle navigation"
+>
+  <span class="icon-bar top-bar"></span>
+  <span class="icon-bar middle-bar"></span>
+  <span class="icon-bar bottom-bar"></span>
+</a>

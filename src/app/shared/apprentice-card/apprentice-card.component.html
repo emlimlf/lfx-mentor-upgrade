@@ -1,0 +1,146 @@
+<div class="flip-card">
+  <div class="flip-card-inner">
+    <div class="flip-card-front d-flex flex-column">
+      <div class="card-head">
+        <div class="ribbon ribbon-top-left"><span>Mentee</span></div>
+        <i class="fas fa-user-graduate mentee-chalk-icon"></i>
+        <div class="card-top on-top">
+          <div class="avatar-top outline">
+            <img
+              class="avatar-url"
+              alt=""
+              [src]="apprenticeCard.avatarUrl"
+              (click)="onClickViewProfile()"
+              onerror="this.src = '/assets/default-icon.svg'; this.className='default-avatar'"
+            />
+          </div>
+        </div>
+        <div class="title-description-container">
+          <label class="sr-only" for="">{{ apprenticeCard.fullName }}</label>
+          <a class="card-title" id="">
+            <span (click)="onClickViewProfile()">
+              {{ apprenticeCard.fullName | titlecase }}
+            </span>
+          </a>
+          <div class="card-description-container">
+            <div ellipsis class="card-description" ellipsis-word-boundaries=" \n">
+              {{ apprenticeCard.introduction }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="info-container">
+          <div class="body-section-container">
+            <div>
+              <div class="thin-title">
+                Skills
+              </div>
+              <div class="icons-container">
+                <div class="card-industry">
+                  <small
+                    class="rounded py-1 px-2 mr-2 small first-tag"
+                    [hidden]="apprenticeCard.currentSkills?.length === 0"
+                    title="{{ apprenticeCard.currentSkills[0] }}"
+                  >
+                    {{ apprenticeCard.currentSkills[0] }}
+                  </small>
+                  <small
+                    class="rounded py-1 px-2 mr-2 small second-tag"
+                    [hidden]="apprenticeCard.currentSkills?.length < 2"
+                    title="{{ apprenticeCard.currentSkills[1] }}"
+                  >
+                    {{ apprenticeCard.currentSkills[1] }}
+                  </small>
+                  <small
+                    class="rounded py-1 px-2 small count-tag"
+                    *ngIf="apprenticeCard.currentSkills.length > 2"
+                    (mouseleave)="closePopover()"
+                  >
+                    <span
+                      [ngbPopover]="listViewerTemplate"
+                      #tagsList="ngbPopover"
+                      (mouseenter)="openPopover(tagsList)"
+                      [placement]="['bottom', 'top']"
+                      triggers="manual"
+                      popoverClass="custom-popover"
+                    >
+                      +{{ apprenticeCard.currentSkills.length - 2 }}
+                    </span>
+                  </small>
+                </div>
+              </div>
+            </div>
+            <div class="mr-4">
+              <div class="thin-title mr-4">Status</div>
+              <div class="status mt-1">
+                <div [ngSwitch]="myMenteeProjectCards[0]?.menteeStatus">
+                  <div *ngSwitchCase="projectMemberStatus.Accepted" class="accepted">Accepted</div>
+                  <div *ngSwitchCase="projectMemberStatus.Graduated" class="graduated">Graduated</div>
+                  <div *ngSwitchCase="projectMemberStatus.Pending" class="pending">Pending</div>
+                  <div *ngSwitchCase="projectMemberStatus.Withdrawn">Withdrawn</div>
+                  <div *ngSwitchCase="projectMemberStatus.Declined">Declined</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="body-section-container">
+            <div>
+              <div class="thin-title">
+                Project
+              </div>
+              <div class="icons-container">
+                <div [routerLink]="'/mentee/' + apprenticeCard.id" [fragment]="'projects'">
+                  <img
+                    *ngFor="let project of myMenteeProjectCards | slice: 0:1"
+                    class="icon"
+                    [src]="project.logoUrl"
+                    onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+                    [title]="project.title"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="mr-2">
+              <div class="thin-title">
+                Mentors
+              </div>
+              <div class="icons-container">
+                <div [routerLink]="'/mentee/' + apprenticeCard.id" [fragment]="'Mentors'">
+                  <img
+                    *ngFor="let mentor of apprenticeCard.mentors | slice: 0:3"
+                    class="icon"
+                    [src]="mentor.avatarUrl || mentor.avatar"
+                    onerror="this.src = '/assets/default-icon.svg'; this.className='icon icon-empty'"
+                    [title]="mentor.name"
+                  />
+                  <div [hidden]="apprenticeCard.mentors?.length <= 3" class="icon-default">
+                    +{{ apprenticeCard.mentors?.length - 3 }}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mentee-card-footer m-auto">
+        <div>
+          <div class="footer-btn center-btn-text mt-3" *ngIf="!editProfile" (click)="onClickViewProfile()">
+            View Profile
+          </div>
+          <div class="footer-btn center-btn-text mt-3" *ngIf="editProfile" (click)="onClickEditProfile()">
+            Edit Mentee Profile
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #listViewerTemplate>
+  <div class="selected-items-popover-item ellipsis" *ngFor="let tag of apprenticeCard.currentSkills | slice: 2">
+    {{ tag }}
+  </div>
+</ng-template>

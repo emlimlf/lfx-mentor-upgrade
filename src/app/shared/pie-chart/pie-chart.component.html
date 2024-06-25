@@ -1,0 +1,16 @@
+<div class="chart-parent mx-auto" [style.width.px]="sideLength" [style.height.px]="sideLength">
+  <svg class="chart" [attr.viewBox]="mapViewBox()">
+    <title i18n> {{ title }} </title>
+    <path *ngFor="let section of sections; trackBy: trackSection" fill-opacity="0" [attr.stroke-width]="strokeWidth"
+      [attr.stroke]="'#' + section.color" [attr.d]="describeArc(0, 0, section.startAngle, section.endAngle)">
+    </path>
+  </svg>
+  <div class="chart-text d-flex justify-content-center align-content-center flex-wrap mx-auto">
+    <span class="chart-top-spacer"></span>
+    <img *ngIf="icon.src" alt="imageAlt" i18n-alt [src]="icon.src" [style.maxWidth.px]="icon.width" />
+    <div class="center-text">
+      <h6 i18n *ngIf="centerText.title" class="center-title"> {{ centerText.title }}</h6>
+      <h1 i18n *ngIf="centerText.amount">{{ '$' + (centerText.amount | shortNumber) }}</h1>
+    </div>
+  </div>
+</div>

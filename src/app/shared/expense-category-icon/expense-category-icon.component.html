@@ -1,0 +1,32 @@
+<ng-container [ngSwitch]="category">
+  <div class="circle travel" *ngSwitchCase="Categories.TRAVEL">
+    <div class="svg-root" [style.color]="'#FFFFFF'" inlineSVG="/assets/icons/airplane.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+  <div class="circle development" *ngSwitchCase="Categories.DEVELOPMENT">
+    <div class="svg-root" [style.color]="'#FFFFFF'" inlineSVG="/assets/icons/code.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+  <div class="circle marketing" *ngSwitchCase="Categories.MARKETING">
+    <div class="svg-root" [style.color]="'#FFFFFF'" inlineSVG="/assets/icons/megaphone.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+  <div class="circle meetups" *ngSwitchCase="Categories.MEETUPS">
+    <div class="svg-root" [style.color]="'#000000'" inlineSVG="/assets/icons/people.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+  <div class="circle apprentice" *ngSwitchCase="Categories.APPRENTICE">
+    <div class="svg-root" [style.color]="'#000000'" inlineSVG="/assets/icons/school.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+  <div class="circle other" *ngSwitchDefault>
+    <div class="svg-root" [style.color]="'#FFFFFF'" inlineSVG="/assets/icons/more.svg" aria-disabled="true"
+      [removeSVGAttributes]="['fill', 'id']" replaceContents="true" role="presentation">
+    </div>
+  </div>
+</ng-container>

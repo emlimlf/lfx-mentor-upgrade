@@ -1,0 +1,31 @@
+<app-form-card [loading]="loading" heading="Manage Organizations" i18n-heading>
+  <div class="mt-3"></div>
+  <div *ngFor="let org of organizations$ | async; trackBy: trackOrganization" class="rounded organisation-button mt-2">
+    <div class="row mx-0 pl-3 pr-0 no-gutters">
+      <app-avatar class="my-auto" [rounded]="true" [avatarUrl]="org.avatarUrl"> </app-avatar>
+      <label class="col ml-2 my-auto" for="radio-organization-{{ org.id }}">
+        <span class="row mx-0 px-0">
+          <span class="header-5 medium text-black">{{ org.name }}</span>
+        </span>
+        <span class="row mx-0 px-0"> <span class="small text-light medium float-left" i18n>Organization</span> </span>
+      </label>
+      <button
+        class="header-6 bold text-light my-auto ml-auto btn btn-link"
+        type="button"
+        #editOrganizationButton
+        (click)="editOrganization(org)"
+        (mousedown)="$event.preventDefault()"
+      >
+        <u i18n class="edit-text">Edit</u>
+      </button>
+    </div>
+  </div>
+  <button
+    *ngIf="(organizations$ | async)?.length < 3"
+    type="button"
+    class="btn btn-md btn-outline-light w-100 add-button mt-2 d-flex"
+    (click)="editOrganization()"
+  >
+    <span class="my-auto mx-auto text-paragraph" i18n> + Add Organization </span>
+  </button>
+</app-form-card>

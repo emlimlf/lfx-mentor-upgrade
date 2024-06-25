@@ -1,0 +1,22 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+.overview-card {
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  border-radius: 0;
+  overflow: hidden;
+}
+
+.header-bar {
+  height: 64px;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: $loading-grey-color;
+  cursor: default;
+}
+
+@include media-breakpoint-down(lg) {
+  .header-bar {
+    height: 46px !important;
+  }
+}

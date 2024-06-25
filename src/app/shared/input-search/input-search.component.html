@@ -1,0 +1,48 @@
+<div class="wrap" (appClickOutside)="showList = false">
+  <input
+    class="input-search"
+    (click)="showList = true"
+    type="text"
+    placeholder="Search"
+    [(ngModel)]="projectListFilter"
+    (keyup.enter)="onProjectSearchEnter()"
+    (ngModelChange)="projectListFilterListerner$.next($event)"
+  />
+  <div class="wrap-search">
+    <app-icon-loader *ngIf="isLoading"></app-icon-loader>
+    <span i18n *ngIf="projectListFilter && !isLoading" class="clear-search" (click)="clearSearch()">&times;</span>
+    <img *ngIf="!isLoading && !projectListFilter" class="search-icon" src="/assets/icon-search.svg" />
+  </div>
+  <div class="filltered-project-list" [hidden]="!showList || hideList">
+    <ng-container *ngIf="filteredProjectList$ | async as items; else notFound">
+      <ng-container *ngFor="let project of items; let last = last; trackBy: trackby">
+        <a [ngClass]="{ last: last, 'with-link': project.path }" class="fpl-item" (click)="navigateTo(project)">
+          <img
+            *ngIf="type === 'project'"
+            src="{{ project.logoUrl ? project.logoUrl : '/assets/no_logo_uploaded.svg' }}"
+            alt=""
+          />
+          <img *ngIf="type === 'mentors'" class="mentor_mentee_logo" [src]="project.avatarUrl" alt="" />
+          <img *ngIf="type === 'mentees'" class="mentor_mentee_logo" [src]="project.avatarUrl" alt="" />
+
+          <div class="fpl-name">
+            <span *ngIf="project.name">
+              {{ project.name }}
+            </span>
+            <span *ngIf="project.companyName">
+              {{ project.companyName }}
+            </span>
+          </div>
+        </a>
+      </ng-container>
+      <div *ngIf="showMore" class="view-more" (click)="onProjectSearchEnter()">View More</div>
+    </ng-container>
+    <ng-template #notFound>
+      <div *ngIf="projectListFilter" class="fpl-item last">
+        <div i18n class="fpl-name">
+          Items not found
+        </div>
+      </div>
+    </ng-template>
+  </div>
+</div>

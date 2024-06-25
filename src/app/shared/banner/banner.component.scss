@@ -1,0 +1,19 @@
+:host {
+  background-color: black;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0%;
+  margin-right: 0%;
+  text-align: center;
+  opacity: 0.7;
+}
+
+:host(.large-banner) {
+  min-height: 260px;
+}
+
+:host(.small-banner) {
+  min-height: 60px;
+}

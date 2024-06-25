@@ -1,0 +1,25 @@
+<img
+  [attr.alt]="altName"
+  [class.avatar-rounded]="rounded"
+  [class.avatar-large]="large"
+  [class.avatar-small]="small"
+  [class.avatar-x-small]="xSmall"
+  [class.avatar-medium]="medium"
+  [class.avatar-x-large]="xLarge"
+  class="avatar-url"
+  [hidden]="!avatarLoaded"
+  [src]="avatarUrl"
+  [style.border]="borderStyle"
+  (load)="onLoadAvatar()"
+/>
+<div
+  class="default-avatar"
+  [class.avatar-rounded]="rounded"
+  [class.avatar-large]="large"
+  [class.avatar-x-large]="xLarge"
+  [class.avatar-small]="small"
+  [class.avatar-x-small]="xSmall"
+  [class.avatar-medium]="medium"
+  [hidden]="avatarLoaded"
+  [style.border]="borderStyle"
+></div>

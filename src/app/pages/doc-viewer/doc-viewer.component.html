@@ -1,0 +1,22 @@
+<div class=" text-muted close-container"><i class="fas fa-times" (click)="close()"></i></div>
+<div class=" text-muted" #progress></div>
+<div style="width:100%;height:100%;overflow-x: scroll;overflow: scroll;" *ngIf="$loadstate | async">
+  <iframe
+    *ngIf="downloadService.fileExt === '.docx' || downloadService.fileExt === '.doc'"
+    width="100%"
+    height="100%"
+    (load)="frameLoaded($event)"
+    frameBorder="0"
+    [src]="docUrl"
+    style="width:100%;height:83vh;overflow-x: scroll;"
+  >
+  </iframe>
+  <embed
+    *ngIf="downloadService.fileExt === '.pdf'"
+    type="application/pdf"
+    [src]="docUrl"
+    width="100%"
+    height="100%"
+    style="width:100%;height:83vh;"
+  />
+</div>

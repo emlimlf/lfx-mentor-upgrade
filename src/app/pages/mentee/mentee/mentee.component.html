@@ -1,0 +1,91 @@
+<!-- <app-banner class="hero-banner" [color]="003366" [isLarge]="false"></app-banner> -->
+
+<app-loader *ngIf="!profileLoaded"></app-loader>
+
+<div class="mb-5 detail-header" *ngIf="profileLoaded">
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-2">
+        <app-avatar [rounded]="true" [avatarUrl]="profile.logoUrl" [xLarge]="true"> </app-avatar>
+        <div class="project-repo">
+          <a
+            class="btn btn-outline-dark btn-lg btn-block mb-2 btn-repo"
+            [href]="
+              profile.profileLinks.githubProfileLink.startsWith('http')
+                ? profile.profileLinks.githubProfileLink
+                : '//' + profile.profileLinks.githubProfileLink
+            "
+            target="_blank"
+            *ngIf="profile.profileLinks?.githubProfileLink"
+            ><i class="fab fa-github"></i> Github Profile</a
+          >
+          <a
+            class="btn btn-outline-dark btn-lg btn-block mb-2 btn-repo"
+            [href]="
+              profile.profileLinks.linkedinProfileLink.startsWith('http')
+                ? profile.profileLinks.linkedinProfileLink
+                : '//' + profile.profileLinks.linkedinProfileLink
+            "
+            target="_blank"
+            *ngIf="profile.profileLinks?.linkedinProfileLink"
+            ><i class="fab fa-linkedin"></i> LinkedIn Profile</a
+          >
+          <a
+            class="btn btn-outline-dark btn-lg btn-block mb-2 btn-repo"
+            [href]="
+              profile.profileLinks.resumeLink.startsWith('http')
+                ? profile.profileLinks.resumeLink
+                : '//' + profile.profileLinks.resumeLink
+            "
+            target="_blank"
+            *ngIf="profile.profileLinks?.resumeLink"
+            >View Resume</a
+          >
+        </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+          <div class="col-sm-12">
+            <h1>{{ profile.firstName }} {{ profile.lastName }}</h1>
+            <h2 *ngIf="profile.createdAt">Since {{ stringToDate(profile.createdAt) | date: 'MMM. y' }}</h2>
+            <div>
+              <h3 [innerHTML]="profile.introduction | lineBreak"></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 my-auto">
+        <div class="row">
+          <div class="col-sm-12 project-detail-highlight">
+            <h6>Featured Skills</h6>
+            <ul class="tag-list skill-list">
+              <li class="float-left" *ngFor="let skill of profile.skillSet?.skills">{{ skill }}</li>
+            </ul>
+          </div>
+          <div class="col-sm-12 project-detail-highlight" *ngIf="userIsMenteeAdmin && profileExtrasLoaded">
+            <app-pill-dropdown-mentee-contact [phone]="profilePhone" [email]="profileEmail">
+            </app-pill-dropdown-mentee-contact>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="details" #stickyMarker *ngIf="profileLoaded">
+  <!-- JOB-1654 - Commented since there should be only a view for the mentee tasks. -->
+  <!-- <app-sticky-tab-bar
+    *ngIf="userIsMenteeAdmin"
+    baseRoute="/mentee/{{ routeId }}"
+    [logoUrl]="profile.logoUrl"
+    [isScrolled]="isScrolled"
+    color="#003366"
+    class="row mt-0"
+  >
+    <app-sticky-tab label="Public" link="./" i18n-label> </app-sticky-tab>
+    <app-sticky-tab label="Applications" link="applications" i18n-label> </app-sticky-tab>
+    <app-sticky-tab label="Tasks" link="tasks" i18n-label> </app-sticky-tab>
+  </app-sticky-tab-bar> -->
+  <div class="col-md-12 overflow">
+    <router-outlet></router-outlet>
+  </div>
+</div>

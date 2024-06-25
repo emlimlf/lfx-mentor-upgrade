@@ -1,0 +1,46 @@
+<div [class.loading-bar]="loading" class="form-card row col-lg-8 col-md-9 col-sm-11 col-11 px-lg-6 px-md-5 px-sm-4 px-3 mx-auto">
+  <span *ngIf="loading" i18n class="sr-only">Loading</span>
+  <div [ngStyle]="{ visibility: loading ? 'hidden' : 'visible'}" class="col-12 px-0">
+    <div class="mt-4plus mb-4" *ngIf="sectionControl !== undefined">
+      <div class="d-flex flex-wrap justify-content-between">
+        <!-- desktop layout -->
+        <label class="d-none d-lg-block" for="{{control}}">
+          <app-expense-category-icon class="mr-4 form-card-icon" [category]="category"></app-expense-category-icon>
+          <h1 class="header-3 mb-0 mt-1">{{ heading }}</h1>
+        </label>
+
+        <!-- mobile layout -->
+        <label class="d-lg-none d-flex" for="{{control}}">
+          <app-expense-category-icon class="mr-3" [category]="category"></app-expense-category-icon>
+          <h1 class="header-3 mb-0 mt-1">{{ heading }}</h1>
+        </label>
+
+        <div>
+          <span i18n class="header-6 mr-2 opt" *ngIf="heading === 'Mentee Goal'">Opt-in</span>
+          <app-switch id="{{control}}" toggleOnDescription="Toggle on {{ heading }} section" toggleOffDescription="Toggle off {{ heading }} section"
+            [formGroup]="parent" [controlName]="control" i18n>
+          </app-switch>
+        </div>
+        <div i18n class="mt-4" *ngIf="heading === 'Mentee Goal'">
+          Lorem ipsum dolor sit amet, consetetur adipiscing elit. Nam vestibulum, est eget feugiat finibus, nisl
+          magna
+          fringilla sapien, sit amet bibendum lorem sapien ac lacus.
+        </div>
+
+      </div>
+    </div>
+
+    <div class="mt-5" *ngIf="sectionControl === undefined ">
+      <div class="d-flex">
+        <app-expense-category-icon *ngIf="heading === 'Development Goal'" class="mr-3 d-lg-none form-card-m-icon"
+          [category]="'development'"></app-expense-category-icon>
+        <h1 class="header-3 mr-4 text-dark">{{ heading }}</h1>
+        <ng-content select="[form-card-logo]"></ng-content>
+      </div>
+    </div>
+    <div class="px-0" class="mb-5" [hidden]="control && !sectionEnabled">
+      <hr *ngIf="sectionControl !== undefined">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>

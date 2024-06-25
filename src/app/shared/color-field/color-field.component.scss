@@ -1,0 +1,27 @@
+@import '../../app.component.scss';
+
+.color-preview {
+  width: 120px;
+}
+
+.left-group {
+  width: 46px;
+}
+
+.form-control {
+  border-radius: 0 !important;
+}
+
+.input-group-prepend {
+  .input-group-text {
+    border-top-left-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+  }
+}
+
+.input-group-append {
+  .input-group-text {
+    border-top-right-radius: 4px !important;
+    border-bottom-right-radius: 4px !important;
+  }
+}

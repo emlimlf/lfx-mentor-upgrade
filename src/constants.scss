@@ -1,0 +1,150 @@
+$global-navigation-background-color: rgb(255, 255, 255);
+
+$card-background-color: rgb(255, 255, 255);
+$card-width: 300px;
+$card-margin: 16px;
+$outline-color: rgb(204, 204, 204);
+
+$primary-font-family: Poppins, Roboto, 'Helvetica Neue', Arial, sans-serif;
+$primary-font-regular-weight: 400;
+$primary-font-medium-weight: 500;
+$primary-font-semibold-weight: 600;
+
+$header-1-font-size: 2.25em;
+$header-2-font-size: 1.75em;
+$header-3-font-size: 1.25em;
+$header-4-font-size: 1em;
+$header-5-font-size: 0.875em;
+$header-6-font-size: 0.75em;
+$small-font-size: 0.625em;
+
+$primary-black-color: black;
+$primary-green-color: #1b8845;
+$primary-red-color: #da3a16;
+$primary-grey-color: #6e6e6e;
+$chart-grey-color: #6b6e71;
+$card-grey-color: #c8caca;
+$primary-blue-color: #0e6dd4;
+$primary-gold-color: #ffc100;
+
+$background-grey-color: #f3f4f4;
+$border-grey-color: #cccccc;
+$loading-grey-color: #e4e6e6;
+
+$secondary-green-color: #25b55b;
+$secondary-red-color: #e94927;
+$secondary-blue-color: #95dbe4;
+
+$primary-paragraph-color: #444444;
+
+$default-tag-close-color: #7e7e7e;
+
+$default-card-shadow-color: rgba(0, 0, 0, 0.102);
+
+$brand-blue-color: #003561;
+$navbar-orange-color: #ffa400;
+
+$border-radius: 8px;
+
+$custom-file-height: 48px;
+$custom-file-height-inner: 48px;
+$custom-file-line-height: 36px;
+$custom-file-button-color: white;
+$custom-file-button-bg: $primary-blue-color;
+
+$marketing-category-color: $primary-blue-color;
+$development-category-color: $secondary-green-color;
+$meetups-category-color: $secondary-blue-color;
+$travel-category-color: $secondary-red-color;
+$apprentice-category-color: $primary-gold-color;
+$other-category-color: #103b64;
+
+$severity-high-color: #f24e2a;
+$severity-medium-color: $primary-gold-color;
+$severity-low-color: $secondary-blue-color;
+
+$font-family: 'Source Sans Pro';
+
+@mixin primary-text-semibold($size: $header-5-font-size) {
+  font-family: $primary-font-family;
+  font-weight: $primary-font-semibold-weight;
+  font-size: $size;
+}
+
+@mixin primary-text-medium($size: $header-5-font-size) {
+  font-family: $primary-font-family;
+  font-weight: $primary-font-medium-weight;
+  font-size: $size;
+}
+
+@mixin primary-text($size: $header-5-font-size) {
+  font-family: $primary-font-family;
+  font-weight: $primary-font-regular-weight;
+  font-size: $size;
+}
+
+@mixin header-1-text() {
+  @include primary-text-semibold($header-1-font-size);
+}
+
+@mixin header-2-text() {
+  @include primary-text-semibold($header-2-font-size);
+}
+
+@mixin header-3-text() {
+  @include primary-text-semibold($header-3-font-size);
+}
+
+@mixin header-4-text() {
+  @include primary-text-semibold($header-4-font-size);
+}
+
+@mixin header-5-text() {
+  @include primary-text-semibold($header-5-font-size);
+}
+
+@mixin header-6-text() {
+  @include primary-text-semibold($header-6-font-size);
+}
+
+@mixin small-text() {
+  @include primary-text-semibold($small-font-size);
+  color: $primary-grey-color;
+}
+
+@mixin link-single-color($color: black) {
+  color: $color;
+
+  &:visited,
+  &:link,
+  &:hover,
+  &:active {
+    color: $color;
+  }
+}
+
+@mixin page-base($color: white, $padding-bottom: 3rem) {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  background-color: $color;
+  padding-bottom: $padding-bottom;
+}
+
+@mixin circle($width, $color) {
+  width: $width;
+  height: $width;
+  background: $color;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+}
+
+@mixin cover-image($url, $color) {
+  background-image: url($url);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: 50% 100%;
+  background-origin: 50% 100%;
+  background-color: $color;
+}

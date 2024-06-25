@@ -1,0 +1,16 @@
+<pre
+  [id]="uniqueId"
+  class="description"
+  [ngStyle]="{ height: minPreHeight }"
+  [ngClass]="{ 'full-description': showFullText, heading: isHeading }"
+  ellipsis
+  (ellipsis-change)="onEllipsisChange($event)"
+  ellipsis-word-boundaries=" \n"
+  [ellipsis-content]="text"
+></pre>
+<div class="viewLinkDiv" i18n>
+  <a *ngIf="!showFullText && showViewMoreBtn" class="viewLink" (click)="moreClicked()">
+    View More
+  </a>
+  <a *ngIf="showFullText" class="viewLink" (click)="hideDescription()"> View Less </a>
+</div>

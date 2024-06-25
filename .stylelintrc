@@ -1,0 +1,7 @@
+{
+    "extends": "stylelint-config-recommended",
+    "rules": {
+        "no-empty-source": null,
+        "at-rule-no-unknown": null
+    }
+}

@@ -1,0 +1,211 @@
+<div id="menteesTab" class="container mentee-tab-wrapper pb-3">
+  <div class="row mentees-header">
+    <div class="col">
+      <div class="wrap-search-container">
+        <input
+          class="input-search"
+          type="text"
+          placeholder="Search"
+          [(ngModel)]="menteesListFilter"
+          (keyup.enter)="applyMenteesFilter()"
+        />
+        <div class="wrap-search">
+          <span i18n *ngIf="menteesListFilter" class="clear-search" (click)="clearSearch()">&times;</span>
+          <img *ngIf="!menteesListFilter" class="search-icon" src="/assets/icon-search.svg" />
+        </div>
+      </div>
+      <button
+        *ngIf="!isViewOnly"
+        (click)="addTask($event)"
+        class="btn btn-sm-2"
+        [disabled]="disableButtons || !isAddTasksDisabled"
+      >
+        + Add Task
+      </button>
+      <button
+        *ngIf="isAdmin && !isViewOnly"
+        (click)="confirmDeclinePendingApplications(confirmDeclineTpl)"
+        class="btn btn-sm-2 is-orange"
+        [disabled]="disableButtons || declineEnabled"
+      >
+        Decline All Pending Mentees Listed Below
+      </button>
+      <div class="d-inline-block" *ngFor="let filter of filters">
+        <div class="d-inline-block" ngbDropdown #dropdownBasic1="ngbDropdown">
+          <button
+            class="btn btn-sm-2 is-light-grey"
+            id="dropdownManual"
+            (click)="dropdownBasic1.open()"
+            ngbDropdownAnchor
+            (focus)="dropdownBasic1.open()"
+            [disabled]="disableButtons"
+          >
+            <span ngClass="filter-grey"></span>
+            <span class="pl-2">{{ filterTitle | titlecase }}</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option filter-dropdown-option-clear"
+              (click)="applyFilter(filter, ''); dropdownBasic1.close()"
+            >
+              All
+            </button>
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option"
+              *ngFor="let option of filter.options"
+              (click)="applyFilter(filter, option); dropdownBasic1.close()"
+            >
+              {{ option | titlecase }}
+            </button>
+          </div>
+        </div>
+      </div>
+      <div class="d-inline-block" *ngFor="let filter of filters">
+        <div class="d-inline-block" ngbDropdown #dropdownBasic2="ngbDropdown">
+          <button
+            class="btn btn-sm-2"
+            id="dropdownManual"
+            (click)="dropdownBasic2.open()"
+            ngbDropdownAnchor
+            (focus)="dropdownBasic2.open()"
+            [disabled]="disableButtons"
+          >
+            {{ downloadFilterTitle | titlecase }}
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option filter-dropdown-option-clear"
+              (click)="downloadByFilter(''); dropdownBasic2.close()"
+            >
+              All
+              <span>
+                <img class="mentees-download" src="../../../../../assets/ic_file_download_48px.svg" />
+              </span>
+            </button>
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option"
+              *ngFor="let option of filter.options"
+              (click)="downloadByFilter(option); dropdownBasic2.close()"
+            >
+              {{ option | titlecase }}
+              <span>
+                <img class="mentees-download" src="../../../../../assets/ic_file_download_48px.svg" />
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Note -->
+  <div *ngIf="!isViewOnly" class="alert status-note" role="alert">
+    <b>Note</b> : Application status stays as "Pending" while a mentee works on prerequisite tasks. When all
+    prerequisites are completed, "Tasks Submitted" appears above the application status button and project admin gets
+    notified via email to review the submission and make the admission decision. Mentors can assign tasks and milestones
+    to accepted mentees. We recommend creating a milestone for each evaluation period.
+  </div>
+
+  <div class="mentees-content">
+    <div class="mentees-list-wrapper">
+      <div class="mentees-list-header">
+        <div class="row">
+          <div class="col">
+            <div class="container">
+              <div class="row py-3">
+                <div class="col-3 column-1">Mentee</div>
+                <div class="col-2 column-2">Application Status</div>
+                <div class="col-2 column-3">Application Dates</div>
+                <div class="col-3 column-4" *ngIf="isAdmin">Other Applications</div>
+                <div class="col column-5">
+                  <!-- button actions -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mentees-rows-wrapper">
+        <div class="container">
+          <ng-container *ngIf="!isTableLoading">
+            <div *ngIf="applications.length > 0">
+              <div class="mentees-row row" *ngFor="let item of applications; let last = last">
+                <app-mentees-tab-row
+                  [application]="item"
+                  [taskCompletedList]="submittedAssignees"
+                  [isViewOnly]="isViewOnly"
+                  [isAdmin]="isAdmin"
+                  [reloadTasksForAssignee]="reloadTasksForAssignee"
+                  [programTerms]="programTerms"
+                  (updated)="onUpdateMenteeStatus()"
+                >
+                </app-mentees-tab-row>
+                <hr *ngIf="!last" />
+              </div>
+            </div>
+            <div class="col text-center font-family" *ngIf="applications.length === 0">
+              <span>You don't have any mentorship applications.</span>
+            </div>
+          </ng-container>
+          <div *ngIf="isTableLoading" class="row justify-content-center py-3">
+            <div class="spinner-border text-info" role="status">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <div class="col text-right">
+      <div class="row py-3 justify-content-end">
+        <span class="mr-auto">
+          <b>Page {{ currentIndex + 1 }} ({{ applicationCountStart }} - {{ applicationCountEnd }}) </b>
+        </span>
+        <button [disabled]="currentIndex === 0" (click)="goPrevious()" type="button" class="btn btn-sm-3-inverse mr-1">
+          <span class="btn-sm-3-previous"></span> Previous Page
+        </button>
+        <button
+          #next
+          [disabled]="cursors[currentIndex + 1] === undefined"
+          (click)="goNext()"
+          type="button"
+          class="btn btn-sm-3 ml-1"
+        >
+          Next Page <span class="btn-sm-3-next"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #confirmDeclineTpl let-c="close">
+  <div class="modal-body">
+    <p>
+      Please confirm you want to decline all pending mentees listed on this page. Once you confirm, these declined
+      applicants will be notified about the admission decision. If you need to decline additional mentees, please
+      navigate to the next page.
+    </p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-sm-3" (click)="c('CONFIRM')">Confirm</button>
+    <button type="button" class="btn btn-sm-3-inverse" (click)="c()">Cancel</button>
+  </div>
+</ng-template>
+
+<ng-template #info let-c="close">
+  <div class="modal-body">
+    <p>No Mentees Found With {{ modalMessage | titlecase }} Status.</p>
+  </div>
+  <div class="modal-footer border-0">
+    <button type="button" class="btn btn-sm-3-inverse" (click)="c()">Ok</button>
+  </div>
+</ng-template>

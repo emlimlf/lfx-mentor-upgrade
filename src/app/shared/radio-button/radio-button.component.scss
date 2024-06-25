@@ -1,0 +1,69 @@
+@import '~constants.scss';
+
+:host {
+  display: inline-block;
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+$outer-check-radius: 16px;
+$selected-check-radius: 24px;
+$inner-check-radius: 8px;
+$check-offset: ($outer-check-radius - $inner-check-radius) / 2;
+
+.radio-parent {
+  width: 12px;
+  height: 24px;
+  top: 2px;
+  position: relative;
+}
+
+.check {
+  width: $selected-check-radius;
+  height: $selected-check-radius;
+  position: absolute;
+  display: inline-flex;
+  border: 6px solid transparent;
+  left: -6px;
+  top: -2px;
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+// Center dot
+.check::after {
+  content: '';
+  @include circle($inner-check-radius, $primary-blue-color);
+  display: inline-flex;
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  opacity: 0;
+}
+
+// Outer ring
+.check::before {
+  content: '';
+  @include circle($outer-check-radius, $border-grey-color);
+  display: inline-flex;
+  position: absolute;
+  background: white;
+  left: -2px;
+  top: -2px;
+  border: 2px solid $border-grey-color;
+}
+
+input[type='radio']:checked ~ .check::after {
+  opacity: 1;
+}
+
+input[type='radio']:focus ~ .check {
+  @include circle($selected-check-radius, $border-grey-color);
+  background: transparent;
+  border: 6px solid transparentize($primary-blue-color, 0.8);
+}
+
+input[type='radio'] {
+  opacity: 0; // Can't use visibility hidden, because it will stop radio from being tabable.
+}

@@ -1,0 +1,25 @@
+<div class="row">
+  <div>
+    <img width="205px" height="224px" src="../../../assets/funnel-graphic-card.png" />
+    <!-- All applications section -->
+    <div class="all-applications">
+      <div class="graph-text count">{{ totalApplicants | shortNumber }}</div>
+      <div class="graph-text sub-text">Applications</div>
+    </div>
+    <!-- Accepted mentees section -->
+    <div class="accepted-mentees">
+      <div class="graph-text count">{{ totalAcceptedApplicants | shortNumber }}</div>
+      <div class="graph-text sub-text">Accepted</div>
+    </div>
+    <!-- Graduated mentees section -->
+    <div class="graduated-applications">
+      <div class="graph-text count">{{ totalGraduatedApplicants | shortNumber }}</div>
+      <div class="graph-text sub-text">Graduated</div>
+    </div>
+  </div>
+  <!-- Circle graphic section -->
+  <div class="circle-graphic">
+    <div class="circle-text count">{{ '$' + (totalStipends / 100 | shortNumber) }}</div>
+    <div class="circle-text sub-text">Stipends Paid</div>
+  </div>
+</div>

@@ -1,0 +1,21 @@
+<div class="card rounded-0">
+  <div class="card-body">
+    <div class="row m-0 p-0">
+      <div class="col-2 p-0">
+        <img class="mentor-logo" [src]="mentor.photoURL || '../../../assets/no_logo_uploaded.svg'" />
+      </div>
+      <div class="col-10 info-container">
+        <div class="mentor-name text-truncate">
+          {{ (mentor.name ? mentor.name : '') | titlecase }}
+        </div>
+        <div>
+          <!-- Organization name will be added in the future. -->
+          <span class="org-name"> {{ '' }}</span>
+          <span class="menteeCount"
+            ><i class="fas fa-tasks"></i> {{ mentor.taskCount ? (mentor.taskCount | shortNumber) : 0 }}</span
+          >
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

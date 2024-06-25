@@ -1,0 +1,14 @@
+<div class="image-container">
+  <img
+    *ngIf="class !== 'clickable'"
+    [attr.alt]="altName"
+    class="sponsor-url"
+    [hidden]="!avatarLoaded"
+    [src]="logoUrl"
+    (load)="onLoadAvatar()"
+    [title]="altName"
+  />
+  <div *ngIf="class === 'clickable'" class="clickable-sponsor" [hidden]="avatarLoaded" [title]="altName">
+    {{ defaultText }}
+  </div>
+</div>

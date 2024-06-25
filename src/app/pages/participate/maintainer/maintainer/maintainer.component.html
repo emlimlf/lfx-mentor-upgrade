@@ -1,0 +1,696 @@
+<app-stepper [selectedStep]="currentPage">
+  <app-stepper-item name="Program Details" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Program Setup" i18n-name> </app-stepper-item>
+  <app-stepper-item name="Prerequisites" i18n-name> </app-stepper-item>
+</app-stepper>
+<form [formGroup]="newProjectForm" class="container mx-auto px-0 mt-5">
+  <!-- Program Details -->
+  <app-form-card
+    formGroupName="formPage1"
+    *ngIf="currentPage === 0"
+    class="text-paragraph"
+    heading="Program Details"
+    i18n-heading
+  >
+    <div class="mt-4">
+      <div class="feild-title header-5" i18n>Import from existing program</div>
+      <div class="dropdown-container mt-3" ngbDropdown #dropdownBasic1="ngbDropdown">
+        <button
+          class="btn btn-sm-2 form-control import-btn"
+          id="dropdownManual"
+          (click)="dropdownBasic1.open()"
+          ngbDropdownAnchor
+          (focus)="dropdownBasic1.open()"
+        >
+          <span class="pl-2">{{ (parentProject ? parentProject.name : 'Select Project...') | titlecase }}</span>
+        </button>
+        <div ngbDropdownMenu aria-labelledby="dropdownManual" class="dropdown-content">
+          <button
+            [disabled]="isLoadMyProjects"
+            ngbDropdownItem
+            class="filter-dropdown-option"
+            *ngFor="let project of myProjects"
+            (click)="inheritFromExistProject(project); dropdownBasic1.close()"
+          >
+            {{ project.name | titlecase }}
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <div class="row mx-0">
+              <label i18n class="header-5"><i class="fas fa-asterisk required"></i>Program Name</label>
+              <label i18n class="header-6 ml-auto regular text-light"
+                >{{ titleLength$ | async }} / {{ maxTitleLength }}
+              </label>
+            </div>
+            <input
+              i18n-placeholder
+              autofocus
+              id="projectName"
+              formControlName="projectName"
+              type="text"
+              class="form-control"
+              placeholder="Program Name"
+              [readonly]="hasProjectId"
+              required
+              autofocus
+              trim="blur"
+              [maxlength]="maxTitleLength"
+              [minlength]="minTitleLength"
+            />
+            <div *ngIf="projectName.invalid">
+              <div class="alert alert-danger" *ngIf="projectName.errors?.required && pageSubmitted">
+                Program Name is required.
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="(projectName.errors?.minlength || projectName.errors?.maxlength) && pageSubmitted"
+              >
+                Program name should be between {{ minTitleLength }} and {{ maxTitleLength }} characters.
+              </div>
+              <div
+                class="alert alert-danger"
+                *ngIf="
+                  !projectName.errors?.required &&
+                  !(projectName.errors?.minlength || projectName.errors?.maxlength) &&
+                  projectName.errors?.uniqueTitle === false
+                "
+              >
+                This project name is taken.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <app-add-tags
+              [required]="true"
+              [tagTypes]="industry"
+              [(itemList)]="projectIndustry"
+              [skills]="true"
+              tagSectionLabel="Technologies"
+              feature="Technology"
+              featureAlias="Technologies"
+            ></app-add-tags>
+
+            <div *ngIf="pageSubmitted && projectIndustry.length === 0" class="alert alert-danger">
+              At least one technology is required.
+            </div>
+          </div>
+          <div class="form-group">
+            <div class="row mx-0">
+              <label i18n for="description" class="header-5"
+                ><i class="fas fa-asterisk required"></i>Program Description</label
+              >
+              <label i18n class="header-6 ml-auto regular text-light">
+                {{ descriptionLength$ | async }} / {{ maxDescriptionLength }}
+              </label>
+            </div>
+            <textarea
+              il8n
+              class="form-control"
+              formControlName="projectPitch"
+              placeholder="Briefly describe your program..."
+              rows="5"
+              required
+              trim="blur"
+              [maxlength]="maxDescriptionLength"
+            ></textarea>
+            <div *ngIf="projectPitch.invalid && pageSubmitted" class="alert alert-danger">
+              <div *ngIf="projectPitch.errors?.required">
+                Program description is required.
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label i18n for="repo" class="header-5"><i class="fas fa-asterisk required"></i>Repository URL</label>
+            <input
+              i18n-placeholder
+              type="url"
+              formControlName="projectRepoLink"
+              class="form-control"
+              placeholder="Enter a valid URL (e.g., https://www.example.com/repo)"
+              [readonly]="hasProjectId"
+              required
+              trim="blur"
+            />
+            <div
+              *ngIf="projectRepoLink.invalid && (projectRepoLink.dirty || projectRepoLink.touched || pageSubmitted)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="projectRepoLink.errors?.required">
+                A link to the project's repository is required.
+              </div>
+              <div *ngIf="projectRepoLink.errors?.url">
+                The link must be a valid URL.
+              </div>
+            </div>
+            <p class="header-6 regular text-light mt-2" i18n>
+              This URL will be used to display the repository statistics on your LFX mentorship page, as well as to
+              provide a link to the project’s repository.
+            </p>
+          </div>
+          <div class="form-group">
+            <label i18n for="repo" class="header-5">Website URL</label>
+            <input
+              i18n-placeholder
+              type="url"
+              formControlName="websiteUrl"
+              class="form-control"
+              placeholder="Enter a valid URL (e.g., https://www.example.com/)"
+              trim="blur"
+            />
+            <div *ngIf="websiteUrl.invalid && (websiteUrl.dirty || websiteUrl.touched)" class="alert alert-danger">
+              <div *ngIf="websiteUrl.errors?.url">
+                The link must be a valid URL.
+              </div>
+            </div>
+            <p class="header-6 regular text-light mt-2" i18n>
+              This URL will be available as a link on your LFX mentorship page.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h4 i18n>Core Infrastructure Initiative Best Practices</h4>
+      <p class="header-5 regular text-light mt-2" i18n>
+        Security is our top priority on Mentorship, and we ask all participating projects to participate in our Core
+        Infrastructure Initiative (CII) Best Practices badge program. If your project is not already participating in
+        the CII Best Practices badge program, please enroll within 90 days to ensure continuation of your project on the
+        platform.
+      </p>
+      <div class="row">
+        <div class="col">
+          <div class="form-group cii-badge">
+            <div class="row">
+              <div class="col">
+                <label i18n class="header-5">CII Project ID</label>
+                <div class="input-group">
+                  <div class="input-group-prepend">
+                    <div i18n class="input-group-text left-group px-0 justify-content-center">#</div>
+                  </div>
+                  <input
+                    i18n-placeholder
+                    type="text"
+                    formControlName="projectCIIProjectId"
+                    class="form-control"
+                    placeholder="Project ID"
+                    trim="blur"
+                  />
+                </div>
+              </div>
+              <app-cii *ngIf="ciiValue" [ngClass]="'col-auto'" [appCii]="ciiValue" (cii)="ciiStatus = $event">
+              </app-cii>
+            </div>
+            <div *ngIf="projectCIIProjectId.value !== '' && ciiStatus === undefined" class="alert alert-danger">
+              Invalid CII Project ID
+            </div>
+            <a
+              class="cii-apply-url header-5 text-info medium"
+              i18n
+              href="https://www.bestpractices.dev/"
+              target="_window"
+              >Apply for CII</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h4 i18n>Code of Conduct</h4>
+      <div i18n class="header-5 regular text-light mt-2">
+        Like security, diversity and inclusion are our top priorities. We ask that all projects have a published Code of
+        Conduct (CoC) to identify the standard behavior expected of their community — and to protect those involved.<br /><br />If
+        your project does not already have a CoC, you can use our template to quickly create one. If you do not enter a
+        link to your own CoC, your project listing on Mentorship will default to the Contributor Covenant. Note that you
+        can update your project at any time should you wish to change the link to your own CoC.
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="form-group">
+            <label i18n class="mt-4 header-5">Code of Conduct URL</label>
+            <input
+              i18n-placeholder
+              type="url"
+              formControlName="projectCodeConductURL"
+              class="form-control"
+              placeholder="Code of Conduct URL"
+              trim="blur"
+            />
+            <a class="form-link" href="https://www.contributor-covenant.org" target="_window">Start from a template</a>
+            <div
+              *ngIf="projectCodeConductURL.invalid && (projectCodeConductURL.dirty || projectCodeConductURL.touched)"
+              class="alert alert-danger"
+            >
+              <div *ngIf="projectCodeConductURL.errors?.url">
+                The link must be a valid URL.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4">
+      <h4 i18n>Program Design</h4>
+      <div class="form-group">
+        <app-logo-field
+          [parent]="formPage1"
+          label="Program Logo"
+          control="projectLogo"
+          [previewUrl]="parentProject?.logoUrl"
+        >
+        </app-logo-field>
+        <div *ngIf="projectLogo.errors?.required && pageSubmitted" class="alert alert-danger">
+          Logo is required.
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+
+  <!-- Mentee Needs -->
+  <app-form-card *ngIf="currentPage === 1" class="text-paragraph" heading="Program Setup" i18n-heading>
+    <div class="mt-4">
+      <div class="row">
+        <div class="col">
+          <label i18n class="header-4"
+            ><i class="fas fa-asterisk required"></i>
+            <!-- Requested Mentee Skills -->
+            Required and/or desirable skills and training
+          </label>
+          <p>
+            What skills or interest areas are you looking for in prospective mentees? Remember to include non-technical
+            areas that your program could benefit from.
+          </p>
+          <app-add-tags [tagTypes]="skills" [(itemList)]="projectSkills" [skills]="true" feature="skill"></app-add-tags>
+          <div *ngIf="pageSubmitted && projectSkills.length === 0" class="alert alert-danger">
+            At least one skill is required.
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="mt-4"></div>
+    <div class="row">
+      <div class="col">
+        <label i18n class="header-4"><i class="fas fa-asterisk required"></i>Program Mentors</label>
+        <p>
+          List the individuals you wish to invite as mentors for this program - these are usually key contributors from
+          your community. Don't forget to include yourself!
+        </p>
+        <app-add-tags [tagTypes]="mentors" [(itemList)]="projectMentors" feature="mentor"></app-add-tags>
+        <div *ngIf="pageSubmitted && projectMentors.length === 0" class="alert alert-danger">
+          At least one mentor is required.
+        </div>
+      </div>
+    </div>
+    <div class="mt-4"></div>
+    <label i18n class="header-4"><i class="fas fa-asterisk required"></i>Program Terms</label>
+    <p>
+      The mentorship program is available for specific periods throughout the year - you may also define a custom term.
+    </p>
+
+    <div>
+      <label i18n class="header-4" *ngIf="projectTermsList.length > 0">Current Terms</label>
+      <div *ngFor="let term of projectTermsList; let i = index" class="terms-container">
+        <div class="term-item">
+          {{ term.name }}
+        </div>
+        <div class="term-item">{{ term.startMonth }} - {{ term.startYear }}</div>
+
+        <div class="term-item">{{ term.endMonth }} - {{ term.endYear }}</div>
+
+        <div class="terms-controls">
+          <div (click)="openEditTerm(term, i)" class="edit-btn">Edit</div>
+          <div (click)="deleteTerm(deleteTermRef, i)" class="delete-btn">Delete</div>
+        </div>
+      </div>
+      <div *ngIf="projectTermsList.length === 0 && pageSubmitted" class="alert alert-danger">
+        Add at least one program term.
+      </div>
+      <div *ngIf="projectTermsList.length >= 2">
+        You can run maximum two mentorship terms at the same time.
+      </div>
+    </div>
+
+    <button
+      (click)="openAddTerm()"
+      class="btn btn-info btn-md custom-term mt-3 mb-2"
+      [disabled]="projectTermsList.length >= 2"
+      [ngStyle]="{ cursor: projectTermsList.length < 2 ? 'pointer' : 'default' }"
+    >
+      Add Term
+    </button>
+  </app-form-card>
+
+  <!-- Application Tasks -->
+  <app-form-card
+    formGroupName="formPage3"
+    *ngIf="currentPage === 2"
+    class="text-paragraph"
+    heading="Prerequisites"
+    i18n-heading
+  >
+    <p>
+      In order for candidates to qualify for your mentorship program, they will have to complete the following
+      prerequisites. Please select the applicable prerequisites and provide clear and complete instructions, including
+      external links where relevant.
+    </p>
+    <div class="mt-4">
+      <table class="table task-table table-layout">
+        <th>
+          Prerequisite Name
+        </th>
+        <th>
+          Description
+        </th>
+        <th class="checkbox-col">
+          Required
+        </th>
+        <tr>
+          <td class="task-type-name">
+            <label class="form-check-label" for="projectTaskResume">Resume</label>
+          </td>
+          <td class="task-type-description">Upload the most recent version of your resume.</td>
+          <td class="text-center">
+            <input
+              class="form-check-input"
+              formControlName="projectTaskResume"
+              type="checkbox"
+              id="projectTaskResume"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="task-type-name">
+            <label class="form-check-label" for="projectTaskCoverLetter">Cover Letter</label>
+          </td>
+          <td class="task-type-description">
+            <div class="pre-req-sub-header">A letter to the program covering the following topics:</div>
+            <ul>
+              <li>How did you find out about our mentorship program?</li>
+              <li>Why are you interested in this program?</li>
+              <li>What experience and knowledge/skills do you have that are applicable to this program?</li>
+              <li>What do you hope to get out of this mentorship experience?</li>
+            </ul>
+          </td>
+          <td class="text-center">
+            <input
+              class="form-check-input"
+              formControlName="projectTaskCoverLetter"
+              type="checkbox"
+              id="projectTaskCoverLetter"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td class="task-type-name">
+            <label class="form-check-label" for="projectTaskSEV">School Enrollment Verification</label>
+          </td>
+          <td class="task-type-description">
+            Students must upload proof of enrollment (college transcript, or copy student ID, or admissions offer if
+            graduating from high school).
+          </td>
+          <td class="text-center">
+            <input class="form-check-input" formControlName="projectTaskSEV" type="checkbox" id="projectTaskSEV" />
+          </td>
+        </tr>
+        <tr>
+          <td class="task-type-name">
+            <label class="form-check-label" for="projectTaskPP">Participation permission from school or employer</label>
+          </td>
+          <td class="task-type-description">
+            By submitting this task, I certify that I have permission from my school or employer to participate in this
+            mentorship program.
+          </td>
+          <td class="text-center">
+            <input class="form-check-input" formControlName="projectTaskPP" type="checkbox" id="projectTaskPP" />
+          </td>
+        </tr>
+        <tr>
+          <td class="task-type-name">
+            <label class="form-check-label" for="projectTaskCodingChallenge">Coding Challenge</label>
+          </td>
+          <td class="task-type-description">
+            <div>
+              Complete a code challenge
+            </div>
+            <span>Add URL: </span>
+            <input type="url" formControlName="projectTaskCodingChallengeURL" class="form-control" trim="blur" />
+            <div
+              class="alert alert-danger"
+              *ngIf="
+                projectTaskCodingChallengeURL.invalid &&
+                (projectTaskCodingChallengeURL.dirty || projectTaskCodingChallengeURL.touched)
+              "
+            >
+              <div *ngIf="projectTaskCodingChallengeURL.errors?.url">
+                The link must be a valid URL.
+              </div>
+            </div>
+            <div
+              *ngIf="projectTaskCodingChallenge.value && !projectTaskCodingChallengeURL.value"
+              class="alert alert-danger"
+            >
+              <div>
+                The link is required
+              </div>
+            </div>
+          </td>
+          <td class="text-center">
+            <input
+              class="form-check-input"
+              formControlName="projectTaskCodingChallenge"
+              type="checkbox"
+              id="projectTaskCodingChallenge"
+            />
+          </td>
+        </tr>
+      </table>
+    </div>
+    <div class="mt-4">
+      <div class="row">
+        <div class="col">
+          <div formArrayName="projectTasks">
+            <div class="form-card-layout" *ngFor="let task of projectTasks.controls; let i = index" [formGroupName]="i">
+              <label i18n class="header-4 text-dark">Custom Prerequisite {{ i + 1 }}</label>
+              <p class="float-right delete-link-wrapper"><a class="delete-link" (click)="deleteTask(i)">Delete</a></p>
+              <div class="form-group">
+                <div class="row mx-0">
+                  <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Prerequisite Name</label>
+                  <label i18n class="header-6 ml-auto regular text-light"
+                    >{{ task.get('taskName')?.value.length }} / {{ maxTaskNameLength }}</label
+                  >
+                </div>
+                <input
+                  i18n-placeholder
+                  type="text"
+                  formControlName="taskName"
+                  class="form-control"
+                  placeholder="Enter Prerequisite Name"
+                  maxlength="{{ maxTaskNameLength }}"
+                  required
+                  trim="blur"
+                />
+                <div
+                  *ngIf="
+                    task.get('taskName').invalid &&
+                    (task.get('taskName').dirty || task.get('taskName').touched || pageSubmitted)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="task.get('taskName').errors?.required">
+                    A prerequisite name is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group dueDate">
+                <label for="dueDate" class="header-6"><i class="fas fa-asterisk required"></i> Due Date</label>
+                <div class="input-group" (appClickOutside)="closePicker(taskDueDatePicker)">
+                  <input
+                    id="dueDate"
+                    class="form-control"
+                    placeholder="YYYY-MM-DD"
+                    formControlName="dueDate"
+                    ngbDatepicker
+                    #taskDueDatePicker="ngbDatepicker"
+                    [minDate]="{
+                      year: currentDate.getFullYear(),
+                      month: currentDate.getMonth() + 1,
+                      day: currentDate.getDate()
+                    }"
+                  />
+                  <div class="input-group-append">
+                    <button class="btn calendar" (click)="taskDueDatePicker.toggle()" type="button"></button>
+                  </div>
+                </div>
+                <div *ngIf="task.get('dueDate').invalid && pageSubmitted" class="alert alert-danger">
+                  <div
+                    *ngIf="
+                      task.get('dueDate').errors.required ||
+                      task.get('dueDate').errors.invalidDueDateTemplate ||
+                      task.get('dueDate').errors.ngbDate.invalid
+                    "
+                  >
+                    A valid due date is required (YYYY-MM-DD).
+                  </div>
+                  <div *ngIf="task.get('dueDate').errors.invalidDueDate">
+                    Due date should be greater than today's date.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class="row mx-0">
+                  <label i18n class="header-6"><i class="fas fa-asterisk required"></i> Prerequisite Description</label>
+                  <label i18n class="header-6 ml-auto regular text-light"
+                    >{{ task.get('taskDescription')?.value.length }} / {{ maxTaskDescriptionLength }}</label
+                  >
+                </div>
+                <textarea
+                  class="form-control"
+                  formControlName="taskDescription"
+                  placeholder="Write a short description about your prerequisite"
+                  maxlength="{{ maxTaskDescriptionLength }}"
+                  required
+                  trim="blur"
+                ></textarea>
+                <div
+                  *ngIf="
+                    task.get('taskDescription').invalid &&
+                    (task.get('taskDescription').dirty || task.get('taskDescription').touched || pageSubmitted)
+                  "
+                  class="alert alert-danger"
+                >
+                  <div *ngIf="task.get('taskDescription').errors?.required">
+                    A prerequisite description is required.
+                  </div>
+                </div>
+              </div>
+              <div class="form-group form-check">
+                <input class="form-check-input file-checkbox" formControlName="submitFile" type="checkbox" />
+                <label class="ml-1 file-description"
+                  >Check if completion of this task requires that the mentee submits a file.</label
+                >
+              </div>
+            </div>
+            <div class="row">
+              <button type="button" class="col-5 btn btn-info btn-md add-custom-prerequisite-btn" (click)="addTask()">
+                + Add Custom Prerequisite
+              </button>
+              <label class="col-7 file-description" i18n>
+                Create a custom prerequisite task for additional evaluation of the candidates
+              </label>
+            </div>
+
+            <div *ngIf="pageSubmitted && !atLeastOneTaskSpecified()" class="alert alert-danger">
+              At least one prerequisite is required.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+  <app-form-card
+    formGroupName="formPage3"
+    *ngIf="currentPage === 2"
+    class="text-paragraph"
+    heading="Terms and Conditions"
+  >
+    <div class="mt-4">
+      <p>
+        Before you submit your mentorship program to LFX Platform, please review and accept the terms and conditions
+        below.
+      </p>
+      <div i18n class="mt-4">
+        <input
+          type="checkbox"
+          formControlName="termsConditions"
+          class="form-check-input"
+          type="checkbox"
+          id="jobspringTC"
+          required
+        />
+        <i class="fas fa-asterisk required"></i>
+        I agree to the LFX
+        <a href="{{ communityBridgeUrl + 'platform-use-agreement' }}" target="_window" class="semibold" i18n
+          >Platform Use Agreement</a
+        >
+        and all terms incorporated therein, including the
+        <a href="{{ communityBridgeUrl + 'service-terms' }}" target="_window" class="semibold" i18n
+          >Service-Specific Use Terms</a
+        >, the
+        <a href="{{ communityBridgeUrl + 'acceptable-use' }}" target="_window" class="semibold" i18n
+          >Acceptable Use Policy</a
+        >
+        and the
+        <a href="https://www.linuxfoundation.org/privacy/" target="_window" class="semibold" i18n>Privacy Policy</a>.
+      </div>
+      <div
+        *ngIf="termsConditions.invalid && (termsConditions.dirty || termsConditions.touched || pageSubmitted)"
+        class="alert alert-danger"
+      >
+        <div *ngIf="termsConditions.errors?.required">
+          Please accept terms and conditions in order to proceed.
+        </div>
+      </div>
+    </div>
+  </app-form-card>
+
+  <!--Buttons-->
+  <div class="row col-lg-8 col-md-9 col-sm-11 col-11 px-0 mt-4 mx-auto justify-content-between">
+    <!-- Page validation error -->
+    <div *ngIf="pageSubmitted && !validate()" class="alert alert-danger">
+      Something on the form is not complete or invalid. Please correct the highlighted fields before continuing.
+    </div>
+    <div *ngIf="submissionFailed" class="alert alert-danger">
+      There was a problem with the submission. Please try again later or contact support.
+    </div>
+    <button *ngIf="currentPage === 0" type="button" class="btn btn-link btn-md" (click)="cancel()" i18n>Cancel</button>
+    <button *ngIf="currentPage === 0" type="button" class="btn btn-info btn-md" (click)="next()" i18n>
+      Next: Program Setup
+    </button>
+
+    <button *ngIf="currentPage === 1" type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+      <i class="fas fa-arrow-left"></i> Back: Program Details
+    </button>
+    <button *ngIf="currentPage === 1" type="button" class="btn btn-info btn-md" (click)="next()" i18n>
+      Next: Prerequisites
+    </button>
+
+    <button *ngIf="currentPage === 2" type="button" class="btn btn-link btn-md" (click)="back()" i18n>
+      <i class="fas fa-arrow-left"></i>
+      Back: Program Setup
+    </button>
+    <button
+      id="sumbitMentorshipForm"
+      *ngIf="currentPage === 2"
+      type="button"
+      class="btn btn-success btn-md"
+      (click)="submit()"
+      [disabled]="formSubmitted"
+      [ngStyle]="{ cursor: !formSubmitted ? 'pointer' : 'default' }"
+      i18n
+    >
+      {{ submitBtnLabel }}
+    </button>
+  </div>
+</form>
+
+<ng-template class="modal-edit" #deleteTermRef let-dismiss="dismiss">
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Delete Term</h4>
+    <button type="button" class="close" aria-label="Close" (click)="onCancel()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this term ?
+  </div>
+  <div class="modal-footer">
+    <a class="btn-link" (click)="onCancel()">Cancel</a>&nbsp;&nbsp;
+    <button type="button" class="btn" (click)="modalDeleteTerm()">
+      Delete Term
+    </button>
+  </div>
+</ng-template>

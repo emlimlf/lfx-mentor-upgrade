@@ -1,0 +1,14 @@
+<div class="lfx-toggle-pills btn-group d-flex">
+  <button class="btn btn-pill-left w-100" [ngClass]="{ active: isLeftActive }" (click)="onPillSelection('left')">
+    {{ leftButtonText }}
+  </button>
+  <button class="btn btn-pill-right w-100" [ngClass]="{ active: isRightActive }" (click)="onPillSelection('right')">
+    {{ rightButtonText }}
+  </button>
+</div>
+<div *ngIf="isLeftActive">
+  <ng-content select="div.lfx-toggle-pills-left"></ng-content>
+</div>
+<div *ngIf="isRightActive">
+  <ng-content select="div.lfx-toggle-pills-right"></ng-content>
+</div>

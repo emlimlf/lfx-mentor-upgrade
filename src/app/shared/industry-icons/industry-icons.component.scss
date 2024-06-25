@@ -1,0 +1,17 @@
+@import '~constants.scss';
+
+:host {
+  background-color: white;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0%;
+  margin-right: 0%;
+  text-align: center;
+}
+
+.icon-text {
+  @include primary-text-medium($header-6-font-size);
+  color: $chart-grey-color;
+}

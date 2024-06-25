@@ -1,0 +1,27 @@
+<button [ngClass]="buttonClass" type="submit" [ngSwitch]="state" [disabled]="isDisabled" (click)="onSubmit()">
+  <div [ngClass]="{ hidden: state !== submitStateType.READY && state != submitStateType.DISABLED}">
+    {{ readyText }}
+  </div>
+
+  <div class="centered">
+    <img role="presentation" [ngClass]="{ 'success-icon': true, hidden: state !== submitStateType.SUCCESS}" class="success-icon"
+      src="assets/check.svg">
+  </div>
+
+  <div class="centered">
+    <img role="presentation" [ngClass]="{ 'loading-icon': true, hidden: state !== submitStateType.SUBMITTING}" class="loading-icon"
+      src="assets/loader.svg">
+  </div>
+</button>
+
+<ng-container [ngSwitch]="state">
+  <div class="sr-only" role="alert" *ngSwitchCase="submitStateType.SUBMITTING" i18n>
+    Submitting
+  </div>
+  <div class="sr-only" role="alert" *ngSwitchCase="submitStateType.FAILED" i18n>
+    There was an error
+  </div>
+  <div class="sr-only" role="alert" *ngSwitchCase="submitStateType.SUCCESS" i18n>
+    Success
+  </div>
+</ng-container>

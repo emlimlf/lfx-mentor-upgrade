@@ -1,0 +1,136 @@
+<ng-container *ngIf="!isPageLoading(); else loadingTemplate">
+  <div *ngIf="(myProjectCards && myProjectCards.length > 0) || filterMyProjects || searchMyProjects">
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Programs for which I am an Administrator</h1>
+      </div>
+      <div class="filter-section" *ngIf="myProjectCards">
+        <div class="dropdown-container" ngbDropdown #dropdownBasic1="ngbDropdown">
+          <button
+            class="btn btn-sm-2 is-light-grey"
+            id="dropdownManual"
+            (click)="dropdownBasic1.open()"
+            ngbDropdownAnchor
+            (focus)="dropdownBasic1.open()"
+          >
+            <span ngClass="filter-grey"></span>
+            <span class="pl-2">{{ (filterMyProjects ? filterMyProjects : 'filter by status') | titlecase }}</span>
+          </button>
+          <div ngbDropdownMenu aria-labelledby="dropdownManual">
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option filter-dropdown-option-clear"
+              (click)="applyFilter(filter, ''); dropdownBasic1.close()"
+            >
+              All
+            </button>
+            <button
+              ngbDropdownItem
+              class="filter-dropdown-option"
+              *ngFor="let option of filter.options"
+              (click)="applyFilter(filter, option); dropdownBasic1.close()"
+            >
+              {{ option | titlecase }}
+            </button>
+          </div>
+        </div>
+        <app-input-search [type]="'mentorship'" hideList="true" (filter)="onSearchEnter($event)"></app-input-search>
+      </div>
+      <div class="cards-center" *ngIf="myProjectCards" @listStagger>
+        <div class="card-align" *ngFor="let projectCard of myProjectCards; index as i" @fadeInTop>
+          <app-project-card [projectCard]="projectCard" [maintainer]="true" [cardView]="'maintainer-private'">
+          </app-project-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button
+        *ngIf="myProjectCards && !(myProjectCards.length === 0) && shouldShowNextButton$.getValue()"
+        class="next-button btn btn-outline-light btn-block"
+        (click)="onClickProjectNext()"
+      >
+        View More
+      </button>
+    </div>
+    <div class="col-md-12 mt-4 text-center" *ngIf="myProjectCards.length === 0 && myProjectCardsLoaded">
+      No mentorships
+    </div>
+  </div>
+  <app-loader *ngIf="!myProjectCardsLoaded"></app-loader>
+
+  <div *ngIf="myMenteeProjectCards && myMenteeProjectCards.length !== 0">
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Programs for which I am a Mentee</h1>
+      </div>
+      <div class="cards-center" *ngIf="myMenteeProjectCards" @listStagger>
+        <div class="card-align" *ngFor="let projectCard of myMenteeProjectCards; index as i" @fadeInTop>
+          <app-project-card
+            [projectCard]="projectCard"
+            [mentee]="true"
+            (withdrawProject)="refreshMenteeProjects($event)"
+            [cardView]="'mentee-private'"
+          >
+          </app-project-card>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <button
+        *ngIf="shouldShowNextMenteeButton$.getValue()"
+        class="next-button btn btn-outline-light btn-block"
+        (click)="onClickMenteeProjectNext()"
+      >
+        View More
+      </button>
+    </div>
+  </div>
+  <app-loader *ngIf="!myMenteeProjectCardsLoaded"></app-loader>
+
+  <div *ngIf="myMentorProjectCards && myMentorProjectCards.length !== 0">
+    <div class="">
+      <div class="section-header">
+        <h1 class="section-name">Programs for which I am a Mentor</h1>
+      </div>
+      <div class="cards-center" *ngIf="myMentorProjectCards" @listStagger>
+        <div class="card-align" *ngFor="let projectCard of myMentorProjectCards; index as i" @fadeInTop>
+          <app-project-card [projectCard]="projectCard" [mentor]="true" [cardView]="'mentor-private'">
+          </app-project-card>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-loader *ngIf="!myMentorProjectCardsLoaded"></app-loader>
+  <div class="col-md-12">
+    <button
+      *ngIf="shouldShowNextMentorButton$.getValue()"
+      class="next-button btn btn-outline-light btn-block"
+      (click)="onClickMentorProjectNext()"
+    >
+      View More
+    </button>
+  </div>
+  <div
+    *ngIf="
+      myProjectCards &&
+      myProjectCards.length === 0 &&
+      myProjectsStatus === '' &&
+      searchMyProjects === '' &&
+      myProjectCardsLoaded &&
+      myMenteeProjectCards &&
+      myMenteeProjectCards.length === 0 &&
+      myMentorProjectCards &&
+      myMentorProjectCards.length === 0
+    "
+    ngClass="empty mt-4 mx-auto"
+  >
+    You are not part of any mentorships.
+  </div>
+</ng-container>
+<ng-template #loadingTemplate>
+  <app-loader *ngIf="isPageLoading()"></app-loader>
+</ng-template>
+
+<div class="jump-top" (click)="jumpTop()" *ngIf="canJumpTop() && showJumpToTopIcon">
+  <i class="fas fa-chevron-up"></i>
+</div>

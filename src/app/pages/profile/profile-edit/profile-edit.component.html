@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="type">
+  <!-- <app-profile-edit-employer *ngSwitchCase="'employer'"></app-profile-edit-employer> -->
+  <app-profile-edit-mentor *ngSwitchCase="'mentor'"></app-profile-edit-mentor>
+  <app-profile-edit-mentee *ngSwitchCase="'mentee'"></app-profile-edit-mentee>
+</ng-container>

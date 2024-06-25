@@ -1,0 +1,52 @@
+:host {
+  transition: all 0.3s ease-in;
+  position: absolute;
+  top: 50px;
+  width: 100%;
+}
+
+.discoveryTabs {
+  .container {
+    display: flex;
+    margin-top: 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    @media (max-width: 576px) {
+      width: 90vw;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+
+    @media (min-width: 576px) and (max-width: 798px) {
+      width: 100%;
+      max-width: 95vw;
+      margin-left: 15px;
+      margin-right: 15px;
+    }
+
+    @media (min-width: 798px) and (max-width: 992px) {
+      width: 100%;
+      max-width: 95vw;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+
+  background: #d9e0e7;
+  border: 0px solid #ffffff;
+  border-radius: 0px;
+  padding-top: 0.3rem;
+}
+
+@media (min-width: 1400px) {
+  .container {
+    max-width: 1430px;
+  }
+}
+
+@media (min-width: 1920px) {
+  .container {
+    max-width: 1780px;
+  }
+}

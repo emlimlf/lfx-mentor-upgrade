@@ -1,0 +1,28 @@
+<!-- desktop layout -->
+<div class="d-none d-lg-block mt-3 progress-bar-container">
+  <div class="progress-values" [class.small-progress-values]="isSmall">
+    <span i18n class="project-progress-value" [class.small-progress-value]="isSmall"></span>
+    <span i18n class="project-progress-total-value"
+      [class.small-progress-total-value]="isSmall">{{ getPercentageString() }}</span>
+  </div>
+  <div class="progress md-progress project-progress" [class.small-progress]="isSmall">
+    <div class="progress-bar progress-bar-striped" [style.background-color]="backgroundColorStyle" role="progressbar"
+      [style.width]="getPercentageString()"></div>
+    <div class="circle" [style.border-color]="backgroundColorStyle" [style.left]="getBreakPointPosition()"></div>
+  </div>
+</div>
+<!-- mobile layout -->
+<div class="d-lg-none mt-3">
+  <div class="progress-m-values">
+    <span i18n class="project-m-progress-value">
+      {{ currentValue | currency : 'USD' : 'symbol' : '1.0' }}</span>
+    <span i18n class="project-m-progress-total-value">{{ totalValue | currency : 'USD' : 'symbol' :
+      '1.0'
+      }}/year</span>
+  </div>
+  <div class="progress md-progress project-m-progress">
+    <div class="progress-bar progress-bar-striped" [style.background-color]="backgroundColorStyle" role="progressbar"
+      [style.width]="getPercentageString()"></div>
+    <div class="circle" [style.border-color]="backgroundColorStyle" [style.left]="getBreakPointPosition()"></div>
+  </div>
+</div>

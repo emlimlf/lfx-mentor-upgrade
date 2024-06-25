@@ -1,0 +1,158 @@
+@import '../../../../../constants.scss';
+
+:host {
+  flex: 1;
+}
+
+.container {
+  .avatar img {
+    width: 45px;
+    box-shadow: silver 0 2px 4px;
+    border-radius: 50%;
+    display: block;
+    padding: 0;
+    margin: 0;
+    border: 0;
+  }
+  .sub-status {
+    color: rgba(161, 214, 141, 1);
+    font-weight: bolder;
+    font-size: 0.85em;
+    margin: 10%;
+  }
+
+  .align-center {
+    display: flex;
+    align-items: center;
+
+    a:hover {
+      color: #0099cc;
+      text-decoration: underline;
+    }
+  }
+
+  .row-text,
+  .created-date {
+    color: #0099cc;
+    font-family: $font-family;
+    font-size: 14px;
+    font-weight: bold;
+    font-style: normal;
+    text-decoration: none;
+    text-align: left;
+
+    a {
+      color: #0099cc;
+
+      :hover {
+        text-decoration: underline;
+      }
+
+      div {
+        max-height: 65px;
+      }
+    }
+  }
+
+  .created-date {
+    color: #000000;
+  }
+
+  .app-status {
+    color: rgba(132, 146, 166, 0.6);
+    font-size: 12px;
+
+    .pending {
+      color: #ffad5f;
+    }
+
+    .accepted {
+      color: #a1d683;
+    }
+  }
+}
+
+::ng-deep .tooltip-inner {
+  min-width: 150px;
+}
+
+.error {
+  color: red;
+  font-size: 10px;
+  padding: 5px 0px;
+}
+
+.dropdown-item {
+  display: block;
+  width: 100%;
+  padding: 0.25rem 1.5rem;
+  clear: both;
+  font-weight: 400;
+  color: #212529;
+  text-align: inherit;
+  white-space: nowrap;
+  background-color: transparent;
+  border: 0;
+}
+.dropdown-menu.show,
+#dropdownTerms {
+  display: block;
+  min-width: 366px !important;
+}
+.filter-dropdown-option {
+  font-family: $font-family;
+  font-size: 12px;
+  margin-left: 0 !important;
+  padding-left: 1rem;
+  width: 100%;
+  border: none;
+  background-color: #ffffff;
+  text-align: left;
+}
+button.filter-dropdown-option:hover {
+  background-color: silver;
+}
+
+.dropdown-toggle::after {
+  display: none;
+}
+
+.fas.required {
+  color: red !important;
+  margin-right: 2px;
+  font-size: 9px;
+}
+
+.mentee-status {
+  font-weight: bold;
+  color: #162a4e;
+}
+
+::ng-deep .status-change-modal {
+  .modal-dialog {
+    max-width: 385px;
+    .modal-content {
+      padding-left: 2rem;
+      padding-right: 2rem;
+      padding-top: 1rem !important;
+      padding-bottom: 1rem !important;
+
+      .modal-footer {
+        padding: 0;
+        .btn {
+          width: fit-content;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          &:first-of-type {
+            flex-grow: 1;
+          }
+        }
+      }
+
+      p::first-letter {
+        text-transform: uppercase;
+      }
+    }
+  }
+}

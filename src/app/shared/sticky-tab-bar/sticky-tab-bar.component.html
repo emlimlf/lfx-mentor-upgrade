@@ -1,0 +1,78 @@
+<div *ngIf="isScrolled" class="sticky-spacer"></div>
+<div class="sticky-bar" [class.sticky]="isScrolled">
+  <div class="container">
+    <div class="px-0 d-flex align-items-center sticky-row">
+      <!-- Desktop Avatar + Nav -->
+      <app-avatar
+        class="pr-4 d-none d-sm-block"
+        *ngIf="displayLogo"
+        [avatarUrl]="logoUrl"
+        [rounded]="true"
+      ></app-avatar>
+      <nav class="d-none d-sm-block" (window:resize)="updateUnderline()">
+        <ul #navList class="nav nav-tabs" role="tablist">
+          <li
+            class="nav-item"
+            *ngFor="let tab of tabs; trackBy: trackTab"
+            [class.active]="isSelected(tab)"
+            [ngStyle]="{ 'border-color': color }"
+            [class.large-tabs]="largeTabs"
+          >
+            <a
+              class="nav-link header-5"
+              role="tab"
+              [class.text-light]="!isSelected(tab)"
+              [attr.aria-selected]="isSelected(tab)"
+              [routerLink]="[tab.link]"
+              (click)="onSelect(tab)"
+            >
+              {{ tab.label }}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Mobile Nav-->
+      <span #navListMobile class="d-block d-sm-none btn-group nav-group-mobile">
+        <button
+          (click)="onToggleDropdown()"
+          class="btn btn-outline-light dropdown-toggle mobile-nav-button d-flex align-items-center px-3"
+          type="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          [attr.aria-expanded]="!isCollapsed"
+          aria-controls="mobileOverviewTabMenu"
+        >
+          <span class="header-4 text-dark mr-auto">{{ selectedTab?.label }}</span>
+        </button>
+        <ul [ngbCollapse]="isCollapsed" class="dropdown-menu shadow-sm" role="tablist" id="mobileOverviewTabMenu">
+          <li class="dropdown-item" *ngFor="let tab of tabs; trackBy: trackTab">
+            <a
+              role="tab"
+              class="header-5 text-light"
+              [attr.aria-selected]="isSelected(tab)"
+              [routerLink]="[tab.link]"
+              (click)="onSelect(tab)"
+            >
+              {{ tab.label }}
+            </a>
+          </li>
+        </ul>
+      </span>
+      <!-- Desktop + Mobile subscribe button-->
+      <span class="ml-auto subscribe-btn mr-3 mr-sm-0" [class.alphed-out]="!isScrolled">
+        <ng-content select="[tab-right]"></ng-content>
+      </span>
+    </div>
+    <!-- Desktop underlines-->
+    <div class="px-0 d-none d-sm-flex">
+      <div [class.prespacer]="displayLogo"></div>
+      <div
+        class="tab-underline mt-auto"
+        [ngStyle]="{ background: color, width: underlineWidth, 'margin-left': underlineOffset }"
+      ></div>
+    </div>
+  </div>
+</div>
+
+<ng-content></ng-content>

@@ -1,0 +1,23 @@
+@import '~constants.scss';
+@import '~bootstrap/scss/bootstrap-grid.scss';
+
+:host {
+  bottom: 0;
+  align-self: stretch;
+  min-height: 207px; /* Set the fixed height of the footer here */
+  background-color: #252525;
+}
+
+.footer {
+  p {
+    color: #ccc;
+    font-size: 12px;
+    line-height: 24px;  
+    font-family: 'Open Sans';
+
+    a {
+      color: #ccc !important;
+      text-decoration: none;
+    }
+  }
+}

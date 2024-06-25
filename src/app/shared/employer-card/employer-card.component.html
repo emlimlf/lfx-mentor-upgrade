@@ -1,0 +1,132 @@
+<div appEditableCard>
+  <div class="card-body">
+    <div class="card-top">
+      <div
+        aria-disabled="true"
+        class="svg-root header-top"
+        inlinesvg="/assets/card-header.svg"
+        role="presentation"
+        [ngStyle]="employerCard.topHeaderStyle"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="240" height="40" viewBox="0 0 240 40">
+          <path fill-rule="evenodd" d="M0 0h240c-33.424 25.116-74.974 40-120 40C74.974 40 33.424 25.116 0 0z"></path>
+        </svg>
+      </div>
+      <div class="avatar-top">
+        <img *ngIf="showAvatar()" class="avatar-url avatar-rounded avatar-small" alt="" [src]="employerCard.logoUrl" />
+        <div *ngIf="!showAvatar()" class="default-avatar avatar-rounded avatar-small"></div>
+      </div>
+    </div>
+    <div [ngClass]="{ pointer: employerCard.description.length >= 150 }">
+      <label class="sr-only" for="">{{ employerCard.title }}</label>
+      <a class="card-title header-4 mt-4" id="">{{ employerCard.title }}</a>
+      <p class="card-description mt-2 header-6 regular mb-3" *ngIf="employerCard.description.length < 150">
+        {{ employerCard.description }}
+      </p>
+      <p
+        class="card-description mt-2 header-6 regular mb-3 description-read-more"
+        *ngIf="employerCard.description.length >= 150"
+        (mouseover)="onClickMentorReadMore(employerCard, true, false)"
+      >
+        {{ employerCard.description.slice(0, 150).concat('...') }}
+      </p>
+      <label class="sr-only" for="">Industry</label>
+      <div class="overflow"></div>
+    </div>
+    <div class="card-footer px-0">
+      <div class="d-flex">
+        <div class="col px-0 mx-0 participation-container" [ngClass]="{ pointer: participations?.length > 3 }">
+          <label class="sr-only">Participation</label>
+          <p class="card-description-label mb-0">Participation</p>
+          <div class="card-opportunities" *ngIf="aParticipant">
+            <div
+              *ngFor="let participation of participations | slice: 0:3"
+              class="opportunities-rounded opportunities-small"
+              [class.no-icon-url]="!participation.logoUrl"
+              [style.background-image]="participation.logoUrl ? 'url(' + participation.logoUrl + ')' : ''"
+            ></div>
+            <div
+              *ngIf="aParticipant && participations?.length > 3"
+              class="opportunities-rounded opportunities-small"
+              (mouseover)="onClickMoreParticipation(employerCard, true, false)"
+            >
+              +{{ participations.length - 3 }}
+            </div>
+          </div>
+          <div *ngIf="!aParticipant" class="empty">N/A</div>
+        </div>
+      </div>
+      <div class="d-flex">
+        <div class="col-sm-6 px-0 mx-0 funding-container">
+          <label class="sr-only">Total Funding</label>
+          <p class="card-description-label mb-0">Total Funding</p>
+          <p class="card-description-total" [class.empty]="!employerCard.totalFunding">
+            {{ employerCard.totalFunding || 'N/A' }}
+          </p>
+        </div>
+        <div class="col-sm-6 px-0 mx-0 funding-container">
+          <label class="sr-only">Opportunities</label>
+          <p class="card-description-label mb-0">Opportunities</p>
+          <p class="card-description-total" [class.empty]="!employerCard.opportunities">
+            {{ employerCard.opportunities || 'N/A' }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div
+    *ngIf="isEditable && employerCard.status === 'approved'"
+    class="animate card-pending"
+    [class.show]="employerCardHover"
+  >
+    <div class="row col-12 mt-6 mx-auto text-center align-middle">
+      <button i18n class="btn btn-clear btn-md mx-auto align-middle" (click)="onEdit()">Edit Company Profile</button>
+    </div>
+  </div>
+  <div class="employer-card-pending" *ngIf="employerCard.status === 'pending' || employerCard.status === 'rejected'">
+    <h2>{{ employerCard.status === 'pending' ? 'Pending Review' : 'Rejected' }}</h2>
+    <div class="row col-12 mt-6 mx-auto text-center">
+      <!--<button class="btn btn-clear btn-md mx-auto" (click)="onClickViewProject(employerCard)" i18n>View</button>-->
+      <button class="btn btn-clear btn-md mx-auto" (click)="onEdit()" i18n>Edit</button>
+    </div>
+  </div>
+</div>
+<div
+  class="card-popup animate popup-mentor px-4 description-popup"
+  *ngIf="employerCard.participation?.length > 3"
+  [class.open]="participation?.active"
+  [class.close]="!participation?.active"
+  [class.preview]="participation?.preview"
+>
+  <p class="close-funding pt-3 mb-0">
+    <a *ngIf="!participation?.preview" (click)="openPopUp(employerCard.subcardShown?.toString(), false, false)"
+      >Close</a
+    >
+    <a *ngIf="participation?.preview" (click)="onClickMoreParticipation(employerCard, false, true)">Open</a>
+  </p>
+  <p class="card-title header">Participation</p>
+  <div class="project-mentors-list projects-list pb-2">
+    <div
+      *ngFor="let participation of participations"
+      class="opportunities-rounded opportunities-small"
+      [class.no-icon-url]="!participation.logoUrl"
+      [style.background-image]="participation.logoUrl ? 'url(' + participation.logoUrl + ')' : ''"
+      title="{{ participation.name }}"
+    ></div>
+  </div>
+</div>
+<div
+  class="card-popup animate popup-funding px-4 description-popup"
+  [class.open]="description?.active"
+  [class.close]="!description?.active"
+  [class.preview]="description?.preview"
+>
+  <p class="close-funding pt-3 mb-0">
+    <a *ngIf="!description?.preview" (click)="openPopUp(employerCard.subcardShown?.toString(), false, false)">Close</a>
+    <a *ngIf="description?.preview" (click)="onClickMentorReadMore(employerCard, false, true)">Open</a>
+  </p>
+  <p class="card-title header"></p>
+  <div class="mentor-description-popup no-scrollbar pb-2">
+    <p>{{ employerCard.description }}</p>
+  </div>
+</div>

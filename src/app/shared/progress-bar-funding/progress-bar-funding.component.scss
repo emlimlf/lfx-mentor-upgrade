@@ -1,0 +1,164 @@
+@import '~constants.scss';
+
+.progress-bar-container {
+  width: 85%;
+  font-family: Poppins;
+
+  .progress {
+    background-color: #f3f4f4;
+  }
+  .progress-filled {
+    width: 100%;
+    opacity: 0;
+    position: absolute;
+    height: 4px;
+  }
+
+  .project-progress {
+    height: 4px;
+    position: sticky;
+    top: -39px;
+    min-width: 445px;
+    overflow: visible;
+  }
+
+  .small-progress {
+    min-width: 0;
+    right: 0;
+  }
+
+  .circle {
+    @include circle(16px, white);
+    position: absolute !important;
+    bottom: -6px !important;
+    border: 4px solid;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .circle-progress {
+    width: 12px;
+    height: 12px;
+    bottom: -4px !important;
+  }
+
+  .circle--start {
+    left: 0%;
+    text-align: center;
+    border: 0.5px solid #979797;
+  }
+  .circle--end {
+    left: 100%;
+    text-align: center;
+    border: 0.5px solid #979797;
+  }
+  .circle__label {
+    font-size: 0.6rem;
+    font-weight: 600;
+  }
+  .circle__percentage {
+    display: inline-block;
+    font-size: 0.6rem;
+    font-weight: 600;
+    margin-top: 1.8rem;
+  }
+  .progress-values {
+    display: flex;
+    position: relative;
+    top: -37px;
+  }
+
+  .progress-bar {
+    border-radius: 4px;
+    transition: none;
+  }
+
+  .progress-bar-striped {
+    background-image: none;
+  }
+
+  &.pg-large {
+    .circle {
+      @include circle(22px, white);
+      bottom: -8px !important;
+    }
+    .circle-progress {
+      width: 16px;
+      height: 16px;
+      bottom: -6px !important;
+    }
+
+    .circle__percentage {
+      margin-top: -2.2rem;
+      font-size: 0.7rem;
+    }
+    .circle__label {
+      font-size: 0.8rem;
+    }
+  }
+}
+
+.mentees-items {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 0.5rem;
+}
+
+.mentee-item-hidden {
+  visibility: hidden;
+}
+
+.mentee-item {
+  position: relative;
+  width: 1rem;
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.pg-large .mentee-item {
+  font-size: 1rem;
+}
+
+.mentee-item::before {
+  content: '.';
+  position: absolute;
+  height: 1rem;
+  width: 1rem;
+  top: -0.85rem;
+  left: 0;
+  text-align: center;
+}
+
+.pg-large .mentee-item::before {
+  top: -1rem;
+}
+
+.mentee-item.goal:after {
+  content: 'Goal';
+  position: absolute;
+  bottom: -0.75rem;
+  left: -0.5rem;
+  font-weight: bold;
+  font-size: 0.75rem;
+}
+
+.pg-large .mentee-item.goal:after {
+  bottom: -1rem;
+  left: -0.8rem;
+  font-size: 1rem;
+}
+
+.progress-wrapper {
+  width: 100%;
+  margin-left: 16px;
+  position: relative;
+}
+
+.pg-large .progress-wrapper {
+  margin-left: 22px;
+}
+
+.progress-bar.progress-bar-striped {
+  height: 4px;
+}

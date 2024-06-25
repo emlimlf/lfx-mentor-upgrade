@@ -1,0 +1,29 @@
+<ng-template #content let-c="close" let-d="dismiss" >
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title" i18n>Image Cropper</h4>
+    <button type="button" class="close" aria-label="Close" (click)="d('close'); onCropperCloseEvent();">
+      <span aria-hidden="true" i18n>&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <image-cropper
+    [imageChangedEvent]="imageChangedEvent"
+    [maintainAspectRatio]="maintainAspectRatio"
+    [resizeToWidth]="resizeToWidth" 
+    [cropperMinWidth]="cropperMinWidth"
+    [cropperMinHeight]="cropperMinHeight"
+    [onlyScaleDown]="onlyScaleDown"
+    [roundCropper]="roundCropper"
+    (imageCropped)="imageCroppedEvent($event)"
+    (imageLoaded)="imageLoadedEvent()"
+    (cropperReady)="cropperReadyEvent()"
+    (startCropImage)="startCropImageEvent()"
+    (loadImageFailed)="loadImageFailedEvent()"
+></image-cropper>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-info btn-md ml-auto" (click)="c('save'); saveCroppedImageEvent();" i18n>
+      Save
+    </button>
+  </div>
+</ng-template>
