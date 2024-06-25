@@ -14,7 +14,7 @@ describe('AlertBarComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [AlertBarComponent],
-      imports: [StoreModule.forRoot(reducers as any)]
+      imports: [StoreModule.forRoot(reducers as any)],
     }).compileComponents();
   }));
 
@@ -22,7 +22,7 @@ describe('AlertBarComponent', () => {
     fixture = TestBed.createComponent(AlertBarComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    store = TestBed.get(Store);
+    store = TestBed.inject(Store);
   });
 
   it('should create', () => {

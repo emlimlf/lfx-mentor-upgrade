@@ -20,19 +20,19 @@ describe('EditCardModalComponent', () => {
 
     const stripeJs = {
       elements: () => ({
-        create: jasmine.createSpy('create').and.returnValue(card)
-      })
+        create: jasmine.createSpy('create').and.returnValue(card),
+      }),
     };
 
     const stripeService = {
-      stripeJS$: new BehaviorSubject(stripeJs)
+      stripeJS$: new BehaviorSubject(stripeJs),
     };
 
     addSubscriptionPaymentAccountResponse = new Subject<any>();
     subscriptionService = {
       addSubscriptionPaymentAccount: jasmine
         .createSpy('addSubscriptionPaymentAccount')
-        .and.returnValue(addSubscriptionPaymentAccountResponse)
+        .and.returnValue(addSubscriptionPaymentAccountResponse),
     } as any;
 
     TestBed.configureTestingModule({
@@ -40,8 +40,8 @@ describe('EditCardModalComponent', () => {
       providers: [
         NgbActiveModal,
         { provide: StripeService, useValue: stripeService },
-        { provide: SubscriptionService, useValue: subscriptionService }
-      ]
+        { provide: SubscriptionService, useValue: subscriptionService },
+      ],
     }).compileComponents();
   }));
 
@@ -82,9 +82,11 @@ describe('EditCardModalComponent', () => {
   });
 
   it('should be in a success state if a payment was saved', async () => {
-    spyOn(component.creditCard, 'createCardToken').and.returnValue(new Promise<string>(resolve => resolve('1234')));
+    spyOn(component.creditCard, 'createCardToken').and.returnValue(
+      new Promise<string>(resolve => resolve('1234'))
+    );
     component.creditCard.completed.next(true);
-    const activeModal: NgbActiveModal = TestBed.get(NgbActiveModal);
+    const activeModal: NgbActiveModal = TestBed.inject(NgbActiveModal);
     spyOn(activeModal, 'close').and.callThrough();
 
     component.addCard();

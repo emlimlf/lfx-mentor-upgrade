@@ -29,7 +29,7 @@ describe('AuthEffects', () => {
         .and.returnValue(authCallback),
       refreshAuthToken: jasmine.createSpy('refreshAuthToken').and.returnValue(refreshLoginResponse),
       notifyBackendOfLogin: jasmine.createSpy('notifyBackendOfLogin'),
-      parseToken: parseToken
+      parseToken: parseToken,
     } as any;
   }
 
@@ -38,12 +38,12 @@ describe('AuthEffects', () => {
     token = {
       accessToken: 'accessToken',
       idToken: 'idToken',
-      expiresAt: new Date()
+      expiresAt: new Date(),
     };
     path = ['/path'];
     const authCallback: AuthCallbackResult = {
       token,
-      redirectPath: path
+      redirectPath: path,
     };
     const authResponse = cold('a|', { a: authCallback });
     const refreshLoginResponse = cold('a|', { a: token });
@@ -52,23 +52,23 @@ describe('AuthEffects', () => {
     storage = {
       setItem: jasmine.createSpy('setItem'),
       getItem: jasmine.createSpy('getItem').and.returnValue(JSON.stringify(token)),
-      removeItem: jasmine.createSpy('removeItem')
+      removeItem: jasmine.createSpy('removeItem'),
     } as any;
   });
 
   describe('reloadTokenOnInit$', () => {
     it('triggers a LoginAction if a token is present in storage', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
       const initAction = cold('a', { a: { type: ROOT_EFFECTS_INIT } });
       const authEffects = new AuthEffects(authService, storage, new Actions(initAction), zone);
       const output = cold('(a|)', { a: new LoginAction(token) });
       expect(authEffects.reloadTokenOnInit$).toBeObservable(output);
     });
     it("doesn't trigger a LoginAction if no token was present in storage", () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
       storage = {
         ...storage,
-        getItem: jasmine.createSpy('getItem').and.returnValue(null)
+        getItem: jasmine.createSpy('getItem').and.returnValue(null),
       } as any;
       const initAction = cold('a', { a: { type: ROOT_EFFECTS_INIT } });
       const authEffects = new AuthEffects(authService, storage, new Actions(initAction), zone);
@@ -79,7 +79,7 @@ describe('AuthEffects', () => {
 
   describe('saveTokenOnLogin$', () => {
     it('saves token to storage on LoginAction', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
       const input = cold('(a|)', { a: new LoginAction(token) });
       const authEffects = new AuthEffects(authService, storage, new Actions(input), zone);
       expect(authEffects.saveTokenOnLogin$).toBeObservable(input);
@@ -89,7 +89,7 @@ describe('AuthEffects', () => {
 
   describe('removeTokenOnLogout$', () => {
     it('removes the token from storage when given a LOGOUT_ACTION and redirects to landing', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
       const logoutAction = new LogoutAction();
       const input = cold('(a|)', { a: logoutAction });
 
@@ -101,7 +101,7 @@ describe('AuthEffects', () => {
 
   describe('redirectToLandingPageOnLogout$', () => {
     it('redirects to landing when a LogoutAction is sent', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
 
       const logoutAction = new LogoutAction();
       const input = cold('(a|)', { a: logoutAction });
@@ -116,7 +116,7 @@ describe('AuthEffects', () => {
 
   describe('triggerLoginRedirect$', () => {
     it('calls authorize when given a TRIGGER_LOGIN action', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
 
       const action = new TriggerLoginAction(['/']);
       const input = cold('a|', { a: action });
@@ -130,7 +130,7 @@ describe('AuthEffects', () => {
 
   describe('refreshToken$', () => {
     it('creates a LoginAction when given a TRIGGER_REFRESH_LOGIN action', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
 
       const triggerLoginAction = new TriggerLoginRefreshAction();
       const input = cold('a|', { a: triggerLoginAction });
@@ -146,15 +146,15 @@ describe('AuthEffects', () => {
 
   describe('completeLoginRedirectFromAuthRoute$', () => {
     it('sends a LoginAction and GoAction when the /auth path is loaded', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
 
       const navigationAction = {
         type: ROUTER_NAVIGATION,
         payload: {
           routerState: {
-            url: '/auth#FAKE_DATE'
-          }
-        }
+            url: '/auth#FAKE_DATE',
+          },
+        },
       };
       const input = cold('(a)-|', { a: navigationAction });
 
@@ -166,15 +166,15 @@ describe('AuthEffects', () => {
       expect(authEffects.completeLoginRedirectFromAuthRoute$).toBeObservable(output);
     });
     it('sends a GoAction to the landing page when auth service returns an error', () => {
-      const zone = TestBed.get(NgZone);
+      const zone = TestBed.inject(NgZone);
 
       const navigationAction = {
         type: ROUTER_NAVIGATION,
         payload: {
           routerState: {
-            url: '/auth#FAKE_DATE'
-          }
-        }
+            url: '/auth#FAKE_DATE',
+          },
+        },
       };
       const input = cold('(a)-|', { a: navigationAction });
       const errorResponse = cold('#');

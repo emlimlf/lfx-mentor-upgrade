@@ -21,7 +21,7 @@ import { MenteesTabTasksRowEditComponent } from './project-detail/mentees-tab-ta
 
 @NgModule({
   imports: [CommonModule, NgbModule, ProjectRoutingModule, ReactiveFormsModule, FormsModule, SharedModule],
-  entryComponents: [MenteesTabAddTasksComponent, MenteesTabTasksRowEditComponent],
+  // entryComponents: [MenteesTabAddTasksComponent, MenteesTabTasksRowEditComponent],
   exports: [CustomDatePipe],
   declarations: [
     ProjectDetailComponent,

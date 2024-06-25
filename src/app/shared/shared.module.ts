@@ -282,12 +282,12 @@ import { FunnelCircleGraphicCardComponent } from './funnel-circle-graphic-card/f
     PopularMentorCardComponent,
     FunnelCircleGraphicCardComponent,
   ],
-  entryComponents: [
-    EditCardModalComponent,
-    EditOrganizationModalComponent,
-    DeleteProjectModalComponent,
-    TermAddEditComponent,
-  ],
+  // entryComponents: [
+  //   EditCardModalComponent,
+  //   EditOrganizationModalComponent,
+  //   DeleteProjectModalComponent,
+  //   TermAddEditComponent,
+  // ],
   providers: [WindowRef],
 })
 export class SharedModule {}

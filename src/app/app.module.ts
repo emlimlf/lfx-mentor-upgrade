@@ -43,7 +43,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ProfileComponent,
     SupporterWallComponent,
   ],
-  entryComponents: [DocViewerComponent],
+  // entryComponents: [DocViewerComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
