@@ -240,7 +240,7 @@ export class LogoCropperFieldComponent implements AfterViewInit, OnChanges, OnDe
           if (image.width < this.width || image.height < this.height) {
             reject(null);
           } else {
-            resolve();
+            resolve(null);
           }
         };
         image.src = <string>fileReader.result;

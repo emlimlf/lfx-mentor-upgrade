@@ -1,5 +1,5 @@
-@import '~constants.scss';
-@import "../../../../app.component.scss";
+@import 'constants.scss';
+@import '../../../../app.component.scss';
 
 :host {
   @include page-base($background-grey-color);

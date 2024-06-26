@@ -235,9 +235,9 @@ export class MenteePublicComponent implements OnInit {
     setTimeout(() => {
       const fragment = this.activeRoute.fragment;
       fragment.subscribe(name => {
-        const element = document.getElementById(name) as HTMLElement;
+        const element = document.getElementById(name || '') as HTMLElement;
         if (element) {
-          switch (name.toLowerCase()) {
+          switch ((name || '').toLowerCase()) {
             case 'projects':
             case 'mentors':
               element.scrollIntoView(true);

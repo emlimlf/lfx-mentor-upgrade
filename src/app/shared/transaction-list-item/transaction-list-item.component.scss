@@ -1,4 +1,4 @@
-@import '~constants.scss';
+@import 'constants.scss';
 @import '~bootstrap/scss/bootstrap-grid.scss';
 
 :host {
@@ -77,7 +77,7 @@
   border-color: $other-category-color;
 }
 
-.high { 
+.high {
   background-color: #fa2300;
 }
 
@@ -106,7 +106,7 @@
   display: block !important;
 }
 
-.task-item-view { 
+.task-item-view {
   font-size: 9.5px;
   font-weight: normal;
   font-style: normal;
@@ -136,7 +136,6 @@
 .avatar-rounded {
   border-radius: 50% !important;
 }
-
 
 @include media-breakpoint-down(sm) {
   .transaction-info {

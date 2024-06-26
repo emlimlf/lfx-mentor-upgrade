@@ -100,7 +100,7 @@ export class MenteeComponent implements OnInit, OnDestroy {
       const d = new Date(dateValue.slice(0, 10));
       return d;
     }
-    return false;
+    return '';
   }
 
   @HostListener('window:scroll')

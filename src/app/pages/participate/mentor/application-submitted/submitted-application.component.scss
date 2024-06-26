@@ -1,12 +1,12 @@
-@import '~constants.scss';
+@import 'constants.scss';
 
 :host {
   @include page-base($background-grey-color);
 }
 
 .header-banner {
-    padding: 20px 0px;
-    background-color: #003366;
+  padding: 20px 0px;
+  background-color: #003366;
 }
 
 p {

@@ -105,9 +105,15 @@ export class MenteeApplicationsComponent implements OnInit, OnDestroy {
 
   castRawApplication(app: any, relationships: any) {
     app.createdOnDate = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleDateString();
-    app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+    app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString(
+      [],
+      TIME_FORMAT_24_HOURS as any
+    );
     app.updatedOnDate = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleDateString();
-    app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+    app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString(
+      [],
+      TIME_FORMAT_24_HOURS as any
+    );
 
     const relationship = relationships.find((r: any) => this.isMentee(r.theirRole) && r.projectId === app.projectId);
 
@@ -153,7 +159,7 @@ export class MenteeApplicationsComponent implements OnInit, OnDestroy {
           application.updatedOnDate = new Date(res.updatedOn.replace(/-/g, '/') || '').toLocaleDateString();
           application.updatedOnTime = new Date(res.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString(
             [],
-            TIME_FORMAT_24_HOURS
+            TIME_FORMAT_24_HOURS as any
           );
         }
         this.store.dispatch(

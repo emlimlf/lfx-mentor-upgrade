@@ -1,4 +1,4 @@
-@import '~constants.scss';
+@import 'constants.scss';
 
 .progress-bar-container {
   width: 85%;
@@ -9,11 +9,11 @@
   }
   .progress-filled {
     width: 100%;
-    opacity: .5;
+    opacity: 0.5;
     position: absolute;
     height: 4px;
   }
-  
+
   .project-progress {
     height: 4px;
     position: sticky;
@@ -43,26 +43,26 @@
     bottom: -4px !important;
   }
 
-  .circle--start{
+  .circle--start {
     left: 0%;
     text-align: center;
     border: 0.5px solid #979797;
   }
-  .circle--end{
+  .circle--end {
     left: 100%;
     text-align: center;
     border: 0.5px solid #979797;
   }
-  .circle__label{
+  .circle__label {
     font-size: 0.6rem;
     font-weight: 600;
   }
-  .circle__percentage{
+  .circle__percentage {
     display: inline-block;
     font-size: 0.6rem;
     font-weight: 600;
     margin-top: 1.8rem;
-  }  
+  }
   .progress-values {
     display: flex;
     position: relative;
@@ -91,11 +91,10 @@
 
     .circle__percentage {
       margin-top: 2.2rem;
-      font-size: .7rem;
+      font-size: 0.7rem;
     }
     .circle__label {
       font-size: 0.8rem;
     }
   }
 }
-

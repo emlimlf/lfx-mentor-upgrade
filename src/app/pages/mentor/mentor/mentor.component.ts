@@ -268,16 +268,16 @@ export class MentorComponent implements OnInit {
       return d;
     }
 
-    return false;
+    return '';
   }
 
   private scrollToFragments() {
     setTimeout(() => {
       const fragment = this.activeRoute.fragment;
       fragment.subscribe(name => {
-        const element = document.getElementById(name) as HTMLElement;
+        const element = document.getElementById(name || '') as HTMLElement;
         if (element) {
-          switch (name.toLowerCase()) {
+          switch ((name || '').toLowerCase()) {
             case 'projects':
             case 'mentees':
             case 'graduatedmentees':
