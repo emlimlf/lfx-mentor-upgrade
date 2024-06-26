@@ -4,7 +4,6 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "prestart": "yarn install",
     "start": "ng serve --ssl",
     "prebuild": "yarn install",
     "build": "webpack",

@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { CardActionTypes, CardLoadedAction, CardLoadFailedAction } from './card.actions';
 import { isAPIError } from '../models';
 import { SubscriptionService } from '../subscription.service';
@@ -13,7 +13,7 @@ export class CardEffects {
   @Effect()
   loadCard$: Observable<CardLoadedAction | CardLoadFailedAction> = this.actions$.pipe(
     ofType(CardActionTypes.LOAD_CARD),
-    flatMap(() => this.subscriptionService.getPaymentAccountCard()),
+    mergeMap(() => this.subscriptionService.getPaymentAccountCard()),
     map(card => {
       if (isAPIError(card)) {
         return new CardLoadFailedAction();

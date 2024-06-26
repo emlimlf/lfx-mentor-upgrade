@@ -3,13 +3,13 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, flatMap, map } from 'rxjs/operators';
+import { catchError, mergeMap, map } from 'rxjs/operators';
 import {
   LoadTransactionPageAction,
   TransactionPageActionTypes,
   TransactionPageLoadedAction,
   TransactionPageLoadFailedAction,
-  LoadMyTransactionPageAction
+  LoadMyTransactionPageAction,
 } from './transactions.page.actions';
 import { TransactionsService } from '../transactions.service';
 
@@ -18,13 +18,13 @@ export class TransactionEffects {
   @Effect()
   requestOnLoadTransactionPage$ = this.actions$.pipe(
     ofType<LoadTransactionPageAction>(TransactionPageActionTypes.LOAD_PAGE),
-    flatMap(action => this.requestTransactionPageWithCursor(action.payload.projectId, action.payload.cursor))
+    mergeMap(action => this.requestTransactionPageWithCursor(action.payload.projectId, action.payload.cursor))
   );
 
   @Effect()
   requestOnLoadMyTransactionPage$ = this.actions$.pipe(
     ofType<LoadMyTransactionPageAction>(TransactionPageActionTypes.LOAD_MY_PAGE),
-    flatMap(action => this.requestMyTransactionPageWithCursor(action.payload.cursor))
+    mergeMap(action => this.requestMyTransactionPageWithCursor(action.payload.cursor))
   );
 
   constructor(private transactionService: TransactionsService, private actions$: Actions) {}

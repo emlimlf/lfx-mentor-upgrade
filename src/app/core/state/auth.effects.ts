@@ -5,7 +5,7 @@
 // import { Actions, Effect, ofType } from '@ngrx/effects';
 // import { Action } from '@ngrx/store';
 // import { asyncScheduler, interval, NEVER, Observable, of } from 'rxjs';
-// import { catchError, delay, flatMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
+// import { catchError, delay, mergeMap, map, observeOn, switchMap, tap } from 'rxjs/operators';
 // import * as uuidv4 from 'uuid/v4';
 // import { QueueAlertAction } from './alerts.actions';
 // import { AuthActionTypes, LoginAction, Token, TriggerLoginAction, TriggerLoginRefreshAction } from './auth.actions';
@@ -66,7 +66,7 @@
 // export class AuthEffects {
 //   @Effect()
 //   reloadTokenOnInit$: Observable<LoginAction> = onStoreInitialized(this.actions$).pipe(
-//     flatMap(() => {
+//     mergeMap(() => {
 //       const token = this.loadTokenFromStorage(this.storage);
 //       if (token !== undefined) {
 //         return of(new LoginAction(token));
@@ -123,7 +123,7 @@
 //   @Effect()
 //   refreshToken$ = this.actions$.pipe(
 //     ofType(AuthActionTypes.TRIGGER_LOGIN_REFRESH),
-//     flatMap(action => {
+//     mergeMap(action => {
 //       const requestId = generateRequestId();
 //       return this.authService.refreshAuthToken(requestId);
 //     }),
@@ -154,12 +154,12 @@
 //   @Effect()
 //   completeLoginRedirectFromAuthRoute$ = this.actions$.pipe(
 //     isNavigationActionToRoute(AUTH_ROUTE),
-//     flatMap(action => {
+//     mergeMap(action => {
 //       const requestId = loadRequestIdFromStorage(this.storage);
 //       removeRequestIdFromStorage(this.storage);
 //       return this.authService.readAndVerifyTokenFromBrowserURL(requestId);
 //     }),
-//     flatMap(authCallbackResult =>
+//     mergeMap(authCallbackResult =>
 //       of<Action>(
 //         new LoginAction(authCallbackResult.token),
 //         new GoAction(authCallbackResult.redirectPath, undefined, { replaceUrl: true })

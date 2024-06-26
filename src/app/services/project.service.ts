@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of, BehaviorSubject } from 'rxjs';
-import { map, flatMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 import { EmployerResponse } from '@app/models/employer.model';
 import { Profile } from '@app/models/user.model';
 import { AuthService } from '@app/services/auth.service';
@@ -43,7 +43,7 @@ export class ProjectService {
         ? of(project)
         : this.fileUploadService.uploadFile(project.logoUrl).pipe(map((logoUrl: string) => ({ ...project, logoUrl })));
     return uploadlogoIfNeeded$.pipe(
-      flatMap((projectWithLogoURLPath: Project) =>
+      mergeMap((projectWithLogoURLPath: Project) =>
         this.http.post<Project>(environment.API_URL + 'projects', projectWithLogoURLPath)
       )
     );
@@ -71,7 +71,7 @@ export class ProjectService {
         ? of(project)
         : this.fileUploadService.uploadFile(project.logoUrl).pipe(map((logoUrl: string) => ({ ...project, logoUrl })));
     return uploadlogoIfNeeded$.pipe(
-      flatMap((projectWithLogoURLPath: Project) =>
+      mergeMap((projectWithLogoURLPath: Project) =>
         this.http.put<Project>(environment.API_URL + 'projects/' + project.projectId, projectWithLogoURLPath)
       )
     );

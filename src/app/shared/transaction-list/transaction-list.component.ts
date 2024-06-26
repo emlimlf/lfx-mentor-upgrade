@@ -17,7 +17,7 @@ import {
 } from '@app/core';
 import { Store } from '@ngrx/store';
 import { combineLatest, NEVER, Observable, of, Subscription } from 'rxjs';
-import { filter, flatMap, map, skip, take } from 'rxjs/operators';
+import { filter, mergeMap, map, skip, take } from 'rxjs/operators';
 
 interface PageStats {
   startIndex: number;
@@ -49,7 +49,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
 
     this.subscription = cursor$.pipe(skip(1)).subscribe(() => this.scrollTopOfWidget());
 
-    const currentPage$ = cursor$.pipe(flatMap(cursor => store.select(createTransactionsPageSelector(cursor))));
+    const currentPage$ = cursor$.pipe(mergeMap(cursor => store.select(createTransactionsPageSelector(cursor))));
     this.loading$ = currentPage$.pipe(map(page => page.status === LoadingStatus.LOADING));
 
     this.nextCursor$ = currentPage$.pipe(
@@ -85,7 +85,7 @@ export class TransactionListComponent implements OnInit, OnDestroy {
     );
 
     this.transactions$ = currentPage$.pipe(
-      flatMap(page => {
+      mergeMap(page => {
         if (page.status === LoadingStatus.LOADED) {
           return this.getTransactionsFromIds(page.entry.currentTransactionIds);
         }
