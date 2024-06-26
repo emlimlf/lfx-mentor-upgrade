@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { CiiComponent } from './cii.component';
 
@@ -6,12 +6,13 @@ describe('CiiComponent', () => {
   let component: CiiComponent;
   let fixture: ComponentFixture<CiiComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ CiiComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [CiiComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CiiComponent);

@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { MenteePublicComponent } from './mentee-public.component';
 
@@ -8,12 +8,13 @@ describe('MenteePublicComponent', () => {
   let component: MenteePublicComponent;
   let fixture: ComponentFixture<MenteePublicComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ MenteePublicComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [MenteePublicComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MenteePublicComponent);

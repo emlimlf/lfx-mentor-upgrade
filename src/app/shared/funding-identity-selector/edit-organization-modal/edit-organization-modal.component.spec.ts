@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { OrganizationService } from '@app/core';
 import { SharedModule } from '@app/shared';
@@ -11,17 +11,19 @@ describe('EditCardModalComponent', () => {
   let component: EditOrganizationModalComponent;
   let fixture: ComponentFixture<EditOrganizationModalComponent>;
 
-  beforeEach(async(() => {
-    const organizationService = {
-      createOrganization: jasmine.createSpy('createOrganization').and.returnValue({}),
-      updateOrganization: jasmine.createSpy('updateOrganization').and.returnValue({})
-    };
+  beforeEach(
+    waitForAsync(() => {
+      const organizationService = {
+        createOrganization: jasmine.createSpy('createOrganization').and.returnValue({}),
+        updateOrganization: jasmine.createSpy('updateOrganization').and.returnValue({}),
+      };
 
-    TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), SharedModule, ReactiveFormsModule],
-      providers: [NgbActiveModal, { provide: OrganizationService, useValue: organizationService }]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        imports: [NgbModule.forRoot(), SharedModule, ReactiveFormsModule],
+        providers: [NgbActiveModal, { provide: OrganizationService, useValue: organizationService }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditOrganizationModalComponent);

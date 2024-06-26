@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { HttpClient } from '@angular/common/http';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Router } from '@angular/router';
 import {
   ACCOUNT_ROUTE,
@@ -11,7 +11,7 @@ import {
   LoggerService,
   PROJECT_CREATE_ROUTE,
   PROJECT_ROUTE,
-  TriggerLoginAction
+  TriggerLoginAction,
 } from '@app/core';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
@@ -28,36 +28,38 @@ describe('NavigationComponent', () => {
   let loggedIn: BehaviorSubject<boolean>;
   let router: Router;
 
-  beforeEach(async(() => {
-    loggedIn = new BehaviorSubject<boolean>(false);
-    const loggerService: LoggerService = jasmine.createSpyObj('LoggerService', ['log', 'debug', 'error', 'warn']);
-    const webAuth = jasmine.createSpyObj('WebAuth', ['authorize']);
-    const httpClient = jasmine.createSpyObj('HttpClient', ['get']) as HttpClient;
-    authService = {
-      ...new AuthService(webAuth, loggerService, httpClient, ''),
-      authenticateWithTargetRoute: jasmine.createSpy('authorize')
-    };
+  beforeEach(
+    waitForAsync(() => {
+      loggedIn = new BehaviorSubject<boolean>(false);
+      const loggerService: LoggerService = jasmine.createSpyObj('LoggerService', ['log', 'debug', 'error', 'warn']);
+      const webAuth = jasmine.createSpyObj('WebAuth', ['authorize']);
+      const httpClient = jasmine.createSpyObj('HttpClient', ['get']) as HttpClient;
+      authService = {
+        ...new AuthService(webAuth, loggerService, httpClient, ''),
+        authenticateWithTargetRoute: jasmine.createSpy('authorize'),
+      };
 
-    store = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.returnValue(loggedIn)
-    } as any;
+      store = {
+        dispatch: jasmine.createSpy('dispatch'),
+        select: jasmine.createSpy('select').and.returnValue(loggedIn),
+      } as any;
 
-    router = {
-      // Create a mock observable of router events
-      events: of({ url: '/projects' })
-    } as any;
+      router = {
+        // Create a mock observable of router events
+        events: of({ url: '/projects' }),
+      } as any;
 
-    TestBed.configureTestingModule({
-      declarations: [NavigationComponent, NavigationToggleComponent],
-      imports: [NgbModule],
-      providers: [
-        { provide: AuthService, useValue: authService },
-        { provide: Store, useValue: store },
-        { provide: Router, useValue: router }
-      ]
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [NavigationComponent, NavigationToggleComponent],
+        imports: [NgbModule],
+        providers: [
+          { provide: AuthService, useValue: authService },
+          { provide: Store, useValue: store },
+          { provide: Router, useValue: router },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(NavigationComponent);

@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StripeService, SubscriptionService } from '@app/core';
 import { SharedModule } from '../../shared.module';
 import { SubmitState } from '../../submit-button/submit-button.component';
@@ -15,35 +15,37 @@ describe('EditCardModalComponent', () => {
   let subscriptionService: SubscriptionService;
   let addSubscriptionPaymentAccountResponse: Subject<any>;
 
-  beforeEach(async(() => {
-    const card = jasmine.createSpyObj('card', ['mount', 'on']);
+  beforeEach(
+    waitForAsync(() => {
+      const card = jasmine.createSpyObj('card', ['mount', 'on']);
 
-    const stripeJs = {
-      elements: () => ({
-        create: jasmine.createSpy('create').and.returnValue(card),
-      }),
-    };
+      const stripeJs = {
+        elements: () => ({
+          create: jasmine.createSpy('create').and.returnValue(card),
+        }),
+      };
 
-    const stripeService = {
-      stripeJS$: new BehaviorSubject(stripeJs),
-    };
+      const stripeService = {
+        stripeJS$: new BehaviorSubject(stripeJs),
+      };
 
-    addSubscriptionPaymentAccountResponse = new Subject<any>();
-    subscriptionService = {
-      addSubscriptionPaymentAccount: jasmine
-        .createSpy('addSubscriptionPaymentAccount')
-        .and.returnValue(addSubscriptionPaymentAccountResponse),
-    } as any;
+      addSubscriptionPaymentAccountResponse = new Subject<any>();
+      subscriptionService = {
+        addSubscriptionPaymentAccount: jasmine
+          .createSpy('addSubscriptionPaymentAccount')
+          .and.returnValue(addSubscriptionPaymentAccountResponse),
+      } as any;
 
-    TestBed.configureTestingModule({
-      imports: [NgbModule.forRoot(), SharedModule],
-      providers: [
-        NgbActiveModal,
-        { provide: StripeService, useValue: stripeService },
-        { provide: SubscriptionService, useValue: subscriptionService },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        imports: [NgbModule.forRoot(), SharedModule],
+        providers: [
+          NgbActiveModal,
+          { provide: StripeService, useValue: stripeService },
+          { provide: SubscriptionService, useValue: subscriptionService },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(EditCardModalComponent);

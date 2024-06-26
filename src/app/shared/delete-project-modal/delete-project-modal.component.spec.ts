@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { DeleteProjectModalComponent } from './delete-project-modal.component';
 
@@ -6,12 +6,13 @@ describe('DeleteProjectModalComponent', () => {
   let component: DeleteProjectModalComponent;
   let fixture: ComponentFixture<DeleteProjectModalComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ DeleteProjectModalComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [DeleteProjectModalComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(DeleteProjectModalComponent);

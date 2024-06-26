@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { JobCreatedComponent } from './job-created.component';
 
@@ -8,12 +8,13 @@ describe('JobCreatedComponent', () => {
   let component: JobCreatedComponent;
   let fixture: ComponentFixture<JobCreatedComponent>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ JobCreatedComponent ]
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [JobCreatedComponent],
+      }).compileComponents();
     })
-    .compileComponents();
-  }));
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(JobCreatedComponent);

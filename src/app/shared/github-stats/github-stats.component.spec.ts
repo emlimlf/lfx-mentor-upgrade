@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GithubStats, LoadingStatus, Project, ProjectStatus } from '@app/core';
 import { ProjectsModel } from '@app/projects/state';
 import { Store } from '@ngrx/store';
@@ -15,18 +15,20 @@ describe('GithubStatsComponent', () => {
   let fixture: ComponentFixture<GithubStatsComponent>;
   let projectsModel$: BehaviorSubject<ProjectsModel>;
 
-  beforeEach(async(() => {
-    projectsModel$ = new BehaviorSubject<ProjectsModel>({ status: LoadingStatus.LOADING });
-    const store = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.returnValue(projectsModel$)
-    };
-    TestBed.configureTestingModule({
-      declarations: [GithubStatsComponent, ShortNumberPipe],
-      providers: [{ provide: Store, useValue: store }],
-      schemas: [NO_ERRORS_SCHEMA]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      projectsModel$ = new BehaviorSubject<ProjectsModel>({ status: LoadingStatus.LOADING });
+      const store = {
+        dispatch: jasmine.createSpy('dispatch'),
+        select: jasmine.createSpy('select').and.returnValue(projectsModel$),
+      };
+      TestBed.configureTestingModule({
+        declarations: [GithubStatsComponent, ShortNumberPipe],
+        providers: [{ provide: Store, useValue: store }],
+        schemas: [NO_ERRORS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(GithubStatsComponent);
@@ -42,7 +44,7 @@ describe('GithubStatsComponent', () => {
     const githubStats: GithubStats = {
       stars: 10,
       openIssues: 11,
-      forks: 12
+      forks: 12,
     };
     const project: Project = {
       id: '1234',
@@ -54,18 +56,18 @@ describe('GithubStatsComponent', () => {
       description: 'The new description',
       color: 'CCCCCC',
       githubStats,
-      projectStats: { backers: 0 }
+      projectStats: { backers: 0 },
     };
     projectsModel$.next({
       status: LoadingStatus.LOADED,
-      project
+      project,
     });
     expect(component.stats$).toBeObservable(cold('a', { a: githubStats }));
   });
 
   it('should show nothing if the project is absent', () => {
     projectsModel$.next({
-      status: LoadingStatus.LOADING
+      status: LoadingStatus.LOADING,
     });
     expect(component.stats$).toBeObservable(cold('a', { a: undefined }));
   });

@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { DebugElement } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { ProgressBarComponent } from './progress-bar.component';
 import { CentsToDollarsPipe } from '@app/shared/cents-to-dollars.pipe';
 
@@ -10,11 +10,13 @@ describe('ProgressBarComponent', () => {
   let fixture: ComponentFixture<ProgressBarComponent>;
   let debugElement: DebugElement;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [ProgressBarComponent, CentsToDollarsPipe]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [ProgressBarComponent, CentsToDollarsPipe],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ProgressBarComponent);
