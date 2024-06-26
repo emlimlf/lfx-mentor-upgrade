@@ -3,7 +3,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Inject, Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { API_KEY } from './environment.configuration';
 import { ENVIRONMENT_KEY, EnvironmentConfiguration } from './environment.configuration';
 import { FileUploadService } from './file-upload.service';
@@ -61,7 +61,7 @@ export class ProjectService {
         ? of(draft)
         : this.fileUpload.uploadFile(draft.logo).pipe(map((logoUrl: string) => ({ ...draft, logoUrl })));
     return uploadLogoIfNeeded$.pipe(
-      flatMap((draftWithLogoPath: DraftProject) => this.httpClient.post(route, draftWithLogoPath)),
+      mergeMap((draftWithLogoPath: DraftProject) => this.httpClient.post(route, draftWithLogoPath)),
       map(response => this.parseProject(response))
     );
   }

@@ -2,22 +2,16 @@
 // SPDX-License-Identifier: MIT
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  CoreState,
-  Identity,
-  LoadingStatus,
-  LoadUserOrganizationsAction,
-  Organization
-} from '@app/core';
+import { CoreState, Identity, LoadingStatus, LoadUserOrganizationsAction, Organization } from '@app/core';
 import { getUserInfoState } from '@app/core/state/auth.reducer';
 import { organizationSelector } from '@app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { Store } from '@ngrx/store';
 import { NEVER, Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import {
   EditOrganizationModalComponent,
-  EditOrganizationResult
+  EditOrganizationResult,
 } from './edit-organization-modal/edit-organization-modal.component';
 
 export const INDIVIDUAL_FUNDING_IDENTITY = 'individual';
@@ -25,7 +19,7 @@ export const INDIVIDUAL_FUNDING_IDENTITY = 'individual';
 @Component({
   selector: 'app-funding-identity-selector',
   templateUrl: './funding-identity-selector.component.html',
-  styleUrls: ['./funding-identity-selector.component.scss']
+  styleUrls: ['./funding-identity-selector.component.scss'],
 })
 export class FundingIdentitySelectorComponent implements OnInit {
   @Input() parentForm!: FormGroup;
@@ -49,7 +43,7 @@ export class FundingIdentitySelectorComponent implements OnInit {
       })
     );
     this.userIdentity$ = store.select(getUserInfoState).pipe(
-      flatMap(state => {
+      mergeMap(state => {
         if (state === undefined) {
           return NEVER;
         }
@@ -63,7 +57,7 @@ export class FundingIdentitySelectorComponent implements OnInit {
   async editOrganization(organization?: Organization) {
     const modalRef = this.modalService.open(EditOrganizationModalComponent, {
       centered: true,
-      windowClass: 'no-border modal-window'
+      windowClass: 'no-border modal-window',
     });
 
     const organizationComp = modalRef.componentInstance as EditOrganizationModalComponent;

@@ -31,6 +31,15 @@ import { ProfileComponent } from './pages/discover/profile/profile.component';
 import { SupporterWallComponent } from './pages/discover/supporter-wall/supporter-wall.component';
 import { PaginationService } from './services/pagination.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MenteeModule } from './pages/mentee/mentee.module';
+import { ApprenticeModule } from './pages/participate/apprentice/apprentice.module';
+import { EmployerModule } from './pages/participate/employer/employer.module';
+import { MaintainerModule } from './pages/participate/maintainer/maintainer.module';
+import { MentorModule } from './pages/participate/mentor/mentor.module';
+import { MentorModule as MentorModule2 } from './pages/mentor/mentor.module';
+import { ParticipateModule } from './pages/participate/participate.module';
+import { ProfileModule } from './pages/profile/profile.module';
+import { ProjectModule } from './pages/projects/project.module';
 
 declare module '@angular/core' {
   interface ModuleWithProviders<T = any> {
@@ -60,7 +69,7 @@ declare module '@angular/core' {
     HttpClientModule,
     ReactiveFormsModule,
     RedirectingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     StoreModule.forRoot(reducers as any),
     // EffectsModule.forRoot(effects),
     InlineSVGModule.forRoot(),
@@ -71,6 +80,17 @@ declare module '@angular/core' {
       maxAge: 25,
       logOnly: environment.production, // Restrict extension to log-only mode
     }),
+    // TODO: REMOVE these later when we have dynamic loading of modules
+    MenteeModule,
+    MentorModule,
+    ApprenticeModule,
+    EmployerModule,
+    MaintainerModule,
+    ParticipateModule,
+    ProfileModule,
+    ProjectModule,
+    MentorModule2,
+    // end of remove
   ],
   providers: [
     AuthService,

@@ -3,12 +3,12 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, flatMap, map } from 'rxjs/operators';
+import { catchError, mergeMap, map } from 'rxjs/operators';
 import {
   LoadUserOrganizationsAction,
   OrganizationActionTypes,
   UserOrganizationsLoadedAction,
-  UserOrganizationsLoadedFailedAction
+  UserOrganizationsLoadedFailedAction,
 } from './organization.actions';
 import { OrganizationService } from '../organization.service';
 
@@ -17,7 +17,7 @@ export class OrganizationEffects {
   @Effect()
   onLoadOrganization$ = this.actions$.pipe(
     ofType<LoadUserOrganizationsAction>(OrganizationActionTypes.LOAD_USER_ORGANIZATIONS),
-    flatMap(_ => this.organizationService.getUserOrganizations()),
+    mergeMap(_ => this.organizationService.getUserOrganizations()),
     map(organizations => new UserOrganizationsLoadedAction(organizations)),
     catchError(_ => of(new UserOrganizationsLoadedFailedAction()))
   );

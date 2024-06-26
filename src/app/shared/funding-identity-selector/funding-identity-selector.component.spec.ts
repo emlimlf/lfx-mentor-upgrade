@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Identity, LoadingStatus, OrganizationModel } from '@app/core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -28,25 +28,27 @@ describe('FundingIdentitySelectorComponent', () => {
   let component: FundingIdentitySelectorComponent;
   let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
-    const organizationsModal = new BehaviorSubject<OrganizationModel>({ status: LoadingStatus.LOADING });
-    const identity = new BehaviorSubject<Identity>({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' });
+  beforeEach(
+    waitForAsync(() => {
+      const organizationsModal = new BehaviorSubject<OrganizationModel>({ status: LoadingStatus.LOADING });
+      const identity = new BehaviorSubject<Identity>({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' });
 
-    const store = {
-      select: jasmine.createSpy('select').and.returnValues(organizationsModal, identity),
-    };
+      const store = {
+        select: jasmine.createSpy('select').and.returnValues(organizationsModal, identity),
+      };
 
-    const modalService = jasmine.createSpyObj('NgbModal', ['open']);
+      const modalService = jasmine.createSpyObj('NgbModal', ['open']);
 
-    TestBed.configureTestingModule({
-      declarations: [TestHostComponent],
-      imports: [SharedModule, ReactiveFormsModule],
-      providers: [
-        { provide: NgbModal, useValue: modalService },
-        { provide: Store, useValue: store },
-      ],
-    }).compileComponents();
-  }));
+      TestBed.configureTestingModule({
+        declarations: [TestHostComponent],
+        imports: [SharedModule, ReactiveFormsModule],
+        providers: [
+          { provide: NgbModal, useValue: modalService },
+          { provide: Store, useValue: store },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);

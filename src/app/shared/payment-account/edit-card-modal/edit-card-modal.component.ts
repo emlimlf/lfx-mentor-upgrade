@@ -6,7 +6,7 @@ import { CreditCardFieldComponent } from '../../credit-card-field/credit-card-fi
 import { SubmitState } from '../../submit-button/submit-button.component';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { BehaviorSubject, combineLatest, from, Observable, of, Subscription } from 'rxjs';
-import { delay, flatMap, tap } from 'rxjs/operators';
+import { delay, mergeMap, tap } from 'rxjs/operators';
 
 export enum EditCardResult {
   CARD_ADDED,
@@ -57,7 +57,7 @@ export class EditCardModalComponent implements OnInit, OnDestroy {
     const promise = this.creditCard.createCardToken();
     this.subscription = from(promise)
       .pipe(
-        flatMap(token => this.subscriptionService.addSubscriptionPaymentAccount(token)),
+        mergeMap(token => this.subscriptionService.addSubscriptionPaymentAccount(token)),
         tap(_ => this.baseState$.next(SubmitState.SUCCESS)),
         delay(SUBMIT_CLOSE_DELAY_MS)
       )

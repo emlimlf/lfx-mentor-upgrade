@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { GoAction, PROJECT_CREATE_ROUTE } from '@app/core';
 import { Store } from '@ngrx/store';
 import { LandingComponent } from './landing.component';
@@ -10,13 +10,15 @@ describe('LandingComponent', () => {
   let fixture: ComponentFixture<LandingComponent>;
   let store: Store<any>;
 
-  beforeEach(async(() => {
-    store = jasmine.createSpyObj('Store', ['dispatch']);
-    TestBed.configureTestingModule({
-      declarations: [LandingComponent],
-      providers: [{ provide: Store, useValue: store }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      store = jasmine.createSpyObj('Store', ['dispatch']);
+      TestBed.configureTestingModule({
+        declarations: [LandingComponent],
+        providers: [{ provide: Store, useValue: store }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(LandingComponent);

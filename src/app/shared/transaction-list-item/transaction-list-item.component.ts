@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { Component, Input, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { flatMap, map } from 'rxjs/operators';
+import { mergeMap, map } from 'rxjs/operators';
 import { Observable, NEVER, of, Subscription } from 'rxjs';
 import {
   ExpenseCategory,
@@ -13,14 +13,14 @@ import {
   TransactionPersonal,
   Identity,
   CoreState,
-  Organization
+  Organization,
 } from '@app/core';
 import { getUserInfoState } from '@app/core/state/auth.reducer';
 
 @Component({
   selector: 'app-transaction-list-item',
   templateUrl: './transaction-list-item.component.html',
-  styleUrls: ['./transaction-list-item.component.scss']
+  styleUrls: ['./transaction-list-item.component.scss'],
 })
 export class TransactionListItemComponent implements OnInit {
   @Input() transaction!: Transaction;
@@ -35,19 +35,19 @@ export class TransactionListItemComponent implements OnInit {
     if (this.donation === undefined) {
       return {
         name: '',
-        avatarUrl: ''
+        avatarUrl: '',
       };
     }
 
     if (this.donation && this.donation.organization.id) {
       return {
         name: this.donation.organization.name,
-        avatarUrl: this.donation.organization.avatarUrl
+        avatarUrl: this.donation.organization.avatarUrl,
       };
     } else {
       return {
         name: this.donation.name,
-        avatarUrl: this.donation.avatarUrl
+        avatarUrl: this.donation.avatarUrl,
       };
     }
   }
@@ -56,14 +56,14 @@ export class TransactionListItemComponent implements OnInit {
     if (this.project === undefined) {
       return of({
         name: '',
-        avatarUrl: ''
+        avatarUrl: '',
       });
     }
 
     if (this.project && this.project.organization.id) {
       return of({
         name: this.project.organization.name,
-        avatarUrl: this.project.organization.avatarUrl
+        avatarUrl: this.project.organization.avatarUrl,
       });
     } else {
       return this.userIdentity$;
@@ -71,7 +71,7 @@ export class TransactionListItemComponent implements OnInit {
   }
   constructor(store: Store<CoreState>) {
     this.userIdentity$ = store.select(getUserInfoState).pipe(
-      flatMap(state => {
+      mergeMap(state => {
         if (state === undefined) {
           return NEVER;
         }

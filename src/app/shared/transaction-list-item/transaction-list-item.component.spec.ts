@@ -4,7 +4,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { of } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Transaction, TransactionType, ExpenseCategory } from '@app/core';
 import { TransactionListItemComponent } from './transaction-list-item.component';
 import { ExpenseCategoryIconComponent } from './../expense-category-icon/expense-category-icon.component';
@@ -46,19 +46,21 @@ describe('TransactionsListItemComponent', () => {
       .createSpy('select')
       .and.returnValue(of({ name: 'Google', avatarUrl: 'https://someurl.com/avatar' })),
   };
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [
-        TransactionListItemComponent,
-        TestHostComponent,
-        ExpenseCategoryIconComponent,
-        AvatarComponent,
-        CentsToDollarsPipe,
-      ],
-      imports: [InlineSVGModule.forRoot(), NgbModule.forRoot()],
-      providers: [{ provide: Store, useValue: store }],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [
+          TransactionListItemComponent,
+          TestHostComponent,
+          ExpenseCategoryIconComponent,
+          AvatarComponent,
+          CentsToDollarsPipe,
+        ],
+        imports: [InlineSVGModule.forRoot(), NgbModule.forRoot()],
+        providers: [{ provide: Store, useValue: store }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);

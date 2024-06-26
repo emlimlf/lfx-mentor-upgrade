@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { Component, ViewChild } from '@angular/core';
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Project } from '@app/core';
 import { Store } from '@ngrx/store';
@@ -34,24 +34,26 @@ describe('TransactionListComponent', () => {
   let component: TransactionListComponent;
   let fixture: ComponentFixture<TestHostComponent>;
 
-  beforeEach(async(() => {
-    const store = {
-      select: jasmine.createSpy('select').and.returnValue(of()),
-      dispatch: jasmine.createSpy('dispatch'),
-    };
-    TestBed.configureTestingModule({
-      declarations: [
-        TransactionListComponent,
-        TestHostComponent,
-        TransactionListItemComponent,
-        LoaderComponent,
-        CentsToDollarsPipe,
-      ],
-      imports: [InlineSVGModule.forRoot(), RouterTestingModule],
-      providers: [{ provide: Store, useValue: store }],
-      schemas: [NO_ERRORS_SCHEMA],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      const store = {
+        select: jasmine.createSpy('select').and.returnValue(of()),
+        dispatch: jasmine.createSpy('dispatch'),
+      };
+      TestBed.configureTestingModule({
+        declarations: [
+          TransactionListComponent,
+          TestHostComponent,
+          TransactionListItemComponent,
+          LoaderComponent,
+          CentsToDollarsPipe,
+        ],
+        imports: [InlineSVGModule.forRoot(), RouterTestingModule],
+        providers: [{ provide: Store, useValue: store }],
+        schemas: [NO_ERRORS_SCHEMA],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(TestHostComponent);

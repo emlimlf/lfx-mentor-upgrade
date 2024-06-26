@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { BudgetColor, Project, ProjectStatus } from '@app/core';
 import { ALMOST_2_PI } from '@app/core/utilities';
 import { SharedModule } from '@app/shared';
@@ -21,15 +21,17 @@ describe('BudgetSummaryComponent', () => {
       name: 'Dogchain',
       industry: 'The Industry',
       description: 'The description',
-      color: 'CCCCCC'
+      color: 'CCCCCC',
     };
   }
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      imports: [InlineSVGModule.forRoot(), SharedModule]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        imports: [InlineSVGModule.forRoot(), SharedModule],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BudgetSummaryComponent);
@@ -44,7 +46,7 @@ describe('BudgetSummaryComponent', () => {
   it('should display a single section when only one section has budget', () => {
     const project = makeProject();
     project.marketing = {
-      budget: { amount: 100, allocation: 'The allocation' }
+      budget: { amount: 100, allocation: 'The allocation' },
     };
     component.project = project;
     component.ngOnChanges();
@@ -52,18 +54,18 @@ describe('BudgetSummaryComponent', () => {
       {
         color: BudgetColor.MARKETING,
         startAngle: -0.25 * ALMOST_2_PI,
-        endAngle: 0.75 * ALMOST_2_PI
-      }
+        endAngle: 0.75 * ALMOST_2_PI,
+      },
     ]);
   });
 
   it('should display a two sections when two sections have budget', () => {
     const project = makeProject();
     project.marketing = {
-      budget: { amount: 100, allocation: 'The allocation' }
+      budget: { amount: 100, allocation: 'The allocation' },
     };
     project.travel = {
-      budget: { amount: 100, allocation: 'The allocation' }
+      budget: { amount: 100, allocation: 'The allocation' },
     };
     component.project = project;
     component.ngOnChanges();
@@ -71,13 +73,13 @@ describe('BudgetSummaryComponent', () => {
       {
         color: BudgetColor.MARKETING,
         startAngle: -0.25 * ALMOST_2_PI,
-        endAngle: 0.25 * ALMOST_2_PI
+        endAngle: 0.25 * ALMOST_2_PI,
       },
       {
         color: BudgetColor.TRAVEL,
         startAngle: 0.25 * ALMOST_2_PI,
-        endAngle: 0.75 * ALMOST_2_PI
-      }
+        endAngle: 0.75 * ALMOST_2_PI,
+      },
     ]);
   });
 });

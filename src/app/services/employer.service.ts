@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse, HttpParams } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
-import { map, flatMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { FileUploadService } from '../core/file-upload.service';
 import { Employer, Job, EmployerResponse } from '../models/employer.model';
@@ -25,7 +25,7 @@ export class EmployerService {
             .uploadFile(employer.logoUrl)
             .pipe(map((logoUrl: string) => ({ ...employer, logoUrl })));
     return uploadlogoIfNeeded$.pipe(
-      flatMap((employerWithLogoUrlPath: Employer) => this.http.post<Employer>(route, employerWithLogoUrlPath))
+      mergeMap((employerWithLogoUrlPath: Employer) => this.http.post<Employer>(route, employerWithLogoUrlPath))
     );
   }
 
@@ -93,7 +93,7 @@ export class EmployerService {
     const route = `${environment.API_URL}employers/${id}`;
 
     return this.uploadLogoIfNeeded(update).pipe(
-      flatMap((employerWithLogoUrlPath: Employer) => this.http.put<Employer>(route, employerWithLogoUrlPath))
+      mergeMap((employerWithLogoUrlPath: Employer) => this.http.put<Employer>(route, employerWithLogoUrlPath))
     );
   }
 

@@ -3,13 +3,8 @@
   "compilerOptions": {
     "outDir": "../out-tsc/app",
     "module": "es2015",
-    "types": [
-      "stripe-v3",
-      "node"
-    ]
+    "types": ["stripe-v3", "node"]
   },
-  "exclude": [
-    "src/test.ts",
-    "**/*.spec.ts"
-  ]
+  "files": ["./main.ts", "./polyfills.ts"],
+  "exclude": ["src/test.ts", "**/*.spec.ts"]
 }

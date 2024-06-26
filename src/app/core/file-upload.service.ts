@@ -3,7 +3,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { flatMap, map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 
 interface PresignedPutResponse {
@@ -23,7 +23,7 @@ export class FileUploadService {
     }
 
     return this.getPresignedUrl(file).pipe(
-      flatMap(url => {
+      mergeMap(url => {
         //console.log('presignedUrl', url);
         return this.uploadToPresignedUrl(url.uploadUrl, url.contentType, file).pipe(map(_ => url.destinationUrl));
       })

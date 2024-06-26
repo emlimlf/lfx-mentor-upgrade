@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { AlertType, CoreState, QueueAlertAction, reducers } from '@app/core';
 import { Store, StoreModule } from '@ngrx/store';
 import { cold, getTestScheduler } from 'jasmine-marbles';
@@ -11,12 +11,14 @@ describe('AlertBarComponent', () => {
   let fixture: ComponentFixture<AlertBarComponent>;
   let store: Store<CoreState>;
 
-  beforeEach(async(() => {
-    TestBed.configureTestingModule({
-      declarations: [AlertBarComponent],
-      imports: [StoreModule.forRoot(reducers as any)],
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      TestBed.configureTestingModule({
+        declarations: [AlertBarComponent],
+        imports: [StoreModule.forRoot(reducers as any)],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AlertBarComponent);

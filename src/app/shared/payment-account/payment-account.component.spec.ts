@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { Card, CardBrand } from '@app/core';
 import { SharedModule } from '@app/shared/shared.module';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,18 +14,23 @@ describe('PaymentAccountComponent', () => {
   let fixture: ComponentFixture<PaymentAccountComponent>;
   let card: BehaviorSubject<Card | undefined>;
 
-  beforeEach(async(() => {
-    card = new BehaviorSubject<Card | undefined>(undefined);
-    const store = {
-      dispatch: jasmine.createSpy('dispatch'),
-      select: jasmine.createSpy('select').and.returnValue(card)
-    };
-    const modalService = jasmine.createSpyObj('NgbModal', ['open']);
-    TestBed.configureTestingModule({
-      imports: [SharedModule],
-      providers: [{ provide: NgbModal, useValue: modalService }, { provide: Store, useValue: store }]
-    }).compileComponents();
-  }));
+  beforeEach(
+    waitForAsync(() => {
+      card = new BehaviorSubject<Card | undefined>(undefined);
+      const store = {
+        dispatch: jasmine.createSpy('dispatch'),
+        select: jasmine.createSpy('select').and.returnValue(card),
+      };
+      const modalService = jasmine.createSpyObj('NgbModal', ['open']);
+      TestBed.configureTestingModule({
+        imports: [SharedModule],
+        providers: [
+          { provide: NgbModal, useValue: modalService },
+          { provide: Store, useValue: store },
+        ],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PaymentAccountComponent);
@@ -56,7 +61,7 @@ describe('PaymentAccountComponent', () => {
         brand: CardBrand.MASTERCARD,
         expiryYear: 2018,
         expiryMonth,
-        lastFourDigits: '1234'
+        lastFourDigits: '1234',
       });
 
       expect(component.expired$).toBeObservable(cold('a', { a: false }));
@@ -70,7 +75,7 @@ describe('PaymentAccountComponent', () => {
         brand: CardBrand.MASTERCARD,
         expiryYear: 2018,
         expiryMonth: 6,
-        lastFourDigits: '1234'
+        lastFourDigits: '1234',
       });
 
       expect(component.expired$).toBeObservable(cold('a', { a: true }));

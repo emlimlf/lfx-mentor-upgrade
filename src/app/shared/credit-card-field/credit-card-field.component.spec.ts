@@ -1,6 +1,6 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { StripeService } from '@app/core';
 import { BehaviorSubject } from 'rxjs';
 import { CreditCardFieldComponent } from './credit-card-field.component';
@@ -17,23 +17,25 @@ describe('CreditCardFieldComponent', () => {
     return callback;
   }
 
-  beforeEach(async(() => {
-    card = jasmine.createSpyObj('card', ['mount', 'on']);
-    stripeJs = {
-      elements: () => ({
-        create: jasmine.createSpy('create').and.returnValue(card)
-      }),
-      createToken: jasmine.createSpy('createToken')
-    };
+  beforeEach(
+    waitForAsync(() => {
+      card = jasmine.createSpyObj('card', ['mount', 'on']);
+      stripeJs = {
+        elements: () => ({
+          create: jasmine.createSpy('create').and.returnValue(card),
+        }),
+        createToken: jasmine.createSpy('createToken'),
+      };
 
-    const stripeService: StripeService = {
-      stripeJS$: new BehaviorSubject(stripeJs)
-    } as any;
-    TestBed.configureTestingModule({
-      declarations: [CreditCardFieldComponent],
-      providers: [{ provide: StripeService, useValue: stripeService }]
-    }).compileComponents();
-  }));
+      const stripeService: StripeService = {
+        stripeJS$: new BehaviorSubject(stripeJs),
+      } as any;
+      TestBed.configureTestingModule({
+        declarations: [CreditCardFieldComponent],
+        providers: [{ provide: StripeService, useValue: stripeService }],
+      }).compileComponents();
+    })
+  );
 
   beforeEach(async () => {
     fixture = TestBed.createComponent(CreditCardFieldComponent);
@@ -98,7 +100,7 @@ describe('CreditCardFieldComponent', () => {
   it('will set the error text if the card has been rejected', async () => {
     const error: stripe.Error = {
       type: '',
-      charge: ''
+      charge: '',
     };
     stripeJs.createToken.and.returnValue({ error });
     let threwError = false;
@@ -119,7 +121,7 @@ describe('CreditCardFieldComponent', () => {
       created: 0,
       livemode: true,
       type: '',
-      used: true
+      used: true,
     };
     stripeJs.createToken.and.returnValue({ token });
     const tokenId = await component.createCardToken();

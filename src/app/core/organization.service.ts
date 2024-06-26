@@ -3,7 +3,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Inject, Injectable, InjectionToken } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { delay, flatMap } from 'rxjs/operators';
+import { delay, mergeMap } from 'rxjs/operators';
 import * as uuidv4 from 'uuid/v4';
 import { API_KEY } from './environment.configuration';
 import { FileUploadService } from './file-upload.service';
@@ -23,20 +23,20 @@ export class OrganizationService {
   }
 
   createOrganization(name: string, file: File): Observable<Organization> {
-    return this.fileUploader.uploadFile(file).pipe(flatMap(url => this.createOrganizationWithAvatar(name, url)));
+    return this.fileUploader.uploadFile(file).pipe(mergeMap(url => this.createOrganizationWithAvatar(name, url)));
   }
 
   updateOrganization(oldOrganization: Organization, name: string, file?: File): Observable<Organization> {
     const newOrg: Organization = {
       name,
       avatarUrl: oldOrganization.name,
-      id: oldOrganization.id
+      id: oldOrganization.id,
     };
 
     if (file === undefined) {
       return this.updateOrganizationWithAvatar(newOrg);
     }
-    return this.fileUploader.uploadFile(file).pipe(flatMap(url => this.updateOrganizationWithAvatar(newOrg, url)));
+    return this.fileUploader.uploadFile(file).pipe(mergeMap(url => this.updateOrganizationWithAvatar(newOrg, url)));
   }
 
   private createOrganizationWithAvatar(name: string, avatarUrl: string): Observable<Organization> {
