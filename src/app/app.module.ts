@@ -60,7 +60,7 @@ declare module '@angular/core' {
     HttpClientModule,
     ReactiveFormsModule,
     RedirectingModule,
-    NgbModule.forRoot(),
+    NgbModule,
     StoreModule.forRoot(reducers as any),
     // EffectsModule.forRoot(effects),
     InlineSVGModule.forRoot(),
