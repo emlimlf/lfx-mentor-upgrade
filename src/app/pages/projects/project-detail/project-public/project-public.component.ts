@@ -115,9 +115,9 @@ export class ProjectPublicComponent implements OnInit, AfterViewInit {
     setTimeout(() => {
       const fragment = this.activeRoute.fragment;
       fragment.subscribe(name => {
-        const element = document.getElementById(name) as HTMLElement;
+        const element = document.getElementById(name || '') as HTMLElement;
         if (element) {
-          switch (name.toLowerCase()) {
+          switch ((name || '').toLowerCase()) {
             case 'mentors':
             case 'mentees':
               element.scrollIntoView(true);

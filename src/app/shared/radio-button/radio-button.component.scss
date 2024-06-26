@@ -1,4 +1,4 @@
-@import '~constants.scss';
+@import 'constants.scss';
 
 :host {
   display: inline-block;
@@ -10,7 +10,7 @@
 $outer-check-radius: 16px;
 $selected-check-radius: 24px;
 $inner-check-radius: 8px;
-$check-offset: ($outer-check-radius - $inner-check-radius) / 2;
+$check-offset: ($outer-check-radius - $inner-check-radius) * 0.5;
 
 .radio-parent {
   width: 12px;

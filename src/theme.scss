@@ -1,5 +1,5 @@
 // Themes bootstrap via scss customization https://getbootstrap.com/docs/4.0/getting-started/theming/
-@import '~constants.scss';
+@import './constants.scss';
 
 $enable-gradients: false;
 $enable-shadows: false;
@@ -12,13 +12,13 @@ $theme-colors: (
   'dark': black,
   'light': $primary-grey-color,
   'info': $primary-blue-color,
-  'paragraph': $primary-paragraph-color
+  'paragraph': $primary-paragraph-color,
 );
 
 $spacers: (
   '4plus': 2rem,
   '5plus': 4.5rem,
-  '6': 6rem
+  '6': 6rem,
 );
 
 @import '../node_modules/bootstrap/scss/bootstrap.scss';

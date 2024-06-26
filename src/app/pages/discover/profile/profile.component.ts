@@ -43,8 +43,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   ngOnInit() {
     // No need to check for authentication since tab is only visible to logged in users.
     // Listen to tab changes.
-    this.activatedRoute.fragment.pipe(takeUntil(this.unsubscribe$)).subscribe((fragment: string) => {
-      this.activeTab = fragment;
+    this.activatedRoute.fragment.pipe(takeUntil(this.unsubscribe$)).subscribe((fragment: string | null) => {
+      if (fragment) {
+        this.activeTab = fragment;
+      }
     });
 
     // Fetch profiles.

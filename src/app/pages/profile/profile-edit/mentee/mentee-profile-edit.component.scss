@@ -1,4 +1,4 @@
-@import '~constants.scss';
+@import 'constants.scss';
 @import '../../../../app.component.scss';
 :host {
   @include page-base($background-grey-color);
@@ -22,7 +22,6 @@
       margin-right: -15px;
     }
 
-
     .section-name {
       font-size: 1.25rem;
       display: inline-block;
@@ -31,7 +30,7 @@
       float: right;
       border: 0;
       background: none;
-      font-size: .75rem;
+      font-size: 0.75rem;
       cursor: pointer;
       color: #2a99cc;
       font-weight: bold;
@@ -62,7 +61,7 @@
 
 .card-deck {
   @media (min-width: 1200px) {
-    .project-card:nth-child(3n+2) {
+    .project-card:nth-child(3n + 2) {
       margin-left: 20px;
       margin-right: 20px;
     }

@@ -246,9 +246,15 @@ export class ProjectMenteesComponent implements OnInit, OnDestroy {
     this.allApplications.forEach(app => {
       app.name = app.firstName + ' ' + app.lastName;
       app.createdOnDate = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleDateString();
-      app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+      app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString(
+        [],
+        TIME_FORMAT_24_HOURS as any
+      );
       app.updatedOnDate = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleDateString();
-      app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+      app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString(
+        [],
+        TIME_FORMAT_24_HOURS as any
+      );
 
       if (!app.logoUrl) {
         app.logoUrl = this.downloadService._defaultLogo({ first: app.name, last: '' });
@@ -381,7 +387,7 @@ export class ProjectMenteesComponent implements OnInit, OnDestroy {
         if (res && res.updatedOn) {
           application.updatedOnTime = new Date(res.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString(
             [],
-            TIME_FORMAT_24_HOURS
+            TIME_FORMAT_24_HOURS as any
           );
           application.updatedOnDate = new Date(res.updatedOn.replace(/-/g, '/') || '').toLocaleDateString();
 
@@ -486,9 +492,15 @@ export class ProjectMenteesComponent implements OnInit, OnDestroy {
     applicationArray = applicationArray.map(app => {
       app.name = app.menteeFirstName + ' ' + app.menteeLastName;
       app.createdOnDate = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleDateString();
-      app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+      app.createdOnTime = new Date(app.createdOn.replace(/-/g, '/') || '').toLocaleTimeString(
+        [],
+        TIME_FORMAT_24_HOURS as any
+      );
       app.updatedOnDate = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleDateString();
-      app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString([], TIME_FORMAT_24_HOURS);
+      app.updatedOnTime = new Date(app.updatedOn.replace(/-/g, '/') || '').toLocaleTimeString(
+        [],
+        TIME_FORMAT_24_HOURS as any
+      );
       return app;
     });
 

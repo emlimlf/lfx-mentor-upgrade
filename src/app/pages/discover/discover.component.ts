@@ -693,7 +693,7 @@ export class DiscoverComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private fragmentChecks() {
-    this.unsubscribeRoute = this.activatedRoute.fragment.subscribe((fragment: string) => {
+    this.unsubscribeRoute = this.activatedRoute.fragment.subscribe((fragment: string | null) => {
       fragment ? (this.currentPageState = fragment as PageState) : (this.currentPageState = 'projects');
       if (fragment && fragment.includes('projects_')) {
         this.currentPageState = fragment.split('_')[0] as PageState;
@@ -717,7 +717,7 @@ export class DiscoverComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (fragment === 'projects') {
         this.radioGroupForm.controls['model'].patchValue('all');
-      } else if (fragment.includes('projects_')) {
+      } else if (fragment && fragment.includes('projects_')) {
         this.radioGroupForm.controls['model'].patchValue(this.projectSubTab);
         this.handleTabSwitchAPICall();
       }
