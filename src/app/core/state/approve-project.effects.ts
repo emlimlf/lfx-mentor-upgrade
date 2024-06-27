@@ -3,7 +3,7 @@
 import { Injectable } from '@angular/core';
 import { ProjectService } from '../project.service';
 import { LoggerService } from '../logger.service';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, createEffect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import { QueueAlertAction } from './alerts.actions';
@@ -14,22 +14,26 @@ import { Project, ProjectStatus, AlertType } from '../models';
 
 @Injectable()
 export class ApproveProjectEffects {
-  @Effect()
-  completeProjectApproval$ = this.actions$.pipe(
-    isNavigationActionToRoute(EMAIL_APPROVE_REDIRECT_ROUTE),
-    mergeMap(action => this.projectService.postJWTFromBrowserURL(action.payload.routerState)),
-    map(result => result.project),
-    mergeMap(project =>
-      of(
-        this.goActionFromProject(project),
-        new QueueAlertAction({ alertText: this.successMessageFromStatus(project.status), alertType: AlertType.SUCCESS })
-      )
-    ),
-    catchError(error => {
-      this.loggerService.error(error.message);
-      return of(this.goActionWithPath([ERROR_ROUTE]));
-    })
-  );
+  completeProjectApproval$ = createEffect(() => {
+    return this.actions$.pipe(
+      isNavigationActionToRoute(EMAIL_APPROVE_REDIRECT_ROUTE),
+      mergeMap(action => this.projectService.postJWTFromBrowserURL(action.payload.routerState)),
+      map(result => result.project),
+      mergeMap(project =>
+        of(
+          this.goActionFromProject(project),
+          new QueueAlertAction({
+            alertText: this.successMessageFromStatus(project.status),
+            alertType: AlertType.SUCCESS,
+          })
+        )
+      ),
+      catchError(error => {
+        this.loggerService.error(error.message);
+        return of(this.goActionWithPath([ERROR_ROUTE]));
+      })
+    );
+  });
 
   constructor(
     private projectService: ProjectService,
