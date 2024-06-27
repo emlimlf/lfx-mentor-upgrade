@@ -1,7 +1,7 @@
 // Copyright The Linux Foundation and each contributor to CommunityBridge.
 // SPDX-License-Identifier: MIT
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import {
@@ -20,17 +20,19 @@ import { SubscriptionService } from '../subscription.service';
 
 @Injectable()
 export class SubscriptionsEffects {
-  @Effect()
-  requestOnLoadPage$ = this.actions$.pipe(
-    ofType<LoadSubscriptionPageAction>(SubscriptionPageActionTypes.LOAD_PAGE),
-    mergeMap(action => this.requestPageWithCursor(action.payload.cursor))
-  );
+  requestOnLoadPage$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<LoadSubscriptionPageAction>(SubscriptionPageActionTypes.LOAD_PAGE),
+      mergeMap(action => this.requestPageWithCursor(action.payload.cursor))
+    );
+  });
 
-  @Effect()
-  requestOnLoadSubscription$ = this.actions$.pipe(
-    ofType<SubscriptionLoadAction>(SubscriptionActionTypes.LOAD_SUBSCRIPTION),
-    mergeMap(action => this.requestSubscription(action.payload.projectId))
-  );
+  requestOnLoadSubscription$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<SubscriptionLoadAction>(SubscriptionActionTypes.LOAD_SUBSCRIPTION),
+      mergeMap(action => this.requestSubscription(action.payload.projectId))
+    );
+  });
 
   constructor(private actions$: Actions, private subscriptionService: SubscriptionService) {}
 

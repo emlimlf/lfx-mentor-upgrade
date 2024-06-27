@@ -2,7 +2,7 @@
 // SPDX-License-Identifier: MIT
 import { Injectable } from '@angular/core';
 import { ProjectService } from '@app/core/project.service';
-import { Actions, Effect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { catchError, mergeMap, map } from 'rxjs/operators';
 import {
@@ -14,11 +14,12 @@ import {
 
 @Injectable()
 export class PrivateProjectsEffects {
-  @Effect()
-  requestOnLoadProject$ = this.actions$.pipe(
-    ofType<LoadPrivateProjectsAction>(PrivateProjectsActionTypes.LOAD_PROJECT),
-    mergeMap(action => this.requestProjects())
-  );
+  requestOnLoadProject$ = createEffect(() => {
+    return this.actions$.pipe(
+      ofType<LoadPrivateProjectsAction>(PrivateProjectsActionTypes.LOAD_PROJECT),
+      mergeMap(action => this.requestProjects())
+    );
+  });
 
   constructor(private actions$: Actions, private projectService: ProjectService) {}
 
